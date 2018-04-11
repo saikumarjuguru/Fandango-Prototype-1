@@ -1,6 +1,13 @@
 var connection =  new require('./kafka/Connection');
 var login = require('./services/login');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango', { poolSize: 100 },function(err){
+    if(err) throw err;
+    console.log("Successfully connected to MongoDB");
+});
+
+
 var topic_name = 'requestTopic';
 var consumer = connection.getConsumer(topic_name);
 var producer = connection.getProducer();

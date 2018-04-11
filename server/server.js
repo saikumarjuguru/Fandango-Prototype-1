@@ -5,10 +5,19 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var expressSessions = require("express-session")
+
+//connecting to mlab using mongoose
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango',function(err){
+    if(err) throw err;
+    console.log("Successfully connected to MongoDB");
+});
 var mongoStore = require("connect-mongo")(expressSessions);
 var passport = require('passport');
 var index = require('./routes/index');
 var login = require('./routes/login');
+
+
 
 
 var app = express();
@@ -25,17 +34,20 @@ app.use(cors(corsOptions))
 app.use(cookieParser('CMPE273_passport'));
 
 
-var mongoSessionURL = "mongodb://localhost:27017/fandango";
+var mongoSessionURL = "mongodb://fan:123@ds115352.mlab.com:15352/fandango";
 app.use(expressSessions({
   secret: "CMPE273_passport",
   resave: false,
   saveUninitialized: true,
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 6 * 1000,
-  store: new mongoStore({
-    url: mongoSessionURL,
-    collection: 'sessions'
-  })
+//   store: new mongoStore({
+//     url: mongoSessionURL,
+//     collection: 'sessions'
+//   })
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection,
+        touchAfter: 24 * 3600})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
