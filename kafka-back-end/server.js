@@ -12,12 +12,20 @@ var topic_name = 'requestTopic';
 var consumer = connection.getConsumer(topic_name);
 var producer = connection.getProducer();
 
+let handler = "";
+
 console.log('server is running');
 consumer.on('message', function (message) {
     console.log('message received');
     console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
-    login.handle_request(data.data, function(err,res){
+
+    switch(data.key){
+        case 'login': handler = 'login';
+        break;
+        default: cosnole.log("Handler Not Found!");
+    }
+    handler.handle_request(data.data, function(err,res){
         console.log('after handle'+res);
         var payloads = [
             { topic: data.replyTo,
