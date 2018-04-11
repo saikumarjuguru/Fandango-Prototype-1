@@ -3,6 +3,7 @@ var ObjectID = require('mongodb').ObjectID;
 var mongo = require("./mongo");
 var auth = require('passport-local-authenticate');
 let User = require('../schemas/users');
+let bcrypt =  require('bcrypt');
 
 function handle_request(msg,callback){
     var res = {};
@@ -22,14 +23,14 @@ function handle_request(msg,callback){
 //   }
 
     console.log('in login',msg);
-    User.findOne({useroremail: msg.value.username}, function(err, user) {
+    User.findOne({useroremail: msg.user.username}, function(err, user) {
         if(err) throw err;
         if(!user) {
             res.code =  401;
             data = {message : "Failed Login"};
             res.value = data;
           }
-          bcrypt.compare(msg.value.password, user.password, function(err, isMatch){
+          bcrypt.compare(msg.user.password, user.password, function(err, isMatch){
             if(err) throw err;
             if(isMatch) { 
                 res.code=200;

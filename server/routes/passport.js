@@ -5,7 +5,14 @@ var kafka = require('./kafka/client');
 module.exports = function(passport) {
     passport.use('local', new LocalStrategy(function(username , password, done) {
         console.log('in passport');
-        kafka.make_request('requestTopic',"login",{"username":username,"password":password,"key":"login"}, function(err,results){
+        payload = {
+            action: 'login',
+            user:{
+              username: username,
+              password: password
+            }
+          }
+        kafka.make_request('requestTopic',payload, function(err,results){
             if(err){
                 console.log("ERROR");
                 done(err,{});

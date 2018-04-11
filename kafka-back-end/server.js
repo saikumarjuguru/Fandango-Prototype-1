@@ -19,11 +19,11 @@ consumer.on('message', function (message) {
     console.log('message received');
     console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
-
-    switch(data.key){
-        case 'login': handler = 'login';
+    console.log(data);
+    switch(data.data.action){
+        case 'login': handler = login;
         break;
-        default: cosnole.log("Handler Not Found!");
+        default: console.log("Handler Not Found!");
     }
     handler.handle_request(data.data, function(err,res){
         console.log('after handle'+res);
