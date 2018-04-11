@@ -1,4 +1,4 @@
-var mongoURL = "mongodb://localhost:27017/fandango";
+//var mongoURL = "mongodb://localhost:27017/fandango";
 var ObjectID = require('mongodb').ObjectID;
 var mongo = require("./mongo");
 var auth = require('passport-local-authenticate');
@@ -25,26 +25,33 @@ function handle_request(msg,callback){
     console.log('in login',msg);
     User.findOne({useroremail: msg.user.username}, function(err, user) {
         if(err) throw err;
-        if(!user) {
+        console.log(user);
+        if(!user || user!=null) {
             res.code =  401;
             data = {message : "Failed Login"};
             res.value = data;
+            callback(null,res);
           }
+          else{
           bcrypt.compare(msg.user.password, user.password, function(err, isMatch){
             if(err) throw err;
             if(isMatch) { 
                 res.code=200;
                 data = {username: user.useroremail};
+                callback(null,res);
                
             }
             else {
                 res.code =  401;
                 data = {message : "Failed Login"};
                 res.value = data;
+                callback(null,res);
             }
             
+            
           });
-          callback(null,res);
+        }
+         
         
     });
 }
