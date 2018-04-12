@@ -64,7 +64,8 @@ render(){
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h4 className="modal-title text-xs-center">Fandango</h4>
+                        <img src="images/fandangonow-logo.png" height="100" width="250"/>
+                        <h4 className="modal-title text-xs-center">Sign In</h4>
                     </div>
 
                     <div className="modal-body">
