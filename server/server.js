@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var expressSessions = require("express-session")
 
+
 //connecting to mlab using mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango',function(err){
@@ -34,7 +35,7 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:500
 app.use(cors(corsOptions))
 app.use(cookieParser('CMPE273_passport'));
 
-
+app.use(express.static(__dirname + '/uploads'));
 var mongoSessionURL = "mongodb://fan:123@ds115352.mlab.com:15352/fandango";
 app.use(expressSessions({
   secret: "CMPE273_passport",
