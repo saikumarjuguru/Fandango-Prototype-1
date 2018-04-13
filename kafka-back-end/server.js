@@ -2,6 +2,7 @@ var connection =  new require('./kafka/Connection');
 var login = require('./services/login');
 let register = require('./services/register');
 let store_movie_hall = require('./services/store_movie_hall');
+let store_movie = require('./services/store_movie');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango', { poolSize: 100 },function(err){
@@ -28,6 +29,8 @@ consumer.on('message', function (message) {
         case 'register': handler = register;
         break;
         case 'store_movie_hall': handler = store_movie_hall;
+        break;
+        case 'store_movie': handler = store_movie;
         break;
         default: console.log("Handler Not Found!");
     }
