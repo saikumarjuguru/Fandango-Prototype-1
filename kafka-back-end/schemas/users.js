@@ -8,6 +8,13 @@ var UserSchema =  new Schema({
     phone_number: {type:String, reuired:true},
     password: {type: String, reuired:true},
     profile_image_path: String,
+    address: String,
+    city:String,
+    zip_code: Number,
+    state: String,
+    credit_card_number: String,
+    expiration_date: String,
+    role:{type:String},
     created: {
         type: Date,
         default: Date.now
