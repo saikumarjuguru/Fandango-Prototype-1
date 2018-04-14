@@ -31,7 +31,8 @@ router.post('/',upload.single('movie_photo'),function(req,res){
     
    
     payload = {
-        action: 'store_movie',
+        action: 'movie',
+        type:'store_movie',
         movie : {
             title: title,
             trailer_link: trailer_link,
@@ -46,6 +47,28 @@ router.post('/',upload.single('movie_photo'),function(req,res){
         }
     kafka.make_request('requestTopic',payload, function(err,results){
         console.log('in result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);  
+        } 
+    
+    });
+});
+
+router.post('/add-review',function(req,res){
+    payload = {
+        action:'movie',
+        type:'add_review',
+        movie_id:req.body.movie_id,
+        review: req.body.review
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in add review result');
         console.log(results);
         if(err){
             throw err;
