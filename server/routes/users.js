@@ -69,6 +69,26 @@ router.post('/',upload.single('profile_image'),function(req,res){
     });
 });
 
+router.get('/:userID',function(req,res){
+    payload = {
+        action:"user",
+        type:"get_user",
+        user_id:req.params.userID
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in get user result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);   
+        }
+    });
+});
+
 module.exports = router;
 
 

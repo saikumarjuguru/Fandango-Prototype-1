@@ -20,6 +20,7 @@ var login = require('./routes/login');
 let users = require('./routes/users');
 let movies = require('./routes/movies');
 let movie_hall = require('./routes/movie_hall');
+let billing = require('./routes/billing');
 
 
 
@@ -68,6 +69,7 @@ app.use('/login', login);
 app.use('/users',users);
 app.use('/movie_hall',movie_hall);
 app.use('/movies',movies);
+app.use('/billing',billing);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
