@@ -88,6 +88,25 @@ router.get('/:userID',function(req,res){
         }
     });
 });
+router.delete('/:userID',function(req,res){
+    payload = {
+        action:'user',
+        type:"delete_user",
+        user_id:req.params.userID
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in delete user result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);   
+        }
+    });
+});
 
 module.exports = router;
 
