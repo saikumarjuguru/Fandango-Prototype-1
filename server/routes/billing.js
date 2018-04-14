@@ -7,6 +7,7 @@ var kafka = require('./kafka/client');
 router.post('/', function(req, res, next) {
     payload = {
         action:"billing",
+        type:"add_bill",
         bill: {
             user:req.body.user,
             movie: req.body.movie,
@@ -29,5 +30,24 @@ router.post('/', function(req, res, next) {
   
 });
 
+router.get('/:billID', function(req,res){
+    payload = {
+        action:"billing",
+        type:"get_bill",
+        bill_id:req.params.billID
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);   
+        }
+    }); 
+});
 
 module.exports = router;
