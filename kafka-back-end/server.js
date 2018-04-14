@@ -2,7 +2,7 @@ var connection =  new require('./kafka/Connection');
 var login = require('./services/login');
 let register = require('./services/register');
 let store_movie_hall = require('./services/store_movie_hall');
-let store_movie = require('./services/store_movie');
+let movie = require('./services/movie');
 let billing = require('./services/billing');
 let users = require('./services/users');
 
@@ -32,7 +32,7 @@ consumer.on('message', function (message) {
         break;
         case 'store_movie_hall': handler = store_movie_hall;
         break;
-        case 'store_movie': handler = store_movie;
+        case 'movie': handler = movie;
         break;
         case 'billing': handler = billing;
         break;
