@@ -3,7 +3,7 @@ var Billing= require('../schemas/billing');
 let User = require('../schemas/users');
 
 function handle_request(msg, callback){
-
+    //here statusCode is for authentication 
     var res = {
         statusCode:200,
         message:""
@@ -22,6 +22,20 @@ function handle_request(msg, callback){
         }
     });
             
+    }
+    if(msg.type=='delete_user'){
+        var user_id = msg.user_id;
+        User.findByIdAndRemove(msg.user_id,function(err,user){
+            if(err) {
+                res.success = false;
+                res.message = err;
+                callback(null,res);
+            } else {
+                res.success = true;
+                res.message = user;
+                callback(null,res);
+            }
+        });
     }
 }
 
