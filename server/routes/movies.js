@@ -23,7 +23,7 @@ router.post('/',upload.single('movie_photo'),function(req,res){
     let release_date = req.body.release_date;
     let rating = req.body.rating;
     let photos = ["/photos/" + req.file.filename];
-   // let photos = ["/photos/download.jpeg"];
+    //let photos = ["/photos/download.jpeg"];
     let movie_length = req.body.movie_length;
     let showing_at = req.body.showing_at;
     let reviews = req.body.reviews;
