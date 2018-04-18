@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Schema =  mongoose.Schema;
 
 var BillingSchema =  new Schema({
+    show_time:{type:String, required:true},
+    number_of_seats: {type:Number, required:true},
     amount:{type:Number, required:true},
     tax:{type:Number, required:true},
     movie:{
