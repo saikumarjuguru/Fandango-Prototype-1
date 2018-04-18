@@ -21,3 +21,22 @@ export function login(state){
       })
     }
 }
+
+
+export function registerUser(userdata) {
+    return function (dispatch) {
+        return axios.post("http://localhost:5000/registerUser", userdata)
+            .then((res) => {
+                if (res.data) {
+                    localStorage.setItem('userId', res.data.userId);
+                    dispatch({type: "SIGNUP_SUCCESS", payload: res.data})
+                }
+            }).catch((err) => {
+                dispatch({type: "SIGNUP_ERROR", payload: err.message})
+            })
+    }
+}
+
+
+
+

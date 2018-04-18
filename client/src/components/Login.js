@@ -64,15 +64,14 @@ render(){
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <img src="images/fandangonow-logo.png" height="100" width="250"/>
-                        <h4 className="modal-title text-xs-center">Sign In</h4>
+                        <img src="images/fandangonow-logo.png" height="135" width="250"/>
+                        <h3 className="modal-title text-xs-center">Sign In</h3>
                     </div>
 
                     <div className="modal-body">
 
                       <Message  {...this.props}/>
                       <form role="form" method="POST" onSubmit = {this.handleSubmit} >
-                            <input type="hidden" name="_token" value=""/>
                             <div className="form-group">
                                 <input  className="form-control large-input" id="username" ref = "useroremail" name="useroremail" type="text" placeholder="Email or Username"/>
                             </div>
