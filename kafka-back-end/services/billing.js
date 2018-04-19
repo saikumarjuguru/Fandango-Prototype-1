@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Billing= require('../schemas/billing');
 let User = require('../schemas/users');
+let MovieHall = require('../schemas/movie_halls');
 
 function handle_request(msg, callback){
 
@@ -23,6 +24,16 @@ function handle_request(msg, callback){
                     user.save((err)=>{
                         if(err) throw err;
                     });
+                });
+                MovieHall.findById(msg.bill.movie_hall,function(err,hall){
+                    if(err) throw err;
+                    let temp = hall.number_of_tickets;
+                    temp = temp-msg.bill.number_of_seats; 
+                    hall.number_of_tickets = temp;
+                    hall.save((err)=>{
+                        if(err) throw err;
+                    });
+                    
                 });
             });
             console.log(result);
