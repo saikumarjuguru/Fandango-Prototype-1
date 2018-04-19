@@ -136,6 +136,8 @@ width: 85%
   font-weight: bolder;
   font-size: 12px;
 }
-
+.confirmation_error{
+  color: firebrick;
+}
 
 

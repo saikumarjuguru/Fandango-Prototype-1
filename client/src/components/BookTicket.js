@@ -14,7 +14,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 
   const mapStateToProps = (state) => {
+      
     return {
+        
         booking : state.billingReducer.booking
     };
   }
@@ -56,7 +58,7 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get("http://localhost:5000/users/"+"5acf0589e327e30ed482515e",{withCredentials:true})
+      axios.get(config.API_URL+"/users/"+"5acf0589e327e30ed482515e",{withCredentials:true})
           .then((response)=>{
             //console.log(response);
             let data = response.data.message;
@@ -191,7 +193,7 @@ render(){
                 <p className="card-text">Number Of Seats Left: {this.state.total_seats}</p>
                 <div className="form-group">
                     <label htmlFor="exampleFormControlFile1">Enter Number Of Seats</label>
-                    <input type="number" onChange={this.calculateAmount.bind(this)} ref="number_of_seats" className="form-control-file" id="exampleFormControlFile1" min="1" max="50"required/>
+                    <input type="number" onChange={this.calculateAmount.bind(this)} ref="number_of_seats" className="form-control" id="exampleFormControlFile1" min="1" max="50"required/>
                     {this.state.error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.error}</small>:""}
                 </div>
                 <p>Tax: 0.5</p>
@@ -241,7 +243,10 @@ render(){
              {this.state.activeStep==3?
             <div className="card-body">
                 <h5 className="card-title" align="center"><b>CONFIRMATION</b></h5>
-                <p className="card-text confirmation"align="center">Congratulations! You have a booking on "date" at "time" for "movie name"</p>
+                {this.props.booking==true?
+                <p className="card-text confirmation"align="center">
+                Congratulations! You have a booking on "date" at "time" for "movie name"
+                </p>: <p className="card-text confirmation confirmation_error"align="center">Your payment could not be processed. Please try again.</p>}
             </div>
             :""}
             </form>

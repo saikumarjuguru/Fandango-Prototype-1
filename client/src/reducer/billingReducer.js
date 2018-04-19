@@ -5,16 +5,14 @@ const defaultState = {
 }
 
 export function billingReducer(state = defaultState, action){
-
+ 
   const newState = {...state};
   switch(action.type){
-
-    case actionType.BOOKING_SUCCESS : newState.booking = action.payload.message;
-                                    // newState.loginMsg = "Success!";
-                                    // newState.username=action.payload.username;
+    
+    case actionType.BOOKING_SUCCESS : newState.booking = action.payload.success;
                                     return newState;
 
-    case actionType.BOOKING_FAIL : newState.booking = action.payload.message;
+    case actionType.BOOKING_FAIL : newState.booking = action.payload;
                                  return newState;
 
     default :  return newState;
