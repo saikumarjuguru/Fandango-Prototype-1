@@ -6,6 +6,10 @@ var BillingSchema =  new Schema({
     number_of_seats: {type:Number, required:true},
     amount:{type:Number, required:true},
     tax:{type:Number, required:true},
+    movie_hall: {
+        type:Schema.ObjectId, 
+        ref:'MovieHall'
+    },
     movie:{
         type:Schema.ObjectId, 
         ref:'Movie'
