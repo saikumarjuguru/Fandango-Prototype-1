@@ -37,6 +37,27 @@ export function registerUser(userdata) {
     }
 }
 
+//booking ticket [needs to be modified]
+export function book(state){
+    return function (dispatch) {
+      let temp = {
+        "username" : state.useroremail,
+        "password": state.password
+      }
+
+      return axios.post("http://localhost:5000/login", temp).then((response) => {
+        if( response.data.token){
+          localStorage.setItem('jwtToken', response.data.token);
+          localStorage.setItem('username', response.data.username);
+          dispatch({type:actionType.LOGIN_SUCCESS, payload: response.data})
+			  }
+      }).catch((err) => {
+         dispatch({type:actionType.LOGIN_FAIL, payload: err.response.data})
+      })
+    }
+}
+
+
 
 
 
