@@ -26,11 +26,7 @@ export function login(state){
 
 export function signup(userdata) {
     return function (dispatch) {
-<<<<<<< HEAD
         return axios.post(config.API_URL+"/registerUser", userdata)
-=======
-        return axios.post("http://localhost:5000/signup", userdata)
->>>>>>> 38f42afd1666063b1442230c1bbb6c47e55bb0c7
             .then((res) => {
                 if (res.data) {
                     localStorage.setItem('userId', res.data.userId);
