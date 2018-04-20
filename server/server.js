@@ -21,9 +21,7 @@ let users = require('./routes/users');
 let movie = require('./routes/movie');
 let movie_hall = require('./routes/movie_hall');
 let billing = require('./routes/billing');
-
-
-
+var signup = require('./routes/signup');
 
 var app = express();
 const port = process.env.PORT || 5000;
@@ -65,6 +63,7 @@ app.use('/users',users);
 app.use('/movie_hall',movie_hall);
 app.use('/movie',movie);
 app.use('/billing',billing);
+app.use('/signup',signup);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
