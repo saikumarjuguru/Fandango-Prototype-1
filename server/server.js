@@ -18,18 +18,15 @@ var passport = require('passport');
 var index = require('./routes/index');
 var login = require('./routes/login');
 let users = require('./routes/users');
-let movies = require('./routes/movies');
+let movie = require('./routes/movie');
 let movie_hall = require('./routes/movie_hall');
 let billing = require('./routes/billing');
-
-
-
+var signup = require('./routes/signup');
 
 var app = express();
 const port = process.env.PORT || 5000;
 //Enable CORS
 var corsOptions = {
-    origin: 'http://localhost:3000',
     credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
@@ -46,11 +43,7 @@ app.use(expressSessions({
   saveUninitialized: true,
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 6 * 1000,
-//   store: new mongoStore({
-//     url: mongoSessionURL,
-//     collection: 'sessions'
-//   })
-    store: new mongoStore({
+  store: new mongoStore({
         mongooseConnection: mongoose.connection,
         touchAfter: 24 * 3600})
 }));
@@ -68,15 +61,16 @@ app.use('/', index);
 app.use('/login', login);
 app.use('/users',users);
 app.use('/movie_hall',movie_hall);
-app.use('/movies',movies);
+app.use('/movie',movie);
 app.use('/billing',billing);
+app.use('/signup',signup);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, authorization');
-    res.header('Access-Control-Allow-Credentials', true);
+  //  res.header('Access-Control-Allow-Credentials', true);
     var err = new Error('Not Found');
     err.status = 404;
     next(err);

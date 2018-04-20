@@ -7,3 +7,7 @@ export const LOGIN_FAIL ="LOGIN_FAIL";
 export const BOOK_TICKET = 'BOOK_TICKET';
 export const BOOKING_SUCCESS = 'BOOKING_SUCCESS';
 export const BOOKING_FAIL = "BOOKING_FAIL";
+
+// Get moview details
+export const GET_MOVIE_DETAIL_SUCCESS = "GET_MOVIE_DETAIL_SUCCESS";
+export const GET_MOVIE_DETAIL_FAILURE = "GET_MOVIE_DETAIL_FAILURE";

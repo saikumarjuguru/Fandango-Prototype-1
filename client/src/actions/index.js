@@ -2,7 +2,7 @@ import * as actionType from './ActionType';
 import fileDownload from 'react-file-download';
 import axios from 'axios';
 import config from '../config.js';
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 
 export function login(state){
     return function (dispatch) {
@@ -24,9 +24,13 @@ export function login(state){
 }
 
 
-export function registerUser(userdata) {
+export function signup(userdata) {
     return function (dispatch) {
+<<<<<<< HEAD
         return axios.post(config.API_URL+"/registerUser", userdata)
+=======
+        return axios.post("http://localhost:5000/signup", userdata)
+>>>>>>> 38f42afd1666063b1442230c1bbb6c47e55bb0c7
             .then((res) => {
                 if (res.data) {
                     localStorage.setItem('userId', res.data.userId);
@@ -53,7 +57,14 @@ export function book(payload){
     }
 }
 
-
-
-
-
+export function getMovieDetail(movieID){
+    return function (dispatch) {
+        return axios.get("http://localhost:5000/movie/"+ movieID).then((response) => {
+          if(response.data){
+            dispatch({type:actionType.GET_MOVIE_DETAIL_SUCCESS, payload: response.data})
+          }
+        }).catch((err) => {
+           dispatch({type:actionType.GET_MOVIE_DETAIL_FAILURE, payload: err.response.data})
+        })
+    }
+}

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Movie= require('../schemas/movies');
+var pool = require('./../pool');
 
 function handle_request(msg, callback){
 
@@ -8,7 +9,20 @@ function handle_request(msg, callback){
         message:""
     };
 
-    console.log(msg);
+    if(msg.type =='getMoviewDetail'){
+
+      pool.getConnection(function(err, connection){
+         connection.query("i",function(err,results,field){
+           connection.release();//release the connection
+           if(err) {
+              res.status(500).send({success:false,message :'Cannot get Movie. Some internal error occured!', cause :err});
+            }else{
+              res.status(200).send({success: true,message :"New project posted " ,projectid:results.insertId});
+            }
+         });
+      })
+
+    }
 
     if(msg.type=='store_movie'){
     var movie = msg.movie;
