@@ -11,7 +11,8 @@ const mapDispatchToProps = (dispatch) => {
 
   const mapStateToProps = (state) => {
     return {
-
+      moviefetcherror : state.movieReducer.moviefetcherror,
+      moviedetail : state.movieReducer.moviedetail
     };
   }
 
@@ -22,14 +23,17 @@ class MovieDetail extends Component{
   }
 
   componentWillMount(){
-      let movieID  = "";
+      let movieID  = "1";
       this.props.dispatch(this.props.getMovieDetail(movieID));
   }
 
   render(){
     return(
+
         <div className ="container">
-        <section class="subnav">
+      { this.props.moviefetcherror !== undefined ?
+        <div>
+                  <section class="subnav">
             <div class="row">
               <div class="width-100">
                 <h1 class="subnav__title heading-style-1 heading-size-xl">
@@ -93,6 +97,8 @@ class MovieDetail extends Component{
 
           </div>
         </div>
+      </div> : <div>{this.props.moviefetcherror}</div>}
+
         </div>
     );
   }

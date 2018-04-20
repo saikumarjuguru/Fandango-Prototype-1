@@ -1,12 +1,19 @@
 import * as actionType from '../actions/ActionType';
 
 const defaultState = {
-
+  moviefetcherror : undefined
 }
 
 export function movieReducer(state = defaultState, action){
 
   const newState = {...state};
-  return newState;
+
+  switch(action.type){
+
+    case actionType.GET_MOVIE_DETAIL_SUCCESS : newState.moviedetail = action.payload.movie;  return newState;;
+    case actionType.GET_MOVIE_DETAIL_FAILURE : newState.moviefetcherror = action.payload.message ;   return newState;;
+    default : return newState;
+    
+  }
 
 }

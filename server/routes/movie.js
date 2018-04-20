@@ -59,8 +59,8 @@ router.post('/',upload.single('movie_photo'),function(req,res){
 router.get('/:movieID',function(req,res){
   payload = {
       action:"movie",
-      type:"getMoviewDetail",
-      data: req.body
+      type:"getMovieDetail",
+      data: req.params.movieID
   }
   console.log("eee");
   kafka.make_request('requestTopic', payload, function(err,results){
@@ -68,6 +68,7 @@ router.get('/:movieID',function(req,res){
        done(err,{});
        }
        else{
+         console.log(results.value)
          if(results.code == 200){
             return res.status(200).json(results.value);;
           }else{

@@ -9,15 +9,27 @@ function handle_request(msg, callback){
         message:""
     };
 
-    if(msg.type =='getMoviewDetail'){
-
+    if(msg.type =='getMovieDetail'){
       pool.getConnection(function(err, connection){
-         connection.query("i",function(err,results,field){
+         connection.query("select * from movies where movie_id = "+msg.data ,function(err,rows){
            connection.release();//release the connection
            if(err) {
-              res.status(500).send({success:false,message :'Cannot get Movie. Some internal error occured!', cause :err});
-            }else{
-              res.status(200).send({success: true,message :"New project posted " ,projectid:results.insertId});
+              res.code = "500";
+              data = {success: false,message: "Cannot get Movie. Some internal error occured!"};
+              res.value = data;
+              callback(null, res);
+            }
+            if(rows!=undefined && rows.length>0) {
+              data = {success: false,message: "Movie fetched successfully",movie : rows[0]};
+              res.code = "200";
+              res.value = data;
+              callback(null, res);
+            }
+            else{
+              data = {success: false,message: "Movie does not exist"};
+              res.code = "400";
+              res.value = data;
+              callback(null, res);
             }
          });
       })
