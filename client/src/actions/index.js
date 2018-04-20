@@ -1,6 +1,7 @@
 import * as actionType from './ActionType';
 import fileDownload from 'react-file-download';
 import axios from 'axios';
+import config from '../config.js';
 axios.defaults.withCredentials = true;
 
 export function login(state){
@@ -37,6 +38,28 @@ export function signup(userdata) {
     }
 }
 
+//booking ticket [needs to be modified]
+export function book(payload){
+    return function (dispatch) {
 
+      return axios.post("http://localhost:5000/billing", payload).then((response) => {
+        if(response.data){
+          dispatch({type:actionType.BOOKING_SUCCESS, payload: response.data})
+			  }
+      }).catch((err) => {
+         dispatch({type:actionType.BOOKING_FAIL, payload: err.response.data})
+      })
+    }
+}
 
-
+export function getMovieDetail(movieID){
+    return function (dispatch) {
+        return axios.get("http://localhost:5000/movie/"+ movieID).then((response) => {
+          if(response.data){
+            dispatch({type:actionType.GET_MOVIE_DETAIL_SUCCESS, payload: response.data})
+          }
+        }).catch((err) => {
+           dispatch({type:actionType.GET_MOVIE_DETAIL_FAILURE, payload: err.response.data})
+        })
+    }
+}

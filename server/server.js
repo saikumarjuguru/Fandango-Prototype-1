@@ -18,7 +18,7 @@ var passport = require('passport');
 var index = require('./routes/index');
 var login = require('./routes/login');
 let users = require('./routes/users');
-let movies = require('./routes/movies');
+let movie = require('./routes/movie');
 let movie_hall = require('./routes/movie_hall');
 let billing = require('./routes/billing');
 var signup = require('./routes/signup');
@@ -66,7 +66,7 @@ app.use('/', index);
 app.use('/login', login);
 app.use('/users',users);
 app.use('/movie_hall',movie_hall);
-app.use('/movies',movies);
+app.use('/movie',movie);
 app.use('/billing',billing);
 app.use('/signup',signup);
 

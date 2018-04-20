@@ -83,6 +83,7 @@ width: 85%
   font-size: 20px;
     margin-bottom: 0;
 }
+
 .errormessage
 {
     font-size: x-small;
@@ -90,3 +91,66 @@ width: 85%
     color: red;
     padding-top: 0px;
 }
+
+.img_card  {width: 18rem;}
+.hall_name { 
+  font-weight: bold;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 16px; text-transform: none;
+  color: #4C4C4C; 
+  font-weight: 600; 
+  margin-top: 42px;
+
+}
+.booking_container {
+  position: absolute;
+  left: 120px;
+  top: 120px;
+  margin:20px;
+  padding:20px;
+  border: 4px solid #337ab7;
+  border-radius: 4px;
+}
+.pay_back {
+  margin-left: 4px;
+}
+.movie_name {
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 16px; text-transform: none; 
+  line-height: 18px; margin: 0; 
+  color: #4C4C4C; 
+  font-weight: 600; 
+}
+.movie_description {
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 10px; text-transform: none; 
+  line-height: 18px; margin: 0; 
+  color: #0286f2; 
+  font-weight: 400; 
+}
+.type {
+  font-family: Arial, Helvetica, sans-serif; 
+  font-style: italic;
+}
+.address {
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 8px; text-transform: none; 
+  line-height: 8px; margin: 0; 
+  color: #0286f2; 
+  font-weight: 200;
+}
+
+.confirmation {
+  color:green;
+  font-family:Arial, Helvetica, sans-serif;
+  font-feature-settings: "blwf";
+  font-weight: bolder;
+  font-size: 12px;
+}
+.confirmation_error{
+  color: firebrick;
+}
+
+
+>>>>>>> 91196401eea233cac3da6fd91e20fcbeaace9937

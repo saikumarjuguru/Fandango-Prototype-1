@@ -14,6 +14,7 @@ var UserSchema =  new Schema({
     state: String,
     credit_card_number: String,
     expiration_date: String,
+    cvv:String,
     role:{type:String},
     created: {
         type: Date,

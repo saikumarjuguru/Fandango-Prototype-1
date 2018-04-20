@@ -6,18 +6,14 @@ var kafka = require('./kafka/client');
 
 router.post('/', function(req, res, next) {
     //add movie_hall_id too??
+    console.log(req);
     payload = {
         action:"billing",
         type:"add_bill",
-        bill: {
-            user:req.body.user,
-            movie: req.body.movie,
-            amount: req.body.amount,
-            tax: req.body.tax
-        }
+        bill: req.body
     }
     kafka.make_request('requestTopic',payload, function(err,results){
-        console.log('in result');
+        console.log('in billing result');
         console.log(results);
         if(err){
             throw err;
@@ -28,6 +24,8 @@ router.post('/', function(req, res, next) {
             res.send(results);   
         }
     });
+   
+   
   
 });
 

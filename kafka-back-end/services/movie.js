@@ -10,6 +10,10 @@ function handle_request(msg, callback){
 
     console.log(msg);
 
+    if(msg.type =='getMoviewDetail'){
+      console.log("hello");
+    }
+
     if(msg.type=='store_movie'){
     var movie = msg.movie;
     var result = new Movie(movie);
