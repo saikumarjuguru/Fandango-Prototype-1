@@ -5,8 +5,8 @@ function connectionPool() {
         connectionLimit: 100, //important
         host: "localhost",
         user: "root",
-        password: "",
-        database: ""
+        password: "283229ansz",
+        database: "fandango"
     });
     pool.getConnection(function(err, connection) {
         if (err) {
