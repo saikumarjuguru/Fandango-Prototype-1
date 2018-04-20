@@ -52,7 +52,14 @@ export function book(payload){
     }
 }
 
-
-
-
-
+export function getMovieDetail(movieID){
+    return function (dispatch) {
+        return axios.get("http://localhost:5000/movie/"+ movieID).then((response) => {
+          if(response.data){
+            dispatch({type:actionType.GET_MOVIE_DETAIL_SUCCESS, payload: response.data})
+          }
+        }).catch((err) => {
+           dispatch({type:actionType.GET_MOVIE_DETAIL_FAILURE, payload: err.response.data})
+        })
+    }
+}

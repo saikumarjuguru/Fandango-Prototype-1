@@ -2,9 +2,8 @@ var kafka = require('./kafka/client');
 var express = require('express');
 var router = express.Router();
 
-
 //for storing profile image
-var multer = require('multer'); //for saving files on server 
+var multer = require('multer'); //for saving files on server
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, 'uploads/photos/')
@@ -15,7 +14,6 @@ var storage = multer.diskStorage({
     }
 });
 var upload = multer({ storage: storage, dest: 'uploads/' });
-
 router.post('/',upload.single('movie_photo'),function(req,res){
     let title = req.body.title;
     let trailer_link = req.body.trailer_link;
@@ -27,9 +25,6 @@ router.post('/',upload.single('movie_photo'),function(req,res){
     let movie_length = req.body.movie_length;
     let showing_at = req.body.showing_at;
     let reviews = req.body.reviews;
-    
-    
-   
     payload = {
         action: 'movie',
         type:'store_movie',
@@ -54,34 +49,31 @@ router.post('/',upload.single('movie_photo'),function(req,res){
         else
         {
             console.log(results);
-            res.send(results);  
-        } 
-    
-    });
-});
-
-router.post('/add-review',function(req,res){
-    payload = {
-        action:'movie',
-        type:'add_review',
-        movie_id:req.body.movie_id,
-        review: req.body.review
-    }
-    kafka.make_request('requestTopic',payload, function(err,results){
-        console.log('in add review result');
-        console.log(results);
-        if(err){
-            throw err;
+            res.send(results);
         }
-        else
-        {
-            console.log(results);
-            res.send(results);  
-        } 
-    
+
     });
 });
 
+
+router.get('/:movieID',function(req,res){
+  payload = {
+      action:"movie",
+      type:"getMoviewDetail",
+      bill: req.body
+  }
+  kafka.make_request('requestTopic', payload, function(err,results){
+      if(err){
+       done(err,{});
+       }
+       else{
+         if(results.code == 200){
+            return res.status(200).json(results.value);;
+          }else{
+            return res.status(500).json(results.value);;
+          }
+       }
+     });
+
+})
 module.exports = router;
-
-
