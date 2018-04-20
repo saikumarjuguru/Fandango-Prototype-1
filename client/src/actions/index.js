@@ -11,7 +11,7 @@ export function login(state){
         "password": state.password
       }
 
-      return axios.post("http://localhost:5000/login", temp).then((response) => {
+      return axios.post(config.API_URL+"/login", temp).then((response) => {
         if( response.data.token){
           localStorage.setItem('jwtToken', response.data.token);
           localStorage.setItem('username', response.data.username);
@@ -26,7 +26,7 @@ export function login(state){
 
 export function registerUser(userdata) {
     return function (dispatch) {
-        return axios.post("http://localhost:5000/registerUser", userdata)
+        return axios.post(config.API_URL+"/registerUser", userdata)
             .then((res) => {
                 if (res.data) {
                     localStorage.setItem('userId', res.data.userId);
@@ -42,12 +42,13 @@ export function registerUser(userdata) {
 export function book(payload){
     return function (dispatch) {
 
-      return axios.post("http://localhost:5000/billing", payload).then((response) => {
+      return axios.post(config.API_URL+"/billing", payload).then((response) => {
         if(response.data){
+            console.log(response.data);
           dispatch({type:actionType.BOOKING_SUCCESS, payload: response.data})
 			  }
       }).catch((err) => {
-         dispatch({type:actionType.BOOKING_FAIL, payload: err.response.data})
+         dispatch({type:actionType.BOOKING_FAIL, payload: err.message})
       })
     }
 }

@@ -31,6 +31,7 @@ class BookTicket extends Component {
     let credit_card_number="";
     let cvv = "";
     let expiration_date = "";
+    let save = 0;
    
     this.state = {
         user:"",
@@ -44,7 +45,8 @@ class BookTicket extends Component {
         number_of_seats:"",
         credit_card_number:"",
         cvv:"",
-        expiration_date:""
+        expiration_date:"",
+        save:0
     }
     
   }
@@ -58,12 +60,12 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get(config.API_URL+"/users/"+"5acf0589e327e30ed482515e",{withCredentials:true})
+      axios.get(config.API_URL+"/users/"+1,{withCredentials:true})
           .then((response)=>{
             //console.log(response);
             let data = response.data.message;
             this.credit_card_number = data.credit_card_number;
-            this.cvv = data.cvv;
+            //this.cvv = data.cvv;
             this.expiration_date = data.expiration_date;
           });
 
@@ -154,19 +156,22 @@ calculateAmount(){
     
 }
 makePayment() {
-    
+   
     let increment = this.state.activeStep + 1;
     let payload = {
-        movie:"5ad13b47bdb9c233b0b5cb76",
-        movie_hall:"5ad05856d3c82f2e44ffef6c",
+        movie_id:1,
+        movie_hall_id:1,
+        slot:2,
+        screen_id:1,
         amount: this.state.amountDue,
         tax: 0.5,
-        user: "5acf0589e327e30ed482515e",
+        user_id: 1,
         show_time:"02:00PM",
         number_of_seats: this.state.number_of_seats,
         credit_card_number: this.state.credit_card_number,
-        cvv: this.state.cvv,
-        expiration_date: this.state.expiration_date
+        //cvv: this.state.cvv,
+        expiration_date: this.state.expiration_date,
+        save:this.save
     }
     this.props.dispatch(book(payload));
     this.setState({
@@ -174,7 +179,14 @@ makePayment() {
     });
 }
 
-
+check(){
+    if(document.getElementById("customCheck1").checked){
+        this.save = 1;
+    } else{
+        this.save=0;
+    }
+    console.log(this.save);
+}
 render(){
     
   return(
@@ -220,10 +232,21 @@ render(){
                 </div>
                 <div className="form-group col-sm-2">
                     <label htmlFor="exampleFormControlInput1">CVV</label>
-                    <input type="number" ref="cvv" className="form-control" id="exampleFormControlInput1" min="1" max="3" defaultValue={this.cvv}/>
+                    <input type="number" ref="cvv" className="form-control" id="exampleFormControlInput1" min="1" max="3"/>
                     {this.state.cvv_error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.cvv_error}</small>:""}
                 </div>
                 </div>
+                <div className="row">
+                    <div className="col-sm-8">
+                        <div className="form-group">
+                            <div className="custom-control custom-checkbox">
+                            <input type="checkbox" onChange={this.check.bind(this)} className="custom-control-input" id="customCheck1"/>
+                            <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <br/>
                 <div className="row">
                     <div className="col-sm-8">
                     <a href="#" onClick={this.gotoPayment.bind(this)} className="btn btn-primary">Confirm Payment ></a>
