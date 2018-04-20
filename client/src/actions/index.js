@@ -2,7 +2,7 @@ import * as actionType from './ActionType';
 import fileDownload from 'react-file-download';
 import axios from 'axios';
 import config from '../config.js';
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 
 export function login(state){
     return function (dispatch) {

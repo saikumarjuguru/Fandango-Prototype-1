@@ -60,8 +60,9 @@ router.get('/:movieID',function(req,res){
   payload = {
       action:"movie",
       type:"getMoviewDetail",
-      bill: req.body
+      data: req.body
   }
+  console.log("eee");
   kafka.make_request('requestTopic', payload, function(err,results){
       if(err){
        done(err,{});
