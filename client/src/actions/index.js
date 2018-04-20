@@ -23,9 +23,9 @@ export function login(state){
 }
 
 
-export function registerUser(userdata) {
+export function signup(userdata) {
     return function (dispatch) {
-        return axios.post("http://localhost:5000/registerUser", userdata)
+        return axios.post("http://localhost:5000/signup", userdata)
             .then((res) => {
                 if (res.data) {
                     localStorage.setItem('userId', res.data.userId);

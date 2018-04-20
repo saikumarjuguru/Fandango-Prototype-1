@@ -5,6 +5,7 @@ let movie_hall = require('./services/movie_hall');
 let movie = require('./services/movie');
 let billing = require('./services/billing');
 let users = require('./services/users');
+let signup = require('./services/signup');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango', { poolSize: 100 },function(err){
@@ -28,7 +29,7 @@ consumer.on('message', function (message) {
     switch(data.data.action){
         case 'login': handler = login;
         break;
-        case 'register': handler = register;
+        case 'signup': handler = signup;
         break;
         case 'movie_hall': handler = movie_hall;
         break;
