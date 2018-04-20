@@ -19,7 +19,8 @@ body{
     margin-top: 11px;
 }
   .modal-signup{
-    display: block
+    display: block;
+      background-color: #222222;
   }
   .modal-signup > .modal-dialog{
     width:400px
@@ -46,6 +47,7 @@ body{
     .modal-signup  .modal-body{
       padding: 45px;
           overflow-y: inherit;
+        padding-top: 10px;
     }
 #signup_btn{
         background: linear-gradient(to bottom,#139ff0 0,#0087e0 100%);
@@ -78,5 +80,13 @@ width: 85%
 .modal-title{
 
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
+    margin-bottom: 0;
+}
+.errormessage
+{
+    font-size: x-small;
+    margin-top: 0px;
+    color: red;
+    padding-top: 0px;
 }
