@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Billing= require('../schemas/billing');
 let User = require('../schemas/users');
 let MovieHall = require('../schemas/movie_halls');
+var con = require('./connection_pool');
 
 function handle_request(msg, callback){
 
