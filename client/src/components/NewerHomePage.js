@@ -5,6 +5,7 @@ import { Route, withRouter } from 'react-router-dom';
 import SignUp from "./SignUp";
 import BookTicket from "./BookTicket";
 import MovieHallAdminHome from "./MovieHallAdminHome";
+import MovieDetail from "./MovieDetail";
 
 class NewerHomePage extends Component{
 
@@ -16,6 +17,7 @@ class NewerHomePage extends Component{
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/book" component={BookTicket}/>
           <Route exact path='/moviehalladminhome' component={MovieHallAdminHome}/>
+          <Route exact path="/movieDetails" component={MovieDetail}/>
 
 
         </div>

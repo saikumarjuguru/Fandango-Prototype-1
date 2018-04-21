@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { registerUser} from '../actions';
+import { signup} from '../actions';
 import Message from './Message';
 
 const mapDispatchToProps = (dispatch) => {
 
-    let actions = {registerUser};
+    let actions = {signup};
     return { ...actions, dispatch };
 
 }
@@ -21,9 +21,14 @@ const mapStateToProps = (state) => {
 class Login extends Component {
 
     state={
-        email: '',
-        username: '',
-        password: ''
+        userdata: {
+            email: '',
+            username: '',
+            password: '',
+        },
+        emailValid: true,
+        usernameValid: true,
+        passwordValid: true,
     }
 
     constructor(props){
@@ -32,19 +37,18 @@ class Login extends Component {
     }
 
     handleSubmit(e){
-        e.preventDefault();
-        this.setState({
-                email : this.refs.email.value,
-                username : this.refs.username.value,
-                password : this.refs.password.value
-            });
-        if(this.validateEmail() == true) {
-            if(this.validateUsername() == true) {
-                if(this.validatePassword() == true) {
-        this.props.dispatch(registerUser(this.state));}
+
+        console.log(this.state.userdata);
+        if(this.validateEmail() == true)
+        {
+            if(this.validateUsername() == true)
+            {
+                if(this.validatePassword() == true)
+                {
+                    this.props.dispatch(signup(this.state));
+                }
                 else
                 {
-                    //this.state.passwordValid = false;
                     this.setState({passwordValid: false})
                 }
             }
@@ -58,11 +62,7 @@ class Login extends Component {
             this.setState({emailValid: false})
         }
     };
-
-
-
     validateEmail() {
-
         var emailId = this.state.userdata.email;
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailId))
         {
@@ -71,7 +71,6 @@ class Login extends Component {
         return (false)
     }
     validateUsername() {
-
         var username = this.state.userdata.username;
         if (username != '')
         {
@@ -80,7 +79,6 @@ class Login extends Component {
         return (false)
     }
     validatePassword(){
-
         var password = this.state.userdata.password;
         if (password != '' && password.length >= 6 && /\d/.test(password))
         {
@@ -106,11 +104,11 @@ class Login extends Component {
     // }
 
 
-    componentDidUpdate(nextProps, nextState) {
-        if(localStorage.getItem('jwtToken')){
-            this.props.history.push('/home');
-        }
-    }
+    // componentDidUpdate(nextProps, nextState) {
+    //     if(localStorage.getItem('jwtToken')){
+    //         this.props.history.push('/home');
+    //     }
+    // }
 
 
     render(){
@@ -122,29 +120,63 @@ class Login extends Component {
                     <div className="modal-content">
                         <div className="modal-body">
                             <img src="images/fandangonow-logo.png" height="135" width="250"/>
-                            <h3 className="modal-title text-xs-center">Sign In</h3>
+                            <h3 className="modal-title text-xs-center">Sign Up</h3>
                             <br/>
                             <br/>
                             <Message  {...this.props}/>
-                            <form role="form" method="POST" onSubmit = {this.handleSubmit} >
+                            <div role="form">
                                 <div className="form-group">
-                                    <input  className="form-control large-input" id="email" ref = "email" name="email" type="text" placeholder="Email"/>
+                                    { this.state.emailValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter valid email address.</div>}
+                                    <input  className="form-control large-input" id="email" ref = "email" name="email" type="text" placeholder="Email"
+                                            onChange={(event) => {
+                                                this.setState({
+                                                    userdata: {
+                                                        ...this.state.userdata,
+                                                        email: event.target.value
+                                                    }
+
+                                                });
+                                            }}
+                                            onFocus={(event) => {this.setState({emailValid: true});}}/>
                                 </div>
                                 <div className="form-group">
-                                    <input  className="form-control large-input" id="username"  ref = "username" name="username" type="text" placeholder="Username"/>
+                                    { this.state.usernameValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter username.</div>}
+                                    <input  className="form-control large-input" id="username"  ref = "username" name="username" type="text" placeholder="Username"
+                                            onChange={(event) => {
+                                                this.setState({
+                                                    userdata: {
+                                                        ...this.state.userdata,
+                                                        username: event.target.value
+                                                    }
+                                                });
+                                            }}
+                                            onFocus={(event) => {
+                                        this.setState({usernameValid: true});
+                                    }}/>
                                 </div>
                                 <div className="form-group">
-                                    <input  className="form-control large-input" id="password"  ref = "password" name="password" type="password" placeholder="Password"/>
+                                    { this.state.passwordValid ? null : <div className="text-input-error-wrapper text-left errormessage">Password must contain more than 6 character with digit.</div>}
+                                    <input  className="form-control large-input" id="password"  ref = "password" name="password" type="password" placeholder="Password"
+                                            onChange={(event) => {this.setState({
+                                                userdata: {
+                                                    ...this.state.userdata,
+                                                    password: event.target.value
+                                                }
+                                            });
+                                            }}
+                                            onFocus={(event) => {
+                                                this.setState({passwordValid: true});
+                                    }}/>
                                 </div>
 
                                 <div className="form-group">
                                     <div >
-                                        <button id="signup_btn" type="submit" className="btn btn-info btn-large btn-submit large-input freelancer-font">
+                                        <button id="signup_btn" type="submit" className="btn btn-info btn-large btn-submit large-input freelancer-font" onClick = {this.handleSubmit}>
                                            Sign Up
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                             <span className="login-form-signup-link">
                             Dont have an account?
                             <a className="switch-to-login">Sign In</a>
