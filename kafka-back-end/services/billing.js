@@ -29,18 +29,18 @@ function handle_request(msg, callback){
     //             MovieHall.findById(msg.bill.movie_hall,function(err,hall){
     //                 if(err) throw err;
     //                 let temp = hall.number_of_tickets;
-    //                 temp = temp-msg.bill.number_of_seats; 
+    //                 temp = temp-msg.bill.number_of_seats;
     //                 hall.number_of_tickets = temp;
     //                 hall.save((err)=>{
     //                     if(err) throw err;
     //                 });
-                    
+
     //             });
     //         });
     //         console.log(result);
     //         res.success = true;
     //         res.message = result;
-    
+
     con.query('INSERT INTO billing (movie_id,movie_hall_id,screen_id,user_id,amount,tax) VALUES(?,?,?,?,?,?)',
     [bill.movie_id,bill.movie_hall_id,bill.screen_id,bill.user_id,bill.amount,bill.tax],function(err,result){
         if(err) throw err;
@@ -58,7 +58,7 @@ function handle_request(msg, callback){
             }
             con.query('UPDATE screen SET slot'+bill.slot+' =? WHERE screen_id=?',[temp,bill.screen_id],function(err,result){
                 if(err) throw err;
-               
+
             });
             if(bill.save==1){
                 con.query('UPDATE users SET credit_card_number=?,expiration_date=? WHERE user_id=?',[bill.credit_card_number,bill.expiration_date,bill.user_id],function(err,result){
@@ -69,9 +69,9 @@ function handle_request(msg, callback){
         res.success = true;
         res.message = result;
         callback(null, res);
-        
+
     });
-    
+
     }
     if(msg.type=='get_bill'){
         Billing.findById(msg.bill_id).populate('movie').exec((err,bill)=>{

@@ -4,14 +4,11 @@ var pool = require('./../pool');
 
 function handle_request(msg, callback){
 
-    var res = {
-        statusCode:200,
-        message:""
-    };
+    var res = {};
 
     if(msg.type =='getMovieDetail'){
       pool.getConnection(function(err, connection){
-         connection.query("select * from movies where movie_id = "+msg.data ,function(err,rows){
+         connection.query("select * from movies m join movie_type mt where m.movie_id = "+msg.data ,function(err,rows){
            connection.release();//release the connection
            if(err) {
               res.code = "500";
@@ -20,7 +17,12 @@ function handle_request(msg, callback){
               callback(null, res);
             }
             if(rows!=undefined && rows.length>0) {
-              data = {success: false,message: "Movie fetched successfully",movie : rows[0]};
+              var movie = rows[0];
+              movie.type = rows.map(function(row,index){
+                return row.type;
+              })
+              console.log(JSON.stringify(movie));
+              data = {success: true,message: "Movie fetched successfully",movie : movie};
               res.code = "200";
               res.value = data;
               callback(null, res);
@@ -35,33 +37,56 @@ function handle_request(msg, callback){
       })
 
     }
-
-    if(msg.type=='store_movie'){
-    var movie = msg.movie;
-    var result = new Movie(movie);
-            result.save(function (err) {
-                if (err) throw err;
-            });
-            console.log(result);
-            res.success = true;
-            res.message = result;
-
-    callback(null, res);
-    }
-    if(msg.type=='add_review'){
-        Movie.findById(msg.movie_id,function(err,movie){
-            if(err) throw err;
-            if(movie){
-                movie.reviews.push(msg.review);
-                movie.save((err)=>{
-                    if(err) throw err;
-                    res.success = true;
-                    res.message = "Review Saved!";
-                    callback(null, res);
-                });
+    if(msg.type == 'starMovie'){
+      pool.getConnection(function(err, connection){
+        connection.query("insert into movie_review (`movie_id`,`user_id`,`star`,`review_date`)  values ("
+        + msg.data.movieid+
+        ","+ msg.data.userid+
+        ","+ msg.data.rating+
+        ", CURDATE());" ,function(err,results, fields){
+            connection.release();//release the connection
+            if(err) {
+              res.code = "500";
+              data = {success: false,message: "Cannot add Movie review. Some internal error occured!"};
+              res.value = data;
+              callback(null, res);
+            }else{
+              data = {success: true,message: "Movie starred successfully!"};
+              res.code = "200";
+              res.value = data;
+              callback(null, res);
             }
-        });
-    }
+      });
+    });
+  }
+  if(msg.type == 'reviewsOfMovie'){
+    pool.getConnection(function(err, connection){
+      connection.query("select u.username, mr.comment, mr.star, mr.review_date  from movie_review mr join users u on u.user_id = mr.user_id and mr.movie_id = "+ msg.data+";",function(err,rows){
+        connection.release();//release the connection
+        if(err) {
+           console.log(err);
+           res.code = "500";
+           data = {success: false,message: "Cannot get Movie Reviewers. Some internal error occured!"};
+           res.value = data;
+           callback(null, res);
+         }
+         if(rows!=undefined && rows.length>0) {
+           data = {success: true,message: "Movie Reviewers fetched successfully",movieReviewers : rows};
+           res.code = "200";
+           res.value = data;
+           callback(null, res);
+         }
+         else{
+           data = {success: false,message: "No Reviews Yet! Be the first one to review :-)"};
+           res.code = "400";
+           res.value = data;
+           callback(null, res);
+         }
+      });
+    })
+  }
+
+
 }
 
 exports.handle_request = handle_request;

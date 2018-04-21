@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { getMovieDetail } from '../actions';
+import Rating from './Rating';
+import MovieReviewList from './MovieReviewList';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -20,6 +22,22 @@ class MovieDetail extends Component{
 
   constructor(props){
     super(props);
+    this.state = {
+      showOverview :true,
+      showReview : false,
+      showMovieTimes : false
+    }
+    this.showMovieReviews = this.showMovieReviews.bind(this);
+    this.showOverview =  this.showOverview.bind(this);
+  }
+
+  static defaultProps = {
+    moviedetail :{
+      release_date :'',
+      type :[],
+      trailer_link : '',
+      movie_id: ''
+    }
   }
 
   componentWillMount(){
@@ -27,24 +45,38 @@ class MovieDetail extends Component{
       this.props.dispatch(this.props.getMovieDetail(movieID));
   }
 
+  showMovieReviews(){
+    this.setState({
+      showOverview: false,
+      showReview : true,
+      showMovieTimes : false
+    })
+  }
+
+  showOverview(){
+    this.setState({
+      showOverview: true,
+      showReview : false,
+      showMovieTimes : false
+    })
+  }
+
   render(){
     return(
 
         <div className ="container">
-      { this.props.moviefetcherror !== undefined ?
+      { this.props.moviefetcherror === undefined ?
         <div>
                   <section class="subnav">
             <div class="row">
               <div class="width-100">
                 <h1 class="subnav__title heading-style-1 heading-size-xl">
-                      Avengers: Infinity War
+                      {this.props.moviedetail.title}
                 </h1>
                   <ul class="subnav__link-list">
-                      <li class="subnav__link-item"><a class="subnav__link" href="/avengers-infinity-war-199925/movie-overview">Overview</a></li>
+                      <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showOverview}>Overview</a></li>
                       <li class="subnav__link-item"><a class="subnav__link" href="/avengers-infinity-war-199925/movie-times">Movie Times + Tickets</a></li>
-                      <li class="subnav__link-item"><a class="subnav__link" href="/avengers-infinity-war-199925/plot-summary">Synopsis</a></li>
-                      <li class="subnav__link-item"><a class="subnav__link" href="/avengers-infinity-war-199925/movie-reviews">Movie Reviews</a></li>
-                      <li class="subnav__link-item"><a class="subnav__link" href="https://www.fandango.com/movie-trailer/avengers:infinitywar-trailer/199925">Trailers</a></li>
+                      <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showMovieReviews}>Movie Reviews</a></li>
                       <li class="subnav__link-item vertical-dropdown"><a class="subnav__link" href="#">More</a>
                     <ul class="dropdown-nav">
                         <li class="subnav__link-item"><a class="subnav__link" href="https://www.fandango.com/avengers:infinitywar_199925/moviephotosposters">Photos + Posters</a></li>
@@ -64,11 +96,12 @@ class MovieDetail extends Component{
                 </a>
                 <ul class="movie-details__detail">
                   <li>Opens</li>
-                  <li class="movie-details__release-date">April 27, 2018</li>
-                  <li>PG-13,  2 hr 29 min</li>
-                  <li>Action/Adventure</li>
-                  <li>Sci-Fi/Fantasy</li>
-                  <li></li>
+                  <li class="movie-details__release-date">  {this.props.moviedetail.release_date.slice(0,10)}</li>
+                  <li>{this.props.moviedetail.rating},  {this.props.moviedetail.movie_length}</li>
+                  { this.props.moviedetail.type.map( movietype =>
+                    <li>{movietype}</li>
+                  )}
+                     <Rating movieid = {this.props.moviedetail.movie_id}/>
                   <li class="js-rotten-tomatoes"></li>
                 </ul>
                 <ul class="movie-details__film-formats">
@@ -87,13 +120,20 @@ class MovieDetail extends Component{
 
                 </section>
 
+    {this.state.showOverview ?
           <div>
-          <video width="400" controls>
-            <source src="./videos/sample.mp4" type="video/mp4"/>
-            {/*<source src="mov_bbb.ogg" type="video/ogg"/>*/}
+            <video  width="640" height="360" controls autoplay>
+            <source src={this.props.moviedetail.trailer_link} type="video/mp4"/>
+            <object width="640" height="360" type="application/x-shockwave-flash" data="player.swf">
+              <param name="movie" value="player.swf" />
+              <param name="flashvars" value="autostart=true&amp;controlbar=over&amp;image=poster.jpg&amp;file=http://clips.vorwaerts-gmbh.de/VfE_flash.mp4" />
+              <img src="poster.jpg" width="640" height="360" alt="Big Buck Bunny" title="No video playback capabilities, please download the video below" />
+            </object>
             Your browser does not support HTML5 video.
           </video>
-          </div>
+        </div> :  null }
+        {this.state.showReview ?
+            <MovieReviewList  movieid = {this.props.moviedetail.movie_id}/> :  null }
 
           </div>
         </div>

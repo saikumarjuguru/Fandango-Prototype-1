@@ -8,14 +8,14 @@ function connectionPool() {
         password: "283229ansz",
         database: "fandango"
     });
-    pool.getConnection(function(err, connection) {
-        if (err) {
-            connection.release();
-            console.log("Cannot connect to database");
-            return;
-        }
-    });
-    return pool;
+    // pool.getConnection(function(err, connection) {
+    //     if (err) {
+    //         connection.release();
+    //         console.log("Cannot connect to database");
+    //         return;
+    //     }
+    // });
+    // return pool;
 
 }
 

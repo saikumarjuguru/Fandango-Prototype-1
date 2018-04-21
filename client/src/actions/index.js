@@ -64,3 +64,27 @@ export function getMovieDetail(movieID){
         })
     }
 }
+
+export function starMovie(data){
+    return function (dispatch) {
+      return axios.post("http://localhost:5000/movie/star", data).then((response) => {
+        if(response.data){
+          dispatch({type:actionType.MOVIE_STAR_SUCCESS, payload: response.data})
+        }
+      }).catch((err) => {
+         dispatch({type:actionType.MOVIE_STAR_FAILURE, payload: err.response.data})
+      })
+    }
+}
+
+export function getReviewsOfMovie(movieid){
+  return function (dispatch) {
+    return axios.get("http://localhost:5000/movie/review/"+ movieid).then((response) => {
+      if(response.data){
+        dispatch({type:actionType.GET_MOVIE_REVIEWERS_SUCCESS, payload: response.data})
+      }
+    }).catch((err) => {
+       dispatch({type:actionType.GET_MOVIE_REVIEWERS_FAILURE, payload: err.response.data})
+    })
+  }
+}
