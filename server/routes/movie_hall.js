@@ -109,5 +109,29 @@ router.get('/getuserbilldetails', (req, res) => {
     });
 });
 
+router.post('/canceluserbooking', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "cancel_user_booking",
+        billing_id: req.body.billing_id
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/editmovieinfo', (req, res) => {
+    payload = {
+      action: "movie_hall",
+      type: "edit_movie_info",
+    };
+});
 
 module.exports = router;

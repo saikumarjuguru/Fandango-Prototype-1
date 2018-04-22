@@ -90,6 +90,20 @@ function handle_request(msg, callback){
             }
         });
     }
+    if (msg.type === "cancel_user_booking"){
+        let query = "delete from billing where billing_id = ?";
+        conn.query(query, [msg.billing_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Deleted user booking Successfully";
+                callback(null, res);
+            }
+        });
+    }
 }
 
 exports.handle_request = handle_request;
