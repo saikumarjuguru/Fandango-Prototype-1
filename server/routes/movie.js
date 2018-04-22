@@ -78,4 +78,25 @@ router.get('/review/:movieID',function(req,res){
        }
      });
 });
+
+router.post('/review',function(req,res){
+  payload = {
+      action:"movie",
+      type:"submitCommentToMovie",
+      data: req.body
+  }
+  kafka.make_request('requestTopic', payload, function(err,results){
+      if(err){
+       done(err,{});
+       }
+       else{
+         console.log(results.value)
+         if(results.code == 200){
+            return res.status(200).json(results.value);;
+          }else{
+            return res.status(500).json(results.value);;
+          }
+       }
+     });
+});
 module.exports = router;

@@ -88,3 +88,20 @@ export function getReviewsOfMovie(movieid){
     })
   }
 }
+
+export function submitMovieComment(movieid,userid,comment){
+  let data ={
+    movieid : movieid,
+    comment : comment,
+    userid :userid
+  }
+  return function (dispatch) {
+    return axios.post("http://localhost:5000/movie/review", data).then((response) => {
+      if(response.data){
+        dispatch({type:actionType.SUBMIT_MOVIE_COMMENT_SUCCESS, payload: response.data})
+      }
+    }).catch((err) => {
+       dispatch({type:actionType.SUBMIT_MOVIE_COMMENT_FAILURE, payload: err.response.data})
+    })
+  }
+}
