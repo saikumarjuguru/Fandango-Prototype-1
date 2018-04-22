@@ -73,5 +73,41 @@ router.get('/getmoviehallinfo', (req, res) => {
     });
 });
 
+router.get('/getrevenuebymovie', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "get_revenue_by_movie",
+        user_id: req.param("user_id")
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getuserbilldetails', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "get_user_bill_details",
+        user_id: req.param("user_id")
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 
 module.exports = router;
