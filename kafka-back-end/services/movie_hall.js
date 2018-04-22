@@ -52,6 +52,44 @@ function handle_request(msg, callback){
             }
         });
     }
+    if (msg.type === "get_revenue_by_movie"){
+        let query = "select movie_id, movie_name, ifnull(revenue, 0) as revenue from\n" +
+            "(select distinct movie_id, title as movie_name from screen inner join movies using (movie_id)\n" +
+            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) a\n" +
+            "left outer join\n" +
+            "(select movie_id, sum(amount) as revenue from billing\n" +
+            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id)";
+        conn.query(query, [msg.user_id, msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+    if (msg.type === "get_user_bill_details"){
+        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, billing.date\n" +
+            "from billing inner join users using (user_id)\n" +
+            "inner join movies using (movie_id) \n" +
+            "inner join movie_hall using (movie_hall_id) \n" +
+            "inner join screen using (screen_id)\n" +
+            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)";
+        conn.query(query, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
 }
 
 exports.handle_request = handle_request;
