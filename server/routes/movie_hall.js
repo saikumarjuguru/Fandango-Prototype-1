@@ -55,5 +55,23 @@ router.put('/update/:hallID',(req,res)=>{
     });
 });
 
+router.get('/getmoviehallinfo', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "get_movie_hall_info",
+        user_id: req.param("user_id")
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 
 module.exports = router;
