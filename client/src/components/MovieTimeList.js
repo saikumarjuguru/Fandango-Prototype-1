@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import DateCarousel from './DateCarousel';
 
 
   const mapDispatchToProps = (dispatch) => {
@@ -24,7 +25,7 @@ class MovieTimeList extends Component{
     return(
       <div>
 
-        hello
+          <DateCarousel movie = {this.props.movie}/>
       </div>
     )
   }
