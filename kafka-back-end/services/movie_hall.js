@@ -58,7 +58,7 @@ function handle_request(msg, callback){
             "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) a\n" +
             "left outer join\n" +
             "(select movie_id, sum(amount) as revenue from billing\n" +
-            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id)";
+            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id) order by revenue desc";
         conn.query(query, [msg.user_id, msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -100,6 +100,22 @@ function handle_request(msg, callback){
             }
             else {
                 res.message = "Deleted user booking Successfully";
+                callback(null, res);
+            }
+        });
+    }
+    if (msg.type === "search_movie_hall_admin"){
+        let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, slot1, slot2, slot3, slot4, max_seats, title as movie_name\n" +
+            "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
+            "where user_id = ? and title like '%"+msg.searchtext+"%'";
+        conn.query(query, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
                 callback(null, res);
             }
         });
