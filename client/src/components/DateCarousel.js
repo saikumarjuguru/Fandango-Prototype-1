@@ -49,7 +49,7 @@ class DateCarousel extends Component{
   render(){
 
     let dateItems = [];
-  var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+   var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
     var days = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
    for (var i = 0; i < 7; i++) {
   var date = new Date()
