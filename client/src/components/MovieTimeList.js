@@ -23,7 +23,8 @@ class MovieTimeList extends Component{
   render(){
     return(
       <div>
-        MovieTimeList
+
+        hello
       </div>
     )
   }
