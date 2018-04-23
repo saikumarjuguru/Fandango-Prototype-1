@@ -127,6 +127,25 @@ router.post('/canceluserbooking', (req, res) => {
     });
 });
 
+router.post('/searchmoviehalladmin', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "search_movie_hall_admin",
+        user_id: req.body.user_id,
+        searchtext: req.body.searchtext
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 router.post('/editmovieinfo', (req, res) => {
     payload = {
       action: "movie_hall",
