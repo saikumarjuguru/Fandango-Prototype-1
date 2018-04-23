@@ -9,22 +9,19 @@ class NavAdmin extends Component {
   render(){
     console.log("render");
     return(
-        <div>
-            <nav className="navbar navbar-inverse">
+        <nav class="navbar navbar-dark bg-dark">
             <div className="container-fluid">
                 <div className="navbar-header">
-                    <a className="navbar-brand" href="#">WebSiteName</a>
+                    <a className="navbar-brand" href="#">Fandango</a>
                 </div>
                 <ul className="nav navbar-nav">
                     <li className="active"><a href="#">Home</a></li>
-                    <li className="nav-lis"><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                    <li><a href="#">Page 3</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Billing</a></li>
+                    
                 </ul>
             </div>
-            </nav>
-      </div>
-  
+        </nav>
     )
   }
   }

@@ -89,6 +89,7 @@ export function getReviewsOfMovie(movieid){
   }
 }
 
+<<<<<<< HEAD
 export function submitMovieComment(movieid,userid,comment){
   let data ={
     movieid : movieid,
@@ -105,3 +106,5 @@ export function submitMovieComment(movieid,userid,comment){
     })
   }
 }
+=======
+>>>>>>> 866804e7412409a87a5855ae4fdd0c4317b526a8

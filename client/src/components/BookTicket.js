@@ -5,6 +5,7 @@ import Message from './Message';
 import Stepper from 'react-stepper-horizontal'; //https://devarchy.com/react/react-stepper-horizontal
 import config from '../config.js';
 import axios from 'axios';
+import { stat } from 'fs';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -14,10 +15,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 
   const mapStateToProps = (state) => {
+      console.log(state.movieReducer.moviedetail);
       
     return {
         
-        booking : state.billingReducer.booking
+        booking : state.billingReducer.booking,
+        movie : state.movieReducer.moviedetail
     };
   }
 
@@ -60,9 +63,9 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get(config.API_URL+"/users/"+1,{withCredentials:true})
+      axios.get(config.API_URL+"/users/"+1)
           .then((response)=>{
-            //console.log(response);
+            console.log(response);
             let data = response.data.message;
             this.credit_card_number = data.credit_card_number;
             //this.cvv = data.cvv;

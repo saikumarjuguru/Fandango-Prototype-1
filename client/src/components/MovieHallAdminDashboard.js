@@ -4,7 +4,7 @@ import NavAdmin from './NavAdmin';
 
 
 
-class MovieHallAdminHome extends Component {
+class MovieHallAdminDashboard extends Component {
 
     constructor(props){
       super(props);
@@ -58,13 +58,11 @@ render(){
   return(
         <div className="halladmindiv">
         <NavAdmin></NavAdmin>
-        <br/>
-        <h3 class="nowshowing">Now Showing:</h3><br/>
-        {postItem}
+        
       </div>
        
   )
 }
 }
 
-export default MovieHallAdminHome;
+export default MovieHallAdminDashboard;
