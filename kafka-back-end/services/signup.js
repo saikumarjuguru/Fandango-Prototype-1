@@ -1,23 +1,85 @@
 var mongoose = require('mongoose');
 var User = require('../schemas/users');
+var pool = require('./../pool');
 
 function handle_request(msg, callback) {
 
     var res = {};
-    console.log(msg);
+    console.log("----------------------------------");
+    console.log(msg.user);
+    console.log("----------------------------------");
+    // reqUsername = msg.data.user.username;
+    // password = msg.data.user.password;
+    // reqEmail = msg.data.user.email;
+    // console.log(msg.data.user.email);
+    var reqEmail = msg.user.email;
+    var reqUsername = msg.user.username;
+    var password = msg.user.password;
+
     console.log("Inside Kafka signup");
-    auth.hash(msg.req.password, function (err, password) {
-        console.log("hash password " + password);
-        console.log(msg.req.password);
-        var user = msg.user;
-        var result = new User(user);
-        result.save(function (err) {
-            if (err) throw err;
+
+    var query = "select * from users where email = '" + reqEmail + "'";
+    pool.getConnection(function(err, connection) {
+        connection.query(query, function (err, rows) {
+            if(rows!=undefined && rows.length > 0)
+            {
+                console.log("Existing Email");
+                data = {success: false,message: "Existing Email or Username!"};
+                res.code = "400";
+                res.value = data;
+                callback(null, res);
+            }
+            else{
+                var query = "insert into users (username, password , email) values ('" + reqUsername + "','" + password + "','" + reqEmail + "')";
+                pool.getConnection(function(err, connection){
+                    connection.query(query,function(err,rows){
+                        console.log(rows);
+                        connection.release();//release the connection
+                        if(err) {
+                            console.log(err);
+                            res.code = "500";
+                            data = {success: false,message: "Existing Email or Username!"};
+                            res.value = data;
+                            callback(null, res);
+                        }
+                        else if( rows.serverStatus = 2) {
+                            query = "select * from users where user_id = " + rows.insertId;
+                            pool.getConnection(function (err, connection) {
+                                connection.query(query, function (err, row1) {
+                                    console.log(row1);
+                                    connection.release();//release the connection
+                                    if (err) {
+                                        console.log(err);
+                                        res.code = "500";
+                                        data = {success: false, message: "Cannot Sign up. Some internal error occured!"};
+                                        res.value = data;
+                                        callback(null, res);
+                                    }
+                                    else {
+                                        var data = {success: true, message: "Sign up successfully", userId: rows.insertId, userDetails: row1};
+                                        res.code = "200";
+                                        res.value = data;
+                                        console.log(rows.insertId);
+                                        callback(null, res);
+                                    }
+                                });
+
+                            });
+                        }
+                        else{
+                            console.log("Inside Log");
+                            data = {success: false,message: "Existing Email or Username"};
+                            res.code = "400";
+                            res.value = data;
+                            callback(null, res);
+                        }
+                    });
+                })
+            }
         });
-        console.log(result);
-        res = result;
-        callback(null, res);
     });
+
+
 };
 
 exports.handle_request = handle_request;

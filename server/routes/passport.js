@@ -8,10 +8,10 @@ module.exports = function(passport) {
         payload = {
             action: 'login',
             user:{
-              username: username,
-              password: password
+                username: username,
+                password: password
             }
-          }
+        }
         kafka.make_request('requestTopic',payload, function(err,results){
             if(err){
                 console.log("ERROR");
@@ -21,7 +21,7 @@ module.exports = function(passport) {
             {
                 if(results.code == 200){
                     console.log("Success");
-                    done(null,results.value);
+                    done(null,results);
                 }
                 else {
                     done(null,false);
