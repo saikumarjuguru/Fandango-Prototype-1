@@ -20,7 +20,7 @@ function handle_request(msg, callback){
             res.success = true;
             res.message = result;
     callback(null, res);
-    } 
+    }
     if(msg.type=='update_movie_hall'){
         console.log(msg);
         MovieHall.findByIdAndUpdate(msg.hall_id,msg.movie_hall,{new:true},(err,newHall)=>{
@@ -33,7 +33,7 @@ function handle_request(msg, callback){
                 res.message = newHall;
                 callback(null, res);
             }
-        }); 
+        });
     }
     if (msg.type === "get_movie_hall_info"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
@@ -118,6 +118,35 @@ function handle_request(msg, callback){
                 res.message = result;
                 callback(null, res);
             }
+        });
+    }
+
+    if(msg.type ==='getMovieHallsAndTimes'){
+        pool.getConnection(function(err, connection){
+          connection.query("select movie_hall_id from screen where movie_id ="+msg.data+" group by movie_hall_id; " ,function(err,rows){
+            connection.release();//release the connection
+            if(err) {
+               res.code = "500";
+               data = {success: false,message: "Cannot get Movie Halls and Times. Some internal error occured!"};
+               res.value = data;
+               callback(null, res);
+             }
+             else if(rows==undefined || rows.length ==0 ){
+               res.code = "500";
+               data = {success: false,message: "This Movie has been added to any halls yet!"};
+               res.value = data;
+               callback(null, res);
+             }else{
+               rows.map(row => {
+                 pool.getConnection(function(err, connection){
+                   connection.query("select sum(slot1),sum(slot2),sum(slot3),sum(slot4), sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows){
+                     connection.release();//release the connection
+                     // TODO
+                   });
+                 });
+               });
+             }
+           });
         });
     }
 }

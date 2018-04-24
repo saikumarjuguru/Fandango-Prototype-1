@@ -4,56 +4,46 @@ var mongo = require("./mongo");
 var auth = require('passport-local-authenticate');
 let User = require('../schemas/users');
 let bcrypt =  require('bcrypt');
+var pool = require('./../pool');
 
 function handle_request(msg,callback){
     var res = {};
-//     console.log(msg);
-//     if(msg.key === 'login'){
-//         if(msg.value.username == "sricheta@gamil.com" && msg.value.password =="abc"){
-//             res.code = "200";
-//             data = {  username : msg.username};
-//             res.value = data;
-//         }
-//        else{
-//            res.code = "401";
-//            data = {  message : "Failed Login"};
-//            res.value = data;
-//        }
-//        callback(null, res);
-//   }
 
-    console.log('in login',msg);
-    User.findOne({useroremail: msg.user.username}, function(err, user) {
-        if(err) throw err;
-        console.log(user);
-        if(!user || user!=null) {
-            res.code =  401;
-            data = {message : "Failed Login"};
-            res.value = data;
-            callback(null,res);
-          }
-          else{
-          bcrypt.compare(msg.user.password, user.password, function(err, isMatch){
-            if(err) throw err;
-            if(isMatch) { 
-                res.code=200;
-                data = {username: user.useroremail};
-                callback(null,res);
-               
-            }
-            else {
-                res.code =  401;
-                data = {message : "Failed Login"};
+    // console.log('in login kafka',msg);
+    // res.code=200;
+    // res.value = {username: "abc"};
+    // console.log("*********************************" + msg.user.username);
+    // callback(null,res);
+
+    var query = "select * from users where password = '" + msg.user.password + "' and ( email = '" + msg.user.username + "' or username = '" + msg.user.username +  "')"
+    console.log(query);
+    pool.getConnection(function(err, connection){
+        connection.query(query,function(err,rows){
+            console.log(rows);
+            connection.release();//release the connection
+            if(err) {
+                console.log(err);
+                res.code = "500";
+                data = {success: false,message: "Cannot Log In. Some internal error occured!"};
                 res.value = data;
-                callback(null,res);
+                callback(null, res);
             }
-            
-            
-          });
-        }
-         
-        
-    });
-}
+            if(rows!=undefined && rows.length> 0 ) {
+                console.log("***************" + rows[0].user_id);
+                var data = {success: true, message: "Login successfully", userDetails: rows[0]};
+                res.code = "200";
+                res.value = data;
+                callback(null, res);
+            }
+            else{
+                console.log("Inside Log");
+                data = {success: false,message: "Username or password is incorrect"};
+                res.code = "400";
+                res.value = data;
+                callback(null, res);
+            }
+        });
+    })
+};
 
 exports.handle_request = handle_request;

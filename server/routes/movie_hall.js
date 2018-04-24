@@ -23,10 +23,10 @@ router.post('/', function(req, res, next) {
         else
         {
             console.log(results);
-            res.send(results);   
+            res.send(results);
         }
     });
-  
+
 });
 
 router.put('/update/:hallID',(req,res)=>{
@@ -50,7 +50,7 @@ router.put('/update/:hallID',(req,res)=>{
         else
         {
             console.log(results);
-            res.send(results);   
+            res.send(results);
         }
     });
 });
@@ -152,5 +152,29 @@ router.post('/editmovieinfo', (req, res) => {
       type: "edit_movie_info",
     };
 });
+
+router.get('/:movieid', (req, res) => {
+    payload = {
+      action: "movie_hall",
+      type: "getMovieHallsAndTimes",
+      data : req.params.movieid
+    };
+
+    kafka.make_request('requestTopic', payload, function(err,results){
+        if(err){
+         done(err,{});
+         }
+         else{
+           console.log(results.value)
+           if(results.code == 200){
+              return res.status(200).json(results.value);;
+            }else{
+              return res.status(500).json(results.value);;
+            }
+         }
+      });
+
+});
+
 
 module.exports = router;

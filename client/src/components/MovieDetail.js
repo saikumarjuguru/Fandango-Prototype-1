@@ -144,7 +144,7 @@ class MovieDetail extends Component{
           </video>
         </div> :  null }
         {this.state.showReview ? <MovieReview  movieid = {this.props.moviedetail.movie_id}/> :  null }
-        {this.state.showMovieTimes ? <MovieTimeList movieid = {this.props.moviedetail.movie_id} /> : null}
+        {this.state.showMovieTimes ? <MovieTimeList movie = {this.props.moviedetail} /> : null}
           </div>
         </div>
       </div> : <div>{this.props.moviefetcherror}</div>}

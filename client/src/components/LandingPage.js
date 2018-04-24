@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
       loginMsg: state.loginReducer.loginMsg,
       loginStatus : state.loginReducer.loginStatus,
-      username : state.loginReducer.username
+      username : state.loginReducer.userDetails.username || state.signupReducer.userDetails.username
     };
   }
 

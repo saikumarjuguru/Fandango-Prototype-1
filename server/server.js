@@ -91,4 +91,19 @@ app.use(function (err, req, res, next) {
 app.set('secret', 'CMPE273_passport');
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+app.post('/auth', function(req, res){
+    //var user = req.body;
+    if (req.isAuthenticated()) {
+        res.status(200).send({ success: true, message: 'User already logged in!' });
+    } else {
+        res.status(401).send({ success: false, message: 'Authentication failed.' });
+    }
+});
+
+app.get('/logout', function(req, res){
+    req.logout();
+    req.session.destroy();
+    res.status(200).send({ success: true, message: 'User successfully logged out!' });
+});
+
 module.exports = app;

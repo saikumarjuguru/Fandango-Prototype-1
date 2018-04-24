@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-
+import DateCarousel from './DateCarousel';
+import { getMovieHallsAndTimes } from '../actions';
 
   const mapDispatchToProps = (dispatch) => {
-    let actions = {};
+    let actions = {getMovieHallsAndTimes};
     return { ...actions, dispatch };
   }
 
@@ -20,11 +21,15 @@ class MovieTimeList extends Component{
     super(props);
   }
 
+  componentWillMount(){
+    this.props.dispatch(this.props.getMovieHallsAndTimes(this.props.movie))
+  }
+
   render(){
     return(
       <div>
+        <DateCarousel movie = {this.props.movie}/>
 
-        hello
       </div>
     )
   }
