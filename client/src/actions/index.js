@@ -106,3 +106,12 @@ export function submitMovieComment(movieid,userid,comment){
     })
   }
 }
+
+export function searchMovie(searchText,user_id){
+    let data={
+      user_id:user_id,
+      searchText:searchText
+    }
+    
+
+}

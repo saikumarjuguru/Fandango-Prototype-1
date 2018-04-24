@@ -28,6 +28,18 @@
 }
 
 .halladmindiv{
+    margin-left: 12px;
+    margin-right: 12px;
+    font-size: 15px;
+}
+
+.halladminBookingdiv{
+    font-size: 15px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.hallBookinginnerdiv{
+    margin-left: 20px;
+    margin-right: 20px;
 }

@@ -4,17 +4,17 @@ import NavAdmin from './NavAdmin';
 import config from '../config'
 
 
-class MovieHallAdminHome extends Component {
+class EditMovieHallAdmin extends Component {
 
     constructor(props){
       super(props);
       this.state = {
         posts:[]
       }
-
     }
 
   componentWillMount(){
+        console.log('test'+JSON.parse(localStorage.getItem('movie_selected')).movie_name);
           let self = this;
           var UserId = 1;
           axios.get(config.API_URL+'/movie_hall/getmoviehallinfo?', {
@@ -32,9 +32,7 @@ class MovieHallAdminHome extends Component {
 
 }
 
-editMovieDetailAdmin(movie_selected){
-  console.log(JSON.stringify(movie_selected));
-  localStorage.setItem('movie_selected',JSON.stringify(movie_selected));
+editMovieDetailAdmin(){
   
 }
 
@@ -54,7 +52,7 @@ render(){
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
             <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>
   );
@@ -72,4 +70,4 @@ render(){
 }
 }
 
-export default MovieHallAdminHome;
+export default EditMovieHallAdmin;

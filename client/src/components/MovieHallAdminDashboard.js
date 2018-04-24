@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import NavAdmin from './NavAdmin';
-
+import config from '../config'
 
 
 class MovieHallAdminDashboard extends Component {
@@ -16,7 +16,7 @@ class MovieHallAdminDashboard extends Component {
   componentWillMount(){
           let self = this;
           var UserId = 1;
-          axios.get('http://localhost:5000/movie_hall/getmoviehallinfo?', {
+          axios.get(config.API_URL+'/movie_hall/getrevenuebymovie', {
             params: {
               user_id: 1
             }
@@ -31,34 +31,33 @@ class MovieHallAdminDashboard extends Component {
 
 }
 
-editMovieDetailAdmin(){
   
-}
-
 render(){
   
   
   console.log('render'+this.state.posts);
   var postItem = this.state.posts.map(post=>
-      
-        <div class="card">
-        <div class="card-header">
-           <strong> Screen {post.screen_id}</strong>
+
+    <div class="card text-white bg-dark mb-3">
+    <div class="card-header">
+       <strong> Movie Name: {post.movie_name}</strong>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Revnue Generated: ${post.revenue}</h5>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Movie: {post.movie_name}</h5>
-            <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
-            <h5 class="card-title">See it in: {post.see_it_in}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
-          </div>
-        </div>
+    </div>
+
+                    
   );
 
 
   return(
-        <div className="halladmindiv">
+        <div className="halladminBookingdiv">
         <NavAdmin></NavAdmin>
-        
+          <div className="hallBookinginnerdiv">
+            <h2 class="nowshowing">Movies Earning:</h2><br/>
+            {postItem}
+          </div>
       </div>
        
   )

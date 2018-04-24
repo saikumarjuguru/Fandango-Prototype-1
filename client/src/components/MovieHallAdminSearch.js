@@ -4,37 +4,40 @@ import NavAdmin from './NavAdmin';
 import config from '../config'
 
 
-class MovieHallAdminHome extends Component {
+class MovieHallAdminSearch extends Component {
 
     constructor(props){
       super(props);
       this.state = {
         posts:[]
       }
-
     }
 
   componentWillMount(){
+          var searchtext=localStorage.getItem('searchTextHallAdmin');
           let self = this;
           var UserId = 1;
-          axios.get(config.API_URL+'/movie_hall/getmoviehallinfo?', {
-            params: {
-              user_id: 1
-            }
-          })
-          .then(function (response) {
-            console.log(response.data.message);
-            self.setState({posts:response.data.message})
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+          
+          let req ={
+                    "user_id":"1",
+                    "searchtext":searchtext
+                    }
+           axios.post(config.API_URL+'/movie_hall/searchmoviehalladmin',req)
+                .then(function (response) {
+                    console.log(response.data.message);
+                    self.setState({posts:response.data.message})
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+          
+          
+        
+          
 
 }
 
-editMovieDetailAdmin(movie_selected){
-  console.log(JSON.stringify(movie_selected));
-  localStorage.setItem('movie_selected',JSON.stringify(movie_selected));
+editMovieDetailAdmin(){
   
 }
 
@@ -54,7 +57,7 @@ render(){
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
             <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>
   );
@@ -64,7 +67,7 @@ render(){
         <div className="halladmindiv">
         <NavAdmin></NavAdmin>
         <br/>
-        <h3 class="nowshowing">Now Showing:</h3><br/>
+        <h3 class="nowshowing">Search Results:</h3><br/>
         {postItem}
       </div>
        
@@ -72,4 +75,4 @@ render(){
 }
 }
 
-export default MovieHallAdminHome;
+export default MovieHallAdminSearch;
