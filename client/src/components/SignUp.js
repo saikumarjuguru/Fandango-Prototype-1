@@ -4,20 +4,15 @@ import { signup} from '../actions';
 import Message from './Message';
 
 const mapDispatchToProps = (dispatch) => {
-
     let actions = {signup};
     return { ...actions, dispatch };
-
 }
-
 const mapStateToProps = (state) => {
     return {
-        // signupMsg: state.loginReducer.loginMsg,
-        // signupStatus : state.loginReducer.loginStatus
+        signupMsg: state.signupReducer.message,
+        signupStatus : state.signupReducer.status
     };
-}
-
-
+};
 class Login extends Component {
 
     state={
@@ -29,11 +24,21 @@ class Login extends Component {
         emailValid: true,
         usernameValid: true,
         passwordValid: true,
+        msg:false
     }
 
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps)
+    {
+        this.setState({msg:true})
+        if(nextProps.signupStatus == true)
+        {
+            nextProps.history.push("/home");
+        }
     }
 
     handleSubmit(e){
@@ -45,7 +50,7 @@ class Login extends Component {
             {
                 if(this.validatePassword() == true)
                 {
-                    this.props.dispatch(signup(this.state));
+                    this.props.dispatch(signup(this.state.userdata));
                 }
                 else
                 {
@@ -123,7 +128,9 @@ class Login extends Component {
                             <h3 className="modal-title text-xs-center">Sign Up</h3>
                             <br/>
                             <br/>
-                            <Message  {...this.props}/>
+                            { this.state.msg ? <div className="alert alert-danger">
+                                {this.props.signupMsg}
+                            </div> : null}
                             <div role="form">
                                 <div className="form-group">
                                     { this.state.emailValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter valid email address.</div>}
@@ -137,7 +144,7 @@ class Login extends Component {
 
                                                 });
                                             }}
-                                            onFocus={(event) => {this.setState({emailValid: true});}}/>
+                                            onFocus={(event) => {this.setState({emailValid: true, msg : false});}}/>
                                 </div>
                                 <div className="form-group">
                                     { this.state.usernameValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter username.</div>}
@@ -151,8 +158,8 @@ class Login extends Component {
                                                 });
                                             }}
                                             onFocus={(event) => {
-                                        this.setState({usernameValid: true});
-                                    }}/>
+                                                this.setState({usernameValid: true, msg : false});
+                                            }}/>
                                 </div>
                                 <div className="form-group">
                                     { this.state.passwordValid ? null : <div className="text-input-error-wrapper text-left errormessage">Password must contain more than 6 character with digit.</div>}
@@ -165,14 +172,14 @@ class Login extends Component {
                                             });
                                             }}
                                             onFocus={(event) => {
-                                                this.setState({passwordValid: true});
-                                    }}/>
+                                                this.setState({passwordValid: true, msg : false});
+                                            }}/>
                                 </div>
 
                                 <div className="form-group">
                                     <div >
                                         <button id="signup_btn" type="submit" className="btn btn-info btn-large btn-submit large-input freelancer-font" onClick = {this.handleSubmit}>
-                                           Sign Up
+                                            Sign Up
                                         </button>
                                     </div>
                                 </div>
