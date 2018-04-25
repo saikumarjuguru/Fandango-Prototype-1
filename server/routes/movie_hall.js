@@ -195,5 +195,31 @@ router.get('/:movieid', (req, res) => {
 
 });
 
+router.get('/check-available-seats/:movie_id/:movie_hall_id/:slot/:seats/:date_of_movie',function(req,res){
+    let payload = {
+        action : 'movie_hall',
+        type:'check',
+        movie_id: req.params.movie_id,
+        movie_hall_id: req.params.movie_hall_id,
+        date_of_movie: req.params.date_of_movie,
+        slot: req.params.slot,
+        seats:req.params.seats
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in check available seats result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);   
+        }
+    });
+
+
+});
+
 
 module.exports = router;
