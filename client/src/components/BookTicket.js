@@ -72,7 +72,7 @@ componentDidMount(){
             //this.cvv = data.cvv;
             this.expiration_date = data.expiration_date;
           });
-   
+
 
 }
 componentWillRec(nextProps, nextState) {
@@ -98,7 +98,7 @@ incrementStep(){
             let data = response.data;
             if(data.success===true){
                 let increment = this.state.activeStep + 1;
-                let temp =  this.state.price * this.refs.number_of_seats.value;  
+                let temp =  this.state.price * this.refs.number_of_seats.value;
                 let due = temp + temp*0.5;
                 this.setState({
                     amountDue:due,
@@ -113,7 +113,7 @@ incrementStep(){
             }
           });
     }
-<<<<<<< HEAD
+
     if(this.refs.number_of_seats.value>this.state.total_seats){
         //alert(this.refs.number_of_seats.value+" seats not available!");
         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
@@ -125,19 +125,19 @@ incrementStep(){
         activeStep : increment
     });
 
-=======
+
     // if(this.refs.number_of_seats.value>this.state.total_seats){
     //     //alert(this.refs.number_of_seats.value+" seats not available!");
     //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
     //     return;
     // }
-   
+
     // this.setState({
     //     number_of_seats:this.refs.number_of_seats.value,
     //     activeStep : increment
     // });
-    
->>>>>>> 2085c81363013e1cb784d856259baa92fa7ebfef
+
+
 }
 gotoPayment(){
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");
@@ -179,7 +179,7 @@ decrementStep(){
         activeStep : decrement
     });
 }
-<<<<<<< HEAD
+
 calculateAmount(){
     this.setState({error:""});
     if(this.refs.number_of_seats.value>this.state.total_seats){
@@ -195,14 +195,14 @@ calculateAmount(){
     }
 
 }
-=======
+
 // calculateAmount(){
 //     this.setState({error:""});
 //     axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
 //         console.log(response);
 //         let data = response.data.message;
 //         if(data.success){
-//             let temp =  this.state.price * this.refs.number_of_seats.value;  
+//             let temp =  this.state.price * this.refs.number_of_seats.value;
 //             let due = temp + temp*0.5;
 //             this.setState({
 //                 amountDue:due,
@@ -215,21 +215,21 @@ calculateAmount(){
 //         }
 //       });
 
-    
+
     // if(this.refs.number_of_seats.value>this.state.total_seats){
     //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
     //     return;
     // } else {
-    //     let temp =  this.state.price * this.refs.number_of_seats.value;  
+    //     let temp =  this.state.price * this.refs.number_of_seats.value;
     //     let due = temp + temp*0.5;
     //     this.setState({
     //         amountDue:due,
     //         number_of_seats: this.refs.number_of_seats.value
     //     });
     // }
-    
+
 //}
->>>>>>> 2085c81363013e1cb784d856259baa92fa7ebfef
+
 makePayment() {
 
     let increment = this.state.activeStep + 1;
@@ -248,7 +248,7 @@ makePayment() {
         //cvv: this.state.cvv,
         expiration_date: this.state.expiration_date,
         save:this.save,
-        
+
     }
     this.props.dispatch(book(payload));
     this.setState({
