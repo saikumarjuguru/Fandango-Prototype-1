@@ -183,6 +183,10 @@ background-color: rebeccapurple;
   color:white
 }
 
+.fandango-calender-click{
+    background-color: goldenrod;
+}
+
 .fandango-calender:hover {
       background-color: goldenrod;
 }

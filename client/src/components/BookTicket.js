@@ -15,10 +15,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 
   const mapStateToProps = (state) => {
-      console.log(state.movieReducer.moviedetail);
-      
+      console.log("dddd"+state.moviehallReducer.hallAndSlotdetail);
+
     return {
-        
+
         booking : state.billingReducer.booking,
         movie : state.movieReducer.moviedetail
     };
@@ -28,14 +28,14 @@ const mapDispatchToProps = (dispatch) => {
 class BookTicket extends Component {
 
     //price, total seats, movie_id,hall_id  will come from backend or from previous step
-  
+
   constructor(props){
     super(props);
     let credit_card_number="";
     let cvv = "";
     let expiration_date = "";
     let save = 0;
-   
+
     this.state = {
         user:"",
         activeStep :0,
@@ -51,7 +51,7 @@ class BookTicket extends Component {
         expiration_date:"",
         save:0
     }
-    
+
   }
 
 
@@ -101,7 +101,7 @@ incrementStep(){
         number_of_seats:this.refs.number_of_seats.value,
         activeStep : increment
     });
-    
+
 }
 gotoPayment(){
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");
@@ -149,17 +149,17 @@ calculateAmount(){
         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
         return;
     } else {
-        let temp =  this.state.price * this.refs.number_of_seats.value;  
+        let temp =  this.state.price * this.refs.number_of_seats.value;
         let due = temp + temp*0.5;
         this.setState({
             amountDue:due,
             number_of_seats: this.refs.number_of_seats.value
         });
     }
-    
+
 }
 makePayment() {
-   
+
     let increment = this.state.activeStep + 1;
     let payload = {
         movie_id:1,
@@ -191,7 +191,7 @@ check(){
     console.log(this.save);
 }
 render(){
-    
+
   return(
 
     <div className="container booking_container">
@@ -231,7 +231,7 @@ render(){
                     <label htmlFor="exampleFormControlInput1">Expiration Date</label>
                     <input type="text" ref="date" className="form-control" id="exampleFormControlInput1" placeholder="mm/yy" defaultValue={this.expiration_date}/>
                     {this.state.exp_error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.exp_error}</small>:""}
-                    
+
                 </div>
                 <div className="form-group col-sm-2">
                     <label htmlFor="exampleFormControlInput1">CVV</label>
