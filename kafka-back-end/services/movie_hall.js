@@ -122,8 +122,9 @@ function handle_request(msg, callback){
     }
 
     if(msg.type ==='getMovieHallsAndTimes'){
-        pool.getConnection(function(err, connection){
-          connection.query("select movie_hall_id from screen where movie_id ="+msg.data+" group by movie_hall_id; " ,function(err,rows){
+        var hallWithSlot=[];
+        conn.getConnection(function(err, connection){
+          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
             connection.release();//release the connection
             if(err) {
                res.code = "500";
@@ -132,19 +133,46 @@ function handle_request(msg, callback){
                callback(null, res);
              }
              else if(rows==undefined || rows.length ==0 ){
-               res.code = "500";
-               data = {success: false,message: "This Movie has been added to any halls yet!"};
+               res.code = "400";
+               data = {success: false,message: "This Movie hasn't been added to any halls yet!"};
                res.value = data;
                callback(null, res);
              }else{
-               rows.map(row => {
-                 pool.getConnection(function(err, connection){
-                   connection.query("select sum(slot1),sum(slot2),sum(slot3),sum(slot4), sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows){
-                     connection.release();//release the connection
-                     // TODO
+               var count = 0;
+               rows.forEach((row )=> {
+                 conn.getConnection(function(err, connection){
+                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows1){
+                     if(rows1 !== undefined && rows1.length >0){
+                       var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0) ? true  : false;
+                       var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0) ? true  : false;
+                       var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0) ? true  : false;
+                       var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0) ? true  : false;
+
+                       var data1 = {
+                          movie_hall : row,
+                          slot1Available : slot1Available,
+                          slot2Available : slot2Available,
+                          slot3Available : slot3Available,
+                          slot4Available : slot4Available
+                        }
+                         hallWithSlot.push(data1);
+                         count++;
+                         if(count === rows.length){
+                           res.code = "200";
+                           data = {success: true,hallWithSlot: hallWithSlot};
+                           res.value = data;
+                           callback(null, res);
+                         }
+                       }
                    });
                  });
+
+
+
                });
+
+
+
              }
            });
         });
