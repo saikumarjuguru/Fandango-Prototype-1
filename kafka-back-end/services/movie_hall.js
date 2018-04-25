@@ -38,7 +38,7 @@ function handle_request(msg, callback){
     if (msg.type === "get_movie_hall_info"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
-            "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
+            "from movie_hall inner join screen using (movie_hall_id) left outer join movies using (movie_id)\n" +
             "where user_id = (?) group by movie_id, screen_number";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
