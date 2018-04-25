@@ -76,7 +76,6 @@ function handle_request(msg, callback){
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id) \n" +
-            "inner join screen using (screen_id)\n" +
             "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
