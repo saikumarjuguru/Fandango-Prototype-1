@@ -25,6 +25,7 @@ class MovieHallAdminHome extends Component {
           .then(function (response) {
             console.log(response.data.message);
             self.setState({posts:response.data.message})
+            console.log(this.state.posts);
           })
           .catch(function (error) {
             console.log(error);
@@ -41,7 +42,7 @@ editMovieDetailAdmin(movie_selected){
 render(){
   
   
-  console.log('render'+this.state.posts);
+  
   var postItem = this.state.posts.map(post=>
       
         <div class="card text-white bg-dark mb-3">
@@ -49,7 +50,7 @@ render(){
            <strong> Screen {post.screen_id}</strong>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Movie: {post.movie_name}</h5>
+            <h5 class="card-title">Movie Name: {post.movie_name}</h5>
             <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>

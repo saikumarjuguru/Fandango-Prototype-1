@@ -13,61 +13,71 @@ class EditMovieHallAdmin extends Component {
       }
     }
 
-  componentWillMount(){
-        console.log('test'+JSON.parse(localStorage.getItem('movie_selected')).movie_name);
-          let self = this;
-          var UserId = 1;
-          axios.get(config.API_URL+'/movie_hall/getmoviehallinfo?', {
-            params: {
-              user_id: 1
-            }
-          })
-          .then(function (response) {
-            console.log(response.data.message);
-            self.setState({posts:response.data.message})
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    componentWillMount(){
+            console.log('test'+JSON.parse(localStorage.getItem('movie_selected')).movie_name);
+            let self = this;
+            axios.get(config.API_URL+'/movie_hall/getmovienames')
+            .then(function (response) {
+              console.log(response.data.message);
+              self.setState({posts:response.data.message})
+              console.log(this.state.posts);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+            
+    }
 
-}
+    saveMovieDetailAdmin(){
+    
+    }
 
-editMovieDetailAdmin(){
-  
-}
-
-render(){
-  
-  
-  console.log('render'+this.state.posts);
-  var postItem = this.state.posts.map(post=>
+    render(){
+            
+            var data = JSON.parse(localStorage.getItem('movie_selected'));
+            var postItem = this.state.posts.map(post=>{
+                if(post.movie_name === data.movie_name)
+                return <option selected>{post.movie_name}</option>
+                return <option>{post.movie_name}</option>
+            })
       
-        <div class="card text-white bg-dark mb-3">
-        <div class="card-header">
-           <strong> Screen {post.screen_id}</strong>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Movie: {post.movie_name}</h5>
-            <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
-            <h5 class="card-title">See it in: {post.see_it_in}</h5>
-            <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
-            <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
-          </div>
-        </div>
-  );
+            
+    
 
-
-  return(
-        <div className="halladmindiv">
-        <NavAdmin></NavAdmin>
-        <br/>
-        <h3 class="nowshowing">Now Showing:</h3><br/>
-        {postItem}
-      </div>
-       
-  )
-}
-}
+    return(
+        
+            <div className="halladmindiv">
+            <NavAdmin></NavAdmin>
+            <br/>
+            <h3 class="nowshowing">Edit Movie Details:</h3><br/>
+            <div class="card text-white bg-dark mb-3">
+            <div class="card-header">
+            <strong> Screen {data.screen_id} </strong>
+            </div>
+            <div class="card-body">
+                <form>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Example select</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                                 {postItem}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Email address</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Example multiple select</label>
+                    
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+        
+    )
+    }
+    }
 
 export default EditMovieHallAdmin;

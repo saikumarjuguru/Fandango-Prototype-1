@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Billing= require('../schemas/billing');
 let User = require('../schemas/users');
-var con = require('../connection_pool');
+var con = require('../pool');
 
 function handle_request(msg, callback){
     //here statusCode is for authentication 
