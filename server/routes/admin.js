@@ -36,4 +36,21 @@ router.get('/getrevenuebymoviehall', (req, res) => {
     });
 });
 
+router.get('/getmoviehallinfo', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movie_hall_info"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

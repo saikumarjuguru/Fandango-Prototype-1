@@ -43,6 +43,22 @@ function handle_request(msg, callback){
         });
     }
 
+    if (msg.type === "get_movie_hall_info"){
+        let query = "select movie_hall_id, movie_hall_name, ticket_price, city, max_seats\n" +
+            "from movie_hall left outer join screen using (movie_hall_id) group by movie_hall_id";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
 }
 
 exports.handle_request = handle_request;
