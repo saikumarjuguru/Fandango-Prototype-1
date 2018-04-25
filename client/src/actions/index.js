@@ -130,7 +130,7 @@ export function submitMovieComment(movieid,userid,comment){
 
 export function getMovieHallsAndTimes(movieid){
   return function (dispatch) {
-    return axios.get("http://localhost:5000/movie_hall"+ movieid).then((response) => {
+    return axios.get("http://localhost:5000/movie_hall/"+ movieid).then((response) => {
       if(response.data){
         dispatch({type:actionType.GET_MOVIE_HALL_TIMES_SUCCESS, payload: response.data})
       }

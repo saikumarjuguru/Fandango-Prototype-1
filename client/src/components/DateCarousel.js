@@ -18,11 +18,21 @@ const mapDispatchToProps = (dispatch) => {
 
 class DateCarousel extends Component{
 
+  constructor(props){
+    super(props);
+    this.clickDate = this.clickDate.bind(this);
+  }
+
   static defaultProps = {
     movie : ''
   }
 
+  clickDate(){
+    console.log("hello");
+  }
+
   componentDidMount(){
+    var self = this;
 
     $('.carousel-showmanymoveone .item').each(function(index ){
 
@@ -40,6 +50,7 @@ class DateCarousel extends Component{
 
         itemToClone.children(':first-child').clone()
           .addClass("cloneditem-"+(i))
+          .attr('onClick','clickDate')
           .appendTo($(this));
       }
 
@@ -56,13 +67,13 @@ class DateCarousel extends Component{
       date.setDate(date.getDate() + i )
        dateItems.push(
          <div class="item ">
-            <div class="col-xs-12 col-sm-6 col-md-2">
-              <a  href="#">
+            <div class="col-xs-12 col-sm-6 col-md-2 item-date">
+              <div className ="fandango-calender">
                 <span class="date-picker__date-weekday">{days[date.getDay()]}</span>
                 <span class="date-picker__date-month">{months[date.getMonth()]}</span>
                 <span class="date-picker__date-day">{date.getDate()}</span>
 
-              </a>
+              </div>
             </div>
          </div>
 

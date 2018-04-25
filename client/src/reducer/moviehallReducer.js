@@ -7,6 +7,11 @@ const defaultState = {
 export function moviehallReducer(state = defaultState, action){
 
   const newState = {...state};
-  return newState;
+
+  switch(action.type){
+    case actionType.GET_MOVIE_HALL_TIMES_SUCCESS : newState.hallsWithSlot = action.payload.hallWithSlot; return newState;
+    case actionType.GET_MOVIE_HALL_TIMES_FAILURE : newState.hallsWithSlot = action.payload.hallWithSlot; return newState;
+    default : return newState;
+  }
 
 }
