@@ -150,9 +150,26 @@ router.post('/editmovieinfo', (req, res) => {
     payload = {
         action: "movie_hall",
         type: "edit_movie_info",
-        user_id: req.body.user_id,
-        movie_id: req.body.movie_id
+        movie_hall_id: req.body.movie_hall_id,
+        screen_number: req.body.screen_number,
+        movie_id: req.body.movie_id,
+        slot1: req.body.slot1,
+        slot2: req.body.slot2,
+        slot3: req.body.slot3,
+        slot4: req.body.slot4,
+        max_seats: req.body.max_seats,
+        ticket_price: req.body.ticket_price
     };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
 });
 
 router.get('/getmovienames', (req, res) => {

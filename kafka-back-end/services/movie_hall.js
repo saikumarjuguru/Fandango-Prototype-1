@@ -120,6 +120,24 @@ function handle_request(msg, callback){
             }
         });
     }
+    if (msg.type === "edit_movie_info"){
+        let query = "update movie_hall inner join screen using (movie_hall_id)\n" +
+            "set screen.slot1 = ?, screen.slot2 = ?, screen.slot3 = ?, screen.slot4 = ?, \n" +
+            "screen.movie_id = ?, screen.max_seats = ?, movie_hall.ticket_price = ?\n" +
+            "where movie_hall_id = ? and screen_number = ?";
+        let params = [msg.slot1, msg.slot2, msg.slot3, msg.slot4, msg.movie_id, msg.max_seats, msg.ticket_price, msg.movie_hall_id, msg.screen_number];
+        conn.query(query, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Information changed successfully";
+                callback(null, res);
+            }
+        });
+    }
     if (msg.type === "get_movie_names"){
         let query = "select distinct movie_id, title as movie_name from movies";
         conn.query(query, [msg.user_id], function (err, result) {
