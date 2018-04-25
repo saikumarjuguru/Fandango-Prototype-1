@@ -8,10 +8,7 @@ function handle_request(msg, callback) {
     console.log("----------------------------------");
     console.log(msg.user);
     console.log("----------------------------------");
-    // reqUsername = msg.data.user.username;
-    // password = msg.data.user.password;
-    // reqEmail = msg.data.user.email;
-    // console.log(msg.data.user.email);
+
     var reqEmail = msg.user.email;
     var reqUsername = msg.user.username;
     var password = msg.user.password;
