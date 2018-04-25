@@ -78,7 +78,7 @@ router.get('/:userID',function(req,res){
     }
     kafka.make_request('requestTopic',payload, function(err,results){
         console.log('in get user result');
-        console.log(results);
+        //console.log(results);
         if(err){
             throw err;
         }

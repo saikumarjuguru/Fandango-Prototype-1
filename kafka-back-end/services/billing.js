@@ -41,10 +41,11 @@ function handle_request(msg, callback){
     //         res.success = true;
     //         res.message = result;
 
-    con.query('INSERT INTO billing (movie_id,movie_hall_id,screen_id,user_id,amount,tax) VALUES(?,?,?,?,?,?)',
-    [bill.movie_id,bill.movie_hall_id,bill.screen_id,bill.user_id,bill.amount,bill.tax],function(err,result){
+    con.query('INSERT INTO billing (movie_id,movie_hall_id,screen_number,user_id,amount,tax) VALUES(?,?,?,?,?,?)',
+    [bill.movie_id,bill.movie_hall_id,bill.screen_number,bill.user_id,bill.amount,bill.tax],function(err,result){
         if(err) throw err;
         con.query('SELECT * FROM screen WHERE screen_id=?',[bill.screen_id],function(err,screen){
+            console.log(screen[0]);
             if(err) throw err;
             let temp="";
             if(bill.slot==1){

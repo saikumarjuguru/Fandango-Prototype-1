@@ -120,6 +120,24 @@ function handle_request(msg, callback){
             }
         });
     }
+    if (msg.type === "edit_movie_info"){
+        let query = "update movie_hall inner join screen using (movie_hall_id)\n" +
+            "set screen.slot1 = ?, screen.slot2 = ?, screen.slot3 = ?, screen.slot4 = ?, \n" +
+            "screen.movie_id = ?, screen.max_seats = ?, movie_hall.ticket_price = ?\n" +
+            "where movie_hall_id = ? and screen_number = ?";
+        let params = [msg.slot1, msg.slot2, msg.slot3, msg.slot4, msg.movie_id, msg.max_seats, msg.ticket_price, msg.movie_hall_id, msg.screen_number];
+        conn.query(query, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Information changed successfully";
+                callback(null, res);
+            }
+        });
+    }
     if (msg.type === "get_movie_names"){
         let query = "select distinct movie_id, title as movie_name from movies";
         conn.query(query, [msg.user_id], function (err, result) {
@@ -190,6 +208,38 @@ function handle_request(msg, callback){
 
              }
            });
+        });
+    }
+
+    if(msg.type==='check'){
+        response = {
+            success:"",
+            message:{ screen_number:"",screen_id:""},
+            statusCode :200
+        }
+        let screen_number = "";
+        let query = 'SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=?';
+        conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
+            console.log(screens.length);
+            if(err) throw err;
+            for(var i=0; i<screens.length;i++){
+                
+                if(screens[i][msg.slot]<msg.seats) {
+                    continue;
+                } else {
+                    screen_number= screens[i]['screen_number'];
+                    response.message.screen_number = screen_number;
+                    response.message.screen_id = screens[i]['screen_id']
+                    response.success = true;
+                    callback(null,response);
+                }
+            }
+                     
+                response.message.screen_number = screen_number;
+                response.message.screen_id = "";
+                response.success = false;
+                callback(null,response);
+            
         });
     }
 }

@@ -4,6 +4,9 @@ import combineReducers from "./reducer"
 import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
 
-const middleWare = applyMiddleware(createLogger(), thunk, promise());
+const middleWare = applyMiddleware(
+    createLogger(), 
+    thunk, 
+    promise());
 
 export default createStore(combineReducers, middleWare);
