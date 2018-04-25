@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -62,7 +62,7 @@ render(){
 
   return(
         <div className="halladminBookingdiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>
         <table class="table table-dark">
