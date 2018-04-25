@@ -77,7 +77,7 @@ class EditMovieHallAdmin extends Component {
         )
         .then(function (response) {
             console.log(response.data.message);
-            this.props.history.push('/moviehalladminhome');
+            window.location.replace('http://localhost:3000/moviehalladminhome');
           })
          
 
