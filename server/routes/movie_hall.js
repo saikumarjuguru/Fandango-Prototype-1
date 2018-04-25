@@ -148,9 +148,28 @@ router.post('/searchmoviehalladmin', (req, res) => {
 
 router.post('/editmovieinfo', (req, res) => {
     payload = {
-      action: "movie_hall",
-      type: "edit_movie_info",
+        action: "movie_hall",
+        type: "edit_movie_info",
+        user_id: req.body.user_id,
+        movie_id: req.body.movie_id
     };
+});
+
+router.get('/getmovienames', (req, res) => {
+    payload = {
+        action: "movie_hall",
+        type: "get_movie_names"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
 });
 
 router.get('/:movieid', (req, res) => {

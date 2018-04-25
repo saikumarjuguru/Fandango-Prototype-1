@@ -5,10 +5,11 @@ var fs = require('fs-extra')
 var passport = require('passport');
 require('./passport')(passport);
 var router = express.Router();
+var kafka = require('./kafka/client');
 
 router.post('/', function (req, res, next) {
 
-    console.log("Inside Sign Up");
+    console.log("Inside Sign Up Node");
     console.log(JSON.stringify(req.body));
     payload = {
         action: 'signup',
@@ -20,20 +21,15 @@ router.post('/', function (req, res, next) {
     }
     kafka.make_request('requestTopic',payload, function(err,results){
         if (err) {
-            // console.log("ERROR KIRATI");
             done(err, {});
         }
         else {
             if (results.code == 200) {
-                res.status(200).json({
-                    message: "Sign up successful",
-                    userId: results.userId,
-                    token: token,
-                    success: true
-                });
+                res.status(200).json(results.value);
             }
             else {
-                res.status(401).json({message: "SignUp Failed", success: false});
+                console.log(results.value);
+                res.status(401).json(results.value);
             }
         }
     });

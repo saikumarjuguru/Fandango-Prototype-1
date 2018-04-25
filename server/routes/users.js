@@ -70,6 +70,7 @@ router.post('/',upload.single('profile_image'),function(req,res){
 });
 
 router.get('/:userID',function(req,res){
+    console.log("USER_ID: " + req.params.userID);
     payload = {
         action:"user",
         type:"get_user",

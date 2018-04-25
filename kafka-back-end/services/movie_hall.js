@@ -38,8 +38,8 @@ function handle_request(msg, callback){
     if (msg.type === "get_movie_hall_info"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
-            "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
-            "where user_id = (?)";
+            "from movie_hall inner join screen using (movie_hall_id) left outer join movies using (movie_id)\n" +
+            "where user_id = (?) group by movie_id, screen_number";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -77,7 +77,7 @@ function handle_request(msg, callback){
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id) \n" +
             "inner join screen using (screen_id)\n" +
-            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)";
+            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -91,7 +91,7 @@ function handle_request(msg, callback){
         });
     }
     if (msg.type === "cancel_user_booking"){
-        let query = "delete from billing where billing_id = ?";
+        let query = "update billing set is_cancelled = 1 where billing_id = ?";
         conn.query(query, [msg.billing_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -99,7 +99,7 @@ function handle_request(msg, callback){
                 callback(err, res);
             }
             else {
-                res.message = "Deleted user booking Successfully";
+                res.message = "Cancelled user booking Successfully";
                 callback(null, res);
             }
         });
@@ -107,7 +107,21 @@ function handle_request(msg, callback){
     if (msg.type === "search_movie_hall_admin"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, slot1, slot2, slot3, slot4, max_seats, title as movie_name\n" +
             "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
-            "where user_id = ? and title like '%"+msg.searchtext+"%'";
+            "where user_id = ? and title like '%"+msg.searchtext+"%' group by movie_id, screen_number";
+        conn.query(query, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+    if (msg.type === "get_movie_names"){
+        let query = "select distinct movie_id, title as movie_name from movies";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
