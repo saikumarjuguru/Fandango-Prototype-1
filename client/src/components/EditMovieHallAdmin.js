@@ -77,8 +77,9 @@ class EditMovieHallAdmin extends Component {
         )
         .then(function (response) {
             console.log(response.data.message);
+            this.props.history.push('/moviehalladminhome');
           })
-          this.props.history.push('/moviehalladminhome');
+         
 
     }
 
@@ -140,7 +141,7 @@ class EditMovieHallAdmin extends Component {
                     <label for="exampleFormControlInput1">Enter Number of Tickets:</label>
                     <input type="number" class="form-control" id="exampleFormControlInput1" ref="max_seats" placeholder="Enter Number of Tickets" defaultValue={data.max_seats}/>
                     </div>
-                    <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</a>
+                    <button class="btn btn-primary" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</button>
                 </form>
             </div>
             </div>
