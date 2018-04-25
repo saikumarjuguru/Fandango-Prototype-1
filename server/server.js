@@ -22,6 +22,7 @@ let movie = require('./routes/movie');
 let movie_hall = require('./routes/movie_hall');
 let billing = require('./routes/billing');
 var signup = require('./routes/signup');
+let admin = require('./routes/admin');
 
 var app = express();
 const port = process.env.PORT || 5000;
@@ -64,6 +65,7 @@ app.use('/movie_hall',movie_hall);
 app.use('/movie',movie);
 app.use('/billing',billing);
 app.use('/signup',signup);
+app.use('/admin',admin);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -90,5 +92,20 @@ app.use(function (err, req, res, next) {
 });
 app.set('secret', 'CMPE273_passport');
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+app.post('/auth', function(req, res){
+    //var user = req.body;
+    if (req.isAuthenticated()) {
+        res.status(200).send({ success: true, message: 'User already logged in!' });
+    } else {
+        res.status(401).send({ success: false, message: 'Authentication failed.' });
+    }
+});
+
+app.get('/logout', function(req, res){
+    req.logout();
+    req.session.destroy();
+    res.status(200).send({ success: true, message: 'User successfully logged out!' });
+});
 
 module.exports = app;

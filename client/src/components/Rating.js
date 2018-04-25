@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {starMovie} from '../actions'
+import {starMovie,getReviewsOfMovie} from '../actions'
 
 const mapDispatchToProps = (dispatch) => {
 
-    let actions = {starMovie};
+    let actions = {starMovie,getReviewsOfMovie};
     return { ...actions, dispatch };
 
   }
@@ -25,7 +25,8 @@ class Rating extends Component{
     super(props);
     this.state ={
       rating: this.props.rating || null,
-      temp_rating: null
+      temp_rating: null,
+      disable : this.props.disable || false
     }
     // this.rate = this.rate.bind(this);
     // this.star_over = this.star_over.bind(this);
@@ -33,36 +34,43 @@ class Rating extends Component{
   }
 
   rate(rating) {
-    this.setState({
-      rating: rating,
-      temp_rating: rating
-    });
-    let data = {
-      movieid :this.props.movieid,
-      rating : this.state.rating+1,
-    //  userid : localStorage.getItem("userid");
-     userid : 1
+    if(!this.state.disable){
+      this.setState({
+        rating: rating,
+        temp_rating: rating
+      });
+      let data = {
+        movieid :this.props.movieid,
+        rating : this.state.rating,
+      //  userid : localStorage.getItem("userid");
+       userid : 1
+      }
+      this.props.dispatch(this.props.starMovie(data))
+      .then(()=>this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid)))
     }
-    this.props.dispatch(this.props.starMovie(data))
   }
 
   star_over(rating) {
-    this.state.temp_rating = this.state.rating;
-    this.state.rating = rating;
+    if(!this.state.disable){
+      this.state.temp_rating = this.state.rating;
+      this.state.rating = rating;
 
-    this.setState({
-      rating: this.state.rating,
-      temp_rating: this.state.temp_rating
-    });
+      this.setState({
+        rating: this.state.rating,
+        temp_rating: this.state.temp_rating
+      });
+    }
   }
 
   star_out() {
-    this.state.rating = this.state.temp_rating;
-    this.setState({ rating: this.state.rating });
+    if(!this.state.disable){
+      this.state.rating = this.state.temp_rating;
+      this.setState({ rating: this.state.rating });
+    }
   }
   render() {
     var stars = [];
-    for(var i = 0; i < 5; i++) {
+    for(var i = 1; i <= 5; i++) {
       var klass = 'star-rating__star';
 
       if (this.state.rating >= i && this.state.rating != null) {

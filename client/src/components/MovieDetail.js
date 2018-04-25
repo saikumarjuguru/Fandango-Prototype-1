@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { getMovieDetail } from '../actions';
 import Rating from './Rating';
-import MovieReviewList from './MovieReviewList';
+import MovieReview from './MovieReview';
+import MovieTimeList from './MovieTimeList'
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -25,10 +26,11 @@ class MovieDetail extends Component{
     this.state = {
       showOverview :true,
       showReview : false,
-      showMovieTimes : false
+      showMovieTimes : false,
     }
     this.showMovieReviews = this.showMovieReviews.bind(this);
     this.showOverview =  this.showOverview.bind(this);
+    this.showMovieTimes = this.showMovieTimes.bind(this);
   }
 
   static defaultProps = {
@@ -53,6 +55,14 @@ class MovieDetail extends Component{
     })
   }
 
+  showMovieTimes(){
+    this.setState({
+      showOverview: false,
+      showReview : false,
+      showMovieTimes : true
+    })
+  }
+
   showOverview(){
     this.setState({
       showOverview: true,
@@ -62,6 +72,7 @@ class MovieDetail extends Component{
   }
 
   render(){
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return(
 
         <div className ="container">
@@ -75,7 +86,7 @@ class MovieDetail extends Component{
                 </h1>
                   <ul class="subnav__link-list">
                       <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showOverview}>Overview</a></li>
-                      <li class="subnav__link-item"><a class="subnav__link" href="/avengers-infinity-war-199925/movie-times">Movie Times + Tickets</a></li>
+                      <li class="subnav__link-item"><a class="subnav__link" onClick = {this.showMovieTimes}>Movie Times + Tickets</a></li>
                       <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showMovieReviews}>Movie Reviews</a></li>
                       <li class="subnav__link-item vertical-dropdown"><a class="subnav__link" href="#">More</a>
                     <ul class="dropdown-nav">
@@ -96,7 +107,7 @@ class MovieDetail extends Component{
                 </a>
                 <ul class="movie-details__detail">
                   <li>Opens</li>
-                  <li class="movie-details__release-date">  {this.props.moviedetail.release_date.slice(0,10)}</li>
+                  <li class="movie-details__release-date">{new Date(this.props.moviedetail.release_date).getDate()} {months[new Date(this.props.moviedetail.release_date).getMonth()]} {new Date(this.props.moviedetail.release_date).getFullYear()}</li>
                   <li>{this.props.moviedetail.rating},  {this.props.moviedetail.movie_length}</li>
                   { this.props.moviedetail.type.map( movietype =>
                     <li>{movietype}</li>
@@ -132,9 +143,8 @@ class MovieDetail extends Component{
             Your browser does not support HTML5 video.
           </video>
         </div> :  null }
-        {this.state.showReview ?
-            <MovieReviewList  movieid = {this.props.moviedetail.movie_id}/> :  null }
-
+        {this.state.showReview ? <MovieReview  movieid = {this.props.moviedetail.movie_id}/> :  null }
+        {this.state.showMovieTimes ? <MovieTimeList movie = {this.props.moviedetail} /> : null}
           </div>
         </div>
       </div> : <div>{this.props.moviefetcherror}</div>}

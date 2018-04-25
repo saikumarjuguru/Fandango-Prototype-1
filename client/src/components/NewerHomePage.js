@@ -8,6 +8,9 @@ import MovieHallAdminHome from "./MovieHallAdminHome";
 import MovieDetail from "./MovieDetail";
 import MovieHallAdminDashboard from './MovieHallAdminDashboard';
 import MovieHallAdminBooking from './MovieHallAdminBooking';
+import MovieHallAdminSearch from './MovieHallAdminSearch'
+import EditMovieHallAdmin from './EditMovieHallAdmin'
+import EditProfile from "./EditProfile";
 
 class NewerHomePage extends Component{
 
@@ -22,6 +25,9 @@ class NewerHomePage extends Component{
           <Route exact path="/movieDetails" component={MovieDetail}/>
           <Route exact path="/halladmindashboard" component={MovieHallAdminDashboard}/>
           <Route exact path="/halladminbooking" component={MovieHallAdminBooking}/>
+          <Route exact path="/halladminsearch" component={MovieHallAdminSearch}/>
+          <Route exact path="/editMovieDetailAdmin" component={EditMovieHallAdmin}/>
+          <Route exact path="/editprofile" component={EditProfile}/>
 
 
         </div>

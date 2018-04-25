@@ -20,7 +20,7 @@ function handle_request(msg, callback){
             res.success = true;
             res.message = result;
     callback(null, res);
-    } 
+    }
     if(msg.type=='update_movie_hall'){
         console.log(msg);
         MovieHall.findByIdAndUpdate(msg.hall_id,msg.movie_hall,{new:true},(err,newHall)=>{
@@ -33,13 +33,13 @@ function handle_request(msg, callback){
                 res.message = newHall;
                 callback(null, res);
             }
-        }); 
+        });
     }
     if (msg.type === "get_movie_hall_info"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
             "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
-            "where user_id = (?)";
+            "where user_id = (?) group by movie_id, screen_number";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -58,7 +58,7 @@ function handle_request(msg, callback){
             "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) a\n" +
             "left outer join\n" +
             "(select movie_id, sum(amount) as revenue from billing\n" +
-            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id)";
+            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id) order by revenue desc";
         conn.query(query, [msg.user_id, msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -77,7 +77,7 @@ function handle_request(msg, callback){
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id) \n" +
             "inner join screen using (screen_id)\n" +
-            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)";
+            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -91,7 +91,7 @@ function handle_request(msg, callback){
         });
     }
     if (msg.type === "cancel_user_booking"){
-        let query = "delete from billing where billing_id = ?";
+        let query = "update billing set is_cancelled = 1 where billing_id = ?";
         conn.query(query, [msg.billing_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -99,9 +99,100 @@ function handle_request(msg, callback){
                 callback(err, res);
             }
             else {
-                res.message = "Deleted user booking Successfully";
+                res.message = "Cancelled user booking Successfully";
                 callback(null, res);
             }
+        });
+    }
+    if (msg.type === "search_movie_hall_admin"){
+        let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, slot1, slot2, slot3, slot4, max_seats, title as movie_name\n" +
+            "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
+            "where user_id = ? and title like '%"+msg.searchtext+"%' group by movie_id, screen_number";
+        conn.query(query, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+    if (msg.type === "get_movie_names"){
+        let query = "select distinct movie_id, title as movie_name from movies";
+        conn.query(query, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if(msg.type ==='getMovieHallsAndTimes'){
+        pool.getConnection(function(err, connection){
+          connection.query("select movie_hall_id from screen where movie_id ="+msg.data+" group by movie_hall_id; " ,function(err,rows){
+            connection.release();//release the connection
+            if(err) {
+               res.code = "500";
+               data = {success: false,message: "Cannot get Movie Halls and Times. Some internal error occured!"};
+               res.value = data;
+               callback(null, res);
+             }
+             else if(rows==undefined || rows.length ==0 ){
+               res.code = "500";
+               data = {success: false,message: "This Movie has been added to any halls yet!"};
+               res.value = data;
+               callback(null, res);
+             }else{
+               rows.map(row => {
+                 pool.getConnection(function(err, connection){
+                   connection.query("select sum(slot1),sum(slot2),sum(slot3),sum(slot4), sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows){
+                     connection.release();//release the connection
+                     // TODO
+                   });
+                 });
+               });
+             }
+           });
+        });
+    }
+
+    if(msg.type==='check'){
+        response = {
+            success:"",
+            message:{ screen_number:"",screen_id:""},
+            statusCode :200
+        }
+        let screen_number = "";
+        let query = 'SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=?';
+        conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
+            console.log(screens.length);
+            if(err) throw err;
+            for(var i=0; i<screens.length;i++){
+                
+                if(screens[i][msg.slot]<msg.seats) {
+                    continue;
+                } else {
+                    screen_number= screens[i]['screen_number'];
+                    response.message.screen_number = screen_number;
+                    response.message.screen_id = screens[i]['screen_id']
+                    response.success = true;
+                    callback(null,response);
+                }
+            }
+                     
+                response.message.screen_number = screen_number;
+                response.message.screen_id = "";
+                response.success = false;
+                callback(null,response);
+            
         });
     }
 }

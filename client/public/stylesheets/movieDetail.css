@@ -139,7 +139,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .movie-details__release-date {
     color: #FFF;
     text-transform: uppercase;
-    font-size: 1.857em;
+    font-size: 1.4em;
     line-height: 1;
     margin-bottom: 5px;
     margin-top: 5px;
@@ -220,4 +220,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 .checked {
     color: orange;
+}
+.comment{
+  font-size: 13px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.rating-review{
+  display: inline-block;
+margin-left: 22px;
+}
+.well-review{
+  margin-bottom: 0px
 }
