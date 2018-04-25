@@ -39,7 +39,6 @@ class BookTicket extends Component {
     this.state = {
         user:"",
         activeStep :0,
-        total_seats : 50,
         price:5,
         amountDue: 0,
         error:"" ,
@@ -49,7 +48,9 @@ class BookTicket extends Component {
         credit_card_number:"",
         cvv:"",
         expiration_date:"",
-        save:0
+        save:0,
+        screen_number:"",
+        screen_id:""
     }
     
   }
@@ -71,6 +72,7 @@ componentDidMount(){
             //this.cvv = data.cvv;
             this.expiration_date = data.expiration_date;
           });
+   
 
 }
 componentWillRec(nextProps, nextState) {
@@ -90,17 +92,37 @@ incrementStep(){
     if(this.refs.number_of_seats.value == ""){
         this.setState({error :"Please enter the number of seats."});
         return;
+    } else {
+        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
+            console.log(response);
+            let data = response.data;
+            if(data.success===true){
+                let increment = this.state.activeStep + 1;
+                let temp =  this.state.price * this.refs.number_of_seats.value;  
+                let due = temp + temp*0.5;
+                this.setState({
+                    amountDue:due,
+                    number_of_seats: this.refs.number_of_seats.value,
+                    screen_number: data.message.screen_number,
+                    screen_id:data.message.screen_id,
+                    activeStep : increment
+                });
+            } else {
+                this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+                return;
+            }
+          });
     }
-    if(this.refs.number_of_seats.value>this.state.total_seats){
-        //alert(this.refs.number_of_seats.value+" seats not available!");
-        this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-        return;
-    }
-    let increment = this.state.activeStep + 1;
-    this.setState({
-        number_of_seats:this.refs.number_of_seats.value,
-        activeStep : increment
-    });
+    // if(this.refs.number_of_seats.value>this.state.total_seats){
+    //     //alert(this.refs.number_of_seats.value+" seats not available!");
+    //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+    //     return;
+    // }
+   
+    // this.setState({
+    //     number_of_seats:this.refs.number_of_seats.value,
+    //     activeStep : increment
+    // });
     
 }
 gotoPayment(){
@@ -143,21 +165,39 @@ decrementStep(){
         activeStep : decrement
     });
 }
-calculateAmount(){
-    this.setState({error:""});
-    if(this.refs.number_of_seats.value>this.state.total_seats){
-        this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-        return;
-    } else {
-        let temp =  this.state.price * this.refs.number_of_seats.value;  
-        let due = temp + temp*0.5;
-        this.setState({
-            amountDue:due,
-            number_of_seats: this.refs.number_of_seats.value
-        });
-    }
+// calculateAmount(){
+//     this.setState({error:""});
+//     axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
+//         console.log(response);
+//         let data = response.data.message;
+//         if(data.success){
+//             let temp =  this.state.price * this.refs.number_of_seats.value;  
+//             let due = temp + temp*0.5;
+//             this.setState({
+//                 amountDue:due,
+//                 number_of_seats: this.refs.number_of_seats.value,
+//                 screen_number: data.message
+//             });
+//         } else {
+//             this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+//             return;
+//         }
+//       });
+
     
-}
+    // if(this.refs.number_of_seats.value>this.state.total_seats){
+    //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+    //     return;
+    // } else {
+    //     let temp =  this.state.price * this.refs.number_of_seats.value;  
+    //     let due = temp + temp*0.5;
+    //     this.setState({
+    //         amountDue:due,
+    //         number_of_seats: this.refs.number_of_seats.value
+    //     });
+    // }
+    
+//}
 makePayment() {
    
     let increment = this.state.activeStep + 1;
@@ -165,7 +205,8 @@ makePayment() {
         movie_id:1,
         movie_hall_id:1,
         slot:2,
-        screen_id:1,
+        screen_number:this.state.screen_number,
+        screen_id:this.state.screen_id,
         amount: this.state.amountDue,
         tax: 0.5,
         user_id: 1,
@@ -174,7 +215,8 @@ makePayment() {
         credit_card_number: this.state.credit_card_number,
         //cvv: this.state.cvv,
         expiration_date: this.state.expiration_date,
-        save:this.save
+        save:this.save,
+        
     }
     this.props.dispatch(book(payload));
     this.setState({
@@ -205,14 +247,14 @@ render(){
             {this.state.activeStep==0?
             <div className="card-body">
                 <h5 className="card-title">SELECT NUMBER OF SEATS</h5>
-                <p className="card-text">Number Of Seats Left: {this.state.total_seats}</p>
+                {/* <p className="card-text">Number Of Seats Left: {this.state.total_seats}</p> */}
                 <div className="form-group">
                     <label htmlFor="exampleFormControlFile1">Enter Number Of Seats</label>
-                    <input type="number" onChange={this.calculateAmount.bind(this)} ref="number_of_seats" className="form-control" id="exampleFormControlFile1" min="1" max="50"required/>
+                    <input type="number" ref="number_of_seats" className="form-control" id="exampleFormControlFile1" min="1" max="50"required/>
                     {this.state.error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.error}</small>:""}
                 </div>
                 <p>Tax: 0.5</p>
-                <p>Amount Due: ${this.state.amountDue}</p>
+                {/* <p>Amount Due: ${this.state.amountDue}</p> */}
                 <a onClick={this.incrementStep.bind(this)} className="btn btn-primary">Payment ></a>
                 {/* <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back">Back</a> */}
             </div>
@@ -271,7 +313,7 @@ render(){
                 <h5 className="card-title" align="center"><b>CONFIRMATION</b></h5>
                 {this.props.booking==true?
                 <p className="card-text confirmation"align="center">
-                Congratulations! You have a booking on "date" at "time" for "movie name"
+                Congratulations! You have a booking on "date" at "time" for "movie name" at screen {this.state.screen_number}
                 </p>: <p className="card-text confirmation confirmation_error"align="center">Your payment could not be processed. Please try again.</p>}
             </div>
             :""}
