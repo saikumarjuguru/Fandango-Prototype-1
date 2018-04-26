@@ -20,6 +20,9 @@ class MovieTimeList extends Component{
 
   constructor(props){
     super(props);
+    this.state={
+      date : new Date()
+    }
     this.onDateSelect = this.onDateSelect.bind(this);
     this.handleSlot1 = this.handleSlot1.bind(this);
     this.handleSlot2 = this.handleSlot2.bind(this);
@@ -39,13 +42,16 @@ class MovieTimeList extends Component{
 
   onDateSelect(date){
     let formatDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' +  date.getFullYear()
+    this.state.date = date
     this.props.dispatch(this.props.getMovieHallsAndTimes(this.props.movie.movie_id, formatDate));
   }
 
   handleSlot1(hall){
     let data = {
       moviehall : hall,
-      slot : 'slot1'
+      slot : 'slot1',
+      movie : this.props.movie,
+      date : this.state.date
     }
     this.props.dispatch(this.props.getHallAndTimeDetailsForBooking(data))
     this.props.history.push("/book");
@@ -54,7 +60,9 @@ class MovieTimeList extends Component{
   handleSlot2(hall){
     let data = {
       moviehall : hall,
-      slot : 'slot2'
+      slot : 'slot2',
+      movie : this.props.movie,
+      date : this.state.date
     }
     this.props.dispatch(this.props.getHallAndTimeDetailsForBooking(data))
     this.props.history.push("/book");
@@ -63,7 +71,9 @@ class MovieTimeList extends Component{
   handleSlot3(hall){
     let data = {
       moviehall : hall,
-      slot : 'slot3'
+      slot : 'slot3',
+      movie : this.props.movie,
+      date : this.state.date
     }
     this.props.dispatch(this.props.getHallAndTimeDetailsForBooking(data))
     this.props.history.push("/book");
@@ -72,7 +82,9 @@ class MovieTimeList extends Component{
   handleSlot4(hall){
     let data = {
       moviehall : hall,
-      slot :'slot4'
+      slot :'slot4',
+      movie : this.props.movie,
+      date : this.state.date
     }
     this.props.dispatch(this.props.getHallAndTimeDetailsForBooking(data))
     this.props.history.push("/book");
