@@ -27,12 +27,27 @@ class NavAdmin extends Component {
               <a class="nav-link text-warning" href="./admindashboard">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-warning" href="./halladminbooking">Billing</a>
+              <a class="nav-link text-warning" href="./adminbilling">Billing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-warning" href="./adminrevnue">Revenue</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="form-group">
+                        <select class="form-control" ref="rating" id="exampleFormControlSelect1">
+                            <option>Movie</option> 
+                            <option>Movie Hall</option>  
+                            <option>Bill By Date</option>  
+                            <option>Bill By Month</option>  
+                        </select>
+                    </div>&nbsp;
+                    <input class="form-control" ref="serachText" type="search" placeholder="Search Movies..." aria-label="Search"/>
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" onClick={()=>this.searchMovies(this.refs.serachText.value)}>Search</button>
+                </form>&nbsp;
                 <a href='./adminhalladd'><button class="btn btn btn-warning navbar-btn">Add Movie Hall</button> </a>&nbsp;
-                <button class="btn btn btn-warning navbar-btn">Add Movie</button>
+                <a href='./adminaddmovie'><button class="btn btn btn-warning navbar-btn">Add Movie</button></a>
           </ul>
         </div>
       </nav>

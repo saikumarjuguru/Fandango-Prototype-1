@@ -50,7 +50,7 @@ render(){
             <h5 class="card-title">Number Of Seats: &nbsp;{post.max_seats}</h5>
             <h5 class="card-title">Location:&nbsp;{post.city}</h5>
             <a href="/adminhalledit" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>Edit Hall Details</a> &nbsp;
-            <a href="/adminhalldetail" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>View Movie Details</a>
+            <a href="/adminmoviedetail" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>View Movie Details</a>
           </div>
         </div>
   );
