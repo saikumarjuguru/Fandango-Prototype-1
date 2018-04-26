@@ -5,6 +5,6 @@ var pool = mysql.createPool({
         host     : 'fandangoinstance.cbvajauho28z.us-east-1.rds.amazonaws.com',
         user     : 'root',
         password : 'password',
-        database: "fandango"
+        database : "fandango"
     });
 module.exports = pool;
