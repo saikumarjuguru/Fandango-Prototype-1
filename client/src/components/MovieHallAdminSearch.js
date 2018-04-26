@@ -57,7 +57,7 @@ render(){
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
             <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>
   );

@@ -20,6 +20,28 @@ class AdminHallEdit extends Component {
     }
 
     saveMovieDetailAdmin(userInput){
+        var data = JSON.parse(localStorage.getItem('hall_selected'));
+        console.log(data.movie_hall_id);
+        console.log(userInput.movie_hall_name.value);
+        console.log(userInput.ticket_price.value);
+        console.log(userInput.max_seats.value);
+        console.log(userInput.city.value);
+
+        let req ={
+            "movie_hall_id": data.movie_hall_id,
+            "movie_hall_name": userInput.movie_hall_name.value,
+            "ticket_price": userInput.ticket_price.value,
+            "max_seats": userInput.max_seats.value,
+            "city": userInput.city.value
+        }
+        console.log(req);
+        axios.post(config.API_URL+'/admin/editmoviehall',req,
+            {withCredential: true}
+            )
+            .then(function (response) {
+                console.log(response.data.message);
+                window.location.replace('http://localhost:3000/adminhome');
+            })
             
     }
 
@@ -48,7 +70,7 @@ class AdminHallEdit extends Component {
                 <form>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter Hall Name:</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Hall Name" ref="ticket_price" defaultValue={data.movie_hall_name}/>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Hall Name" ref="movie_hall_name" defaultValue={data.movie_hall_name}/>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter Price for the Movie:</label>
@@ -60,9 +82,9 @@ class AdminHallEdit extends Component {
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter City Name:</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" ref="max_seats" placeholder="Enter City Name" defaultValue={data.city}/>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" ref="city" placeholder="Enter City Name" defaultValue={data.city}/>
                     </div>
-                        <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</a>
+                        <button class="btn btn-warning" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</button>
                 </form>
             </div>
              <div class="alert alert-warning">

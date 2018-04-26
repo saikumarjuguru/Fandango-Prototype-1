@@ -55,7 +55,7 @@ render(){
                         <td>{post.screen_number}</td>
                         <td>{post.amount}</td>
                         <td>{post.date}</td>
-                        <td><a href="#"  onClick={this.deleteBooking.bind(this,post.billing_id)}>Delete</a></td>
+                        <td><a href="#"  class="text-warning" onClick={this.deleteBooking.bind(this,post.billing_id)}>Delete</a></td>
                     </tr>  
   );
 
