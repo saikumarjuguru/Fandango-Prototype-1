@@ -19,6 +19,9 @@ import AdminMovieEdit from './AdminMovieEdit'
 import AdminBilling from './AdminBiiling'
 import AdminAddMovie from './AdminAddMovie'
 import AdminRevnue from './AdminRevnue'
+import AdminMovieSearch from './AdminMovieSearch'
+import AdminHallSearch from './AdminHallSearch'
+import AdminBillSearch from './AdminBillSearch'
 
 class NewerHomePage extends Component{
 
@@ -44,6 +47,9 @@ class NewerHomePage extends Component{
           <Route exact path="/adminbilling" component={AdminBilling}/>
           <Route exact path="/adminaddmovie" component={AdminAddMovie}/>
           <Route exact path="/adminrevnue" component={AdminRevnue}/>
+          <Route exact path="/adminmoviesearch" component={AdminMovieSearch}/>
+          <Route exact path="/adminhallsearch" component={AdminHallSearch}/>
+          <Route exact path="/adminbillsearch" component={AdminBillSearch}/>
 
         </div>
 
