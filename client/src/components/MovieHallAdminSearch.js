@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -57,7 +57,7 @@ render(){
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
             <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>
   );
@@ -65,7 +65,7 @@ render(){
 
   return(
         <div className="halladmindiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
         <br/>
         <h3 class="nowshowing">Search Results:</h3><br/>
         {postItem}

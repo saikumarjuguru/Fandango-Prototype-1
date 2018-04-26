@@ -38,8 +38,8 @@ function handle_request(msg, callback){
     if (msg.type === "get_movie_hall_info"){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
-            "from movie_hall inner join screen using (movie_hall_id) inner join movies using (movie_id)\n" +
-            "where user_id = (?) group by movie_id, screen_number";
+            "from movie_hall inner join screen using (movie_hall_id) left outer join movies using (movie_id)\n" +
+            "where user_id = (?) group by movie_id, screen_number order by movie_hall_id, screen_number";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -76,7 +76,6 @@ function handle_request(msg, callback){
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id) \n" +
-            "inner join screen using (screen_id)\n" +
             "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
@@ -120,6 +119,24 @@ function handle_request(msg, callback){
             }
         });
     }
+    if (msg.type === "edit_movie_info"){
+        let query = "update movie_hall inner join screen using (movie_hall_id)\n" +
+            "set screen.slot1 = ?, screen.slot2 = ?, screen.slot3 = ?, screen.slot4 = ?, \n" +
+            "screen.movie_id = ?, screen.max_seats = ?, movie_hall.ticket_price = ?\n" +
+            "where movie_hall_id = ? and screen_number = ?";
+        let params = [msg.slot1, msg.slot2, msg.slot3, msg.slot4, msg.movie_id, msg.max_seats, msg.ticket_price, msg.movie_hall_id, msg.screen_number];
+        conn.query(query, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Information changed successfully";
+                callback(null, res);
+            }
+        });
+    }
     if (msg.type === "get_movie_names"){
         let query = "select distinct movie_id, title as movie_name from movies";
         conn.query(query, [msg.user_id], function (err, result) {
@@ -136,8 +153,10 @@ function handle_request(msg, callback){
     }
 
     if(msg.type ==='getMovieHallsAndTimes'){
-        pool.getConnection(function(err, connection){
-          connection.query("select movie_hall_id from screen where movie_id ="+msg.data+" group by movie_hall_id; " ,function(err,rows){
+      console.log(msg.date);
+        var hallWithSlot=[];
+        conn.getConnection(function(err, connection){
+          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
             connection.release();//release the connection
             if(err) {
                res.code = "500";
@@ -146,21 +165,80 @@ function handle_request(msg, callback){
                callback(null, res);
              }
              else if(rows==undefined || rows.length ==0 ){
-               res.code = "500";
-               data = {success: false,message: "This Movie has been added to any halls yet!"};
+               res.code = "400";
+               data = {success: false,message: "This Movie hasn't been added to any halls yet!"};
                res.value = data;
                callback(null, res);
              }else{
-               rows.map(row => {
-                 pool.getConnection(function(err, connection){
-                   connection.query("select sum(slot1),sum(slot2),sum(slot3),sum(slot4), sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows){
-                     connection.release();//release the connection
-                     // TODO
+               var count = 0;
+               rows.forEach((row)=> {
+                 conn.getConnection(function(err, connection){
+                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
+                     if(rows1 !== undefined && rows1.length >0){
+                       var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0 ) ? true  : false;
+                       var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0 ) ? true  : false;
+                       var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0 ) ? true  : false;
+                       var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0 ) ? true  : false;
+
+                       var data1 = {
+                          movie_hall : row,
+                          slot1Available : slot1Available,
+                          slot2Available : slot2Available,
+                          slot3Available : slot3Available,
+                          slot4Available : slot4Available
+                        }
+                         hallWithSlot.push(data1);
+                         count++;
+                         if(count === rows.length){
+                           res.code = "200";
+                           data = {success: true,hallWithSlot: hallWithSlot};
+                           res.value = data;
+                           callback(null, res);
+                         }
+                       }
                    });
                  });
+
+
+
                });
+
+
+
              }
            });
+        });
+    }
+
+    if(msg.type==='check'){
+        response = {
+            success:"",
+            message:{ screen_number:"",screen_id:""},
+            statusCode :200
+        }
+        let screen_number = "";
+        let query = 'SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=?';
+        conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
+            console.log(screens.length);
+            if(err) throw err;
+            for(var i=0; i<screens.length;i++){
+                
+                if(screens[i][msg.slot]<msg.seats) {
+                    continue;
+                } else {
+                    screen_number= screens[i]['screen_number'];
+                    response.message.screen_number = screen_number;
+                    response.message.screen_id = screens[i]['screen_id']
+                    response.success = true;
+                    callback(null,response);
+                }
+            }
+                     
+                response.message.screen_number = screen_number;
+                response.message.screen_id = "";
+                response.success = false;
+                callback(null,response);
+            
         });
     }
 }

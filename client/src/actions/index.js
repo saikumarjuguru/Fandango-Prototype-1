@@ -128,14 +128,25 @@ export function submitMovieComment(movieid,userid,comment){
   }
 }
 
-export function getMovieHallsAndTimes(movieid){
+export function getMovieHallsAndTimes(movieid,date){
+  let temp = {
+    movieid : movieid,
+    date : date
+  }
   return function (dispatch) {
-    return axios.get("http://localhost:5000/movie_hall"+ movieid).then((response) => {
+    return axios.post("http://localhost:5000/movie_hall/times" , temp ).then((response) => {
       if(response.data){
         dispatch({type:actionType.GET_MOVIE_HALL_TIMES_SUCCESS, payload: response.data})
       }
     }).catch((err) => {
        dispatch({type:actionType.GET_MOVIE_HALL_TIMES_FAILURE, payload: err.response.data})
     })
+  }
+}
+
+export function getHallAndTimeDetailsForBooking(data){
+  return {
+    type: actionType.GET_DETAIILS_REQUIRED_FOR_BOOKING,
+    data
   }
 }

@@ -36,4 +36,99 @@ router.get('/getrevenuebymoviehall', (req, res) => {
     });
 });
 
+router.get('/getmoviehallinfo', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movie_hall_info"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/addmoviehall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "add_movie_hall",
+        movie_hall_name: req.body.movie_hall_name,
+        ticket_price: req.body.ticket_price,
+        city: req.body.city,
+        max_seats: req.body.max_seats
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/editmoviehall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "edit_movie_hall",
+        movie_hall_id: req.body.movie_hall_id,
+        movie_hall_name: req.body.movie_hall_name,
+        ticket_price: req.body.ticket_price,
+        city: req.body.city,
+        max_seats: req.body.max_seats
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getuserbilldetails', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_user_bill_details"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getmoviesinhall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movies_in_hall",
+        movie_hall_id: req.param("movie_hall_id")
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

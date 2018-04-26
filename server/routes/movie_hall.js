@@ -150,9 +150,26 @@ router.post('/editmovieinfo', (req, res) => {
     payload = {
         action: "movie_hall",
         type: "edit_movie_info",
-        user_id: req.body.user_id,
-        movie_id: req.body.movie_id
+        movie_hall_id: req.body.movie_hall_id,
+        screen_number: req.body.screen_number,
+        movie_id: req.body.movie_id,
+        slot1: req.body.slot1,
+        slot2: req.body.slot2,
+        slot3: req.body.slot3,
+        slot4: req.body.slot4,
+        max_seats: req.body.max_seats,
+        ticket_price: req.body.ticket_price
     };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
 });
 
 router.get('/getmovienames', (req, res) => {
@@ -172,11 +189,12 @@ router.get('/getmovienames', (req, res) => {
     });
 });
 
-router.get('/:movieid', (req, res) => {
+router.post('/times', (req, res) => {
     payload = {
       action: "movie_hall",
       type: "getMovieHallsAndTimes",
-      data : req.params.movieid
+      data : req.body.movieid,
+      date : req.body.date
     };
 
     kafka.make_request('requestTopic', payload, function(err,results){
@@ -192,6 +210,32 @@ router.get('/:movieid', (req, res) => {
             }
          }
       });
+
+});
+
+router.get('/check-available-seats/:movie_id/:movie_hall_id/:slot/:seats/:date_of_movie',function(req,res){
+    let payload = {
+        action : 'movie_hall',
+        type:'check',
+        movie_id: req.params.movie_id,
+        movie_hall_id: req.params.movie_hall_id,
+        date_of_movie: req.params.date_of_movie,
+        slot: req.params.slot,
+        seats:req.params.seats
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in check available seats result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);   
+        }
+    });
+
 
 });
 

@@ -4,11 +4,13 @@
 }
 
 .carousel-showmanymoveone .carousel-control.left {
-   margin-left: 0;
+  margin-left: -27px;
+      background-color: #ff2b09;
 }
 
 .carousel-showmanymoveone .carousel-control.right {
-   margin-right: 0;
+  margin-right: -27px;
+      background-color: #ff2b09;
 }
 
 .carousel-showmanymoveone .cloneditem-1,
@@ -168,8 +170,23 @@ a:active, a:hover {
 }
 .date-picker__date-day, .date-picker__date-month, .date-picker__date-weekday {
     display: block;
+        text-align: center;
 }
 
-.fandango-carousel{
-  margin-left:31px;
+
+.item-date{
+  border: 1px solid;
+background-color: rebeccapurple;
+
+}
+.fandango-calender{
+  color:white
+}
+
+.fandango-calender-click{
+    background-color: goldenrod;
+}
+
+.fandango-calender:hover {
+      background-color: goldenrod;
 }

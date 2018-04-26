@@ -24,13 +24,14 @@ router.get('/:movieID',function(req,res){
   console.log("eee");
   kafka.make_request('requestTopic', payload, function(err,results){
       if(err){
+        throw err;
        done(err,{});
        }
        else{
          if(results.code == 200){
-            return res.status(200).json(results.value);;
+            return res.status(200).json(results.value);
           }else{
-            return res.status(500).json(results.value);;
+            return res.status(500).json(results.value);
           }
        }
      });

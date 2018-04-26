@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -55,14 +55,14 @@ render(){
                         <td>{post.screen_number}</td>
                         <td>{post.amount}</td>
                         <td>{post.date}</td>
-                        <td><a href="#"  onClick={this.deleteBooking.bind(this,post.billing_id)}>Delete</a></td>
+                        <td><a href="#"  class="text-warning" onClick={this.deleteBooking.bind(this,post.billing_id)}>Delete</a></td>
                     </tr>  
   );
 
 
   return(
         <div className="halladminBookingdiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>
         <table class="table table-dark">

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -53,7 +53,7 @@ render(){
 
   return(
         <div className="halladminBookingdiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
           <div className="hallBookinginnerdiv">
             <h2 class="nowshowing">Movies Earning:</h2><br/>
             {postItem}

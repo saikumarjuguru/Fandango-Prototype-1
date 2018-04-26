@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -11,15 +11,15 @@ class MovieHallAdminHome extends Component {
       this.state = {
         posts:[]
       }
-
+      
     }
 
   componentWillMount(){
           let self = this;
-          var UserId = 1;
+          var UserId = 3;
           axios.get(config.API_URL+'/movie_hall/getmoviehallinfo?', {
             params: {
-              user_id: 1
+              user_id: 3
             }
           })
           .then(function (response) {
@@ -47,15 +47,15 @@ render(){
       
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-           <strong> Screen {post.screen_id}</strong>
+           <strong> Screen {post.screen_number}</strong>
         </div>
         <div class="card-body">
             <h5 class="card-title">Movie Name: {post.movie_name}</h5>
-            <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
+            <h5 class="card-title">Show Times: {post.slot1>0 ?'12:00PM':null} {post.slot2>0 ?'03:00PM':null} {post.slot3>0 ?'06:00PM':null} {post.slot4>0 ?'09:00PM':null}</h5>
             <h5 class="card-title">See it in: {post.see_it_in}</h5>
             <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
             <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</a>
           </div>
         </div>
   );
@@ -63,7 +63,7 @@ render(){
 
   return(
         <div className="halladmindiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
         <br/>
         <h3 class="nowshowing">Now Showing:</h3><br/>
         {postItem}
