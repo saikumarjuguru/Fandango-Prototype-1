@@ -131,7 +131,7 @@ function handle_request(msg, callback){
 
     if (msg.type === "get_user_bill_details"){
         let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, \n" +
-            "billing.date, if(is_cancelled = 1, 'cancelled', 'booked') as booking_status\n" +
+            "billing.date, if(is_cancelled = 1, 'Cancelled', 'Booked') as booking_status\n" +
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id)";
