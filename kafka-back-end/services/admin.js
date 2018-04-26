@@ -109,6 +109,46 @@ function handle_request(msg, callback){
         });
     }
 
+<<<<<<< HEAD
+=======
+    if (msg.type === "edit_movie_hall"){
+        let updateQuery = "update movie_hall inner join screen using (movie_hall_id) \n" +
+            "set movie_hall.movie_hall_name = ?, movie_hall.ticket_price = ?, movie_hall.city = ?, screen.max_seats = ?\n" +
+            "where movie_hall_id = ?";
+        let params = [msg.movie_hall_name, msg.ticket_price, msg.city, msg.max_seats, msg.movie_hall_id];
+        conn.query(updateQuery, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Hall Info updated";
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "get_user_bill_details"){
+        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, \n" +
+            "billing.date, if(is_cancelled = 1, 'cancelled', 'booked') as booking_status\n" +
+            "from billing inner join users using (user_id)\n" +
+            "inner join movies using (movie_id) \n" +
+            "inner join movie_hall using (movie_hall_id)";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+>>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
 }
 
 exports.handle_request = handle_request;

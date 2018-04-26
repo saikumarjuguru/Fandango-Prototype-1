@@ -26,21 +26,21 @@ class NavHallAdmin extends Component {
         
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item"> 
-            <a class="nav-link" href="#">Fandango</a></li>
+            <a class="nav-link text-warning" href="#">Fandango</a></li>
             <li class="nav-item active">
-              <a class="nav-link" href="./moviehalladminhome">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-warning" href="./moviehalladminhome">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./halladmindashboard">Dashboard</a>
+              <a class="nav-link text-warning" href="./halladmindashboard">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./halladminbooking">Bookings</a>
+              <a class="nav-link text-warning" href="./halladminbooking">Bookings</a>
             </li>
             
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" ref="serachText" type="search" placeholder="Search Movies..." aria-label="Search"/>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={()=>this.searchMovies(this.refs.serachText.value)}>Search</button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" onClick={()=>this.searchMovies(this.refs.serachText.value)}>Search</button>
           </form>
         </div>
       </nav>
