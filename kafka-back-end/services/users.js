@@ -7,22 +7,49 @@ function handle_request(msg, callback){
     //here statusCode is for authentication 
     var res = {
         statusCode:200,
-        message:""
+        message:"",
+        tickets_booked:"",
+        myRevies:""
     };
 
     console.log(msg);
-    if(msg.type == "get_user"){
-    var user_id = msg.user_id;
-    con.query('SELECT * FROM users WHERE user_id=?',[user_id],function(err,user){
-        if(err) throw err;
-        if(user.length>0){
-            console.log(user);
-            res.success = true;
-            res.message = user[0];
-            callback(null, res);
-        }
+    if(msg.type == "get_user") {
+        var user_id = msg.user_id;
+        con.query('SELECT * FROM users WHERE user_id=?', [user_id], function (err, user) {
+            if (err) throw err;
+            if (user.length > 0) {
+                console.log(user);
+                res.success = true;
+                res.message = user[0];
+                callback(null, res);
+            }
 
-    });
+        });
+    }
+
+        if(msg.type == "get_user_history"){
+            var user_id = msg.user_id;
+            con.query('select m.title, mh.movie_hall_name from users u inner join billing b on u.user_id = b.user_id' +
+                'inner join movies m on b.movie_id = m.movie_id \n' +
+                'inner join movie_hall mh on b.movie_hall_id = mh.movie_hall_id\n' +
+                ' where u.user_id = ?'
+                ,[user_id],function(err,user1){
+                if(err) throw err;
+                else{
+                    con.query(' select * from users u inner join movie_review mr  on u.user_id = mr.user_id\n' +
+                        'inner join movies m on mr.movie_id = m.movie_id' +
+                        'where u.user_id = ?'
+                        ,[user_id],function(err,user2){
+                            if(err) throw err;
+                            else{
+                                res.statusCode = 200;
+                                res.myRevies = user2;
+                                res.tickets_booked = user1;
+                            }
+                        });
+
+                }
+            });
 
             
     }

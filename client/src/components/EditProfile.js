@@ -141,6 +141,13 @@ class EditProfile extends Component {
                 this.userdata = response.data.message
             });
 
+        axios.get(config.API_URL+"/users/get_history/"+1)
+            .then((response)=>{
+                console.log(response);
+                self.setState({userdata : response.data.message})
+                this.userdata = response.data.message
+            });
+
 
         console.log("USER DETAILS");
         console.log(this.state.userdata);

@@ -17,47 +17,56 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage, dest: 'uploads/' });
 
-router.post('/',upload.single('profile_image'),function(req,res){
+router.post('/:userID',upload.single('profile_image'),function(req,res){
     console.log(req.body);
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
-    let useroremail = req.body.useroremail;
-    let phone_number = req.body.phone_number;
+    let email = req.body.email;
+    let phone = req.body.phone;
     let address = req.body.address;
     let state = req.body.state;
     let city = req.body.city;
-    let zip_code =req.body.zip_code;
-    let password = req.body.pwd; 
-    let expiration_date = req.body.expiration_date;
-    let credit_card_number = req.body.credit_card_number;
+    let zipcode =req.body.zipcode;
+    // let password = req.body.pwd;
+    // let expiration_date = req.body.expiration_date;
+    // let credit_card_number = req.body.credit_card_number;
     //console.log(req);
-    let profile_image_path = "/profile_images/" + req.file.filename;
+    let profile_image_path
+    if(typeof req.file.filename != undefined) {
+        profile_image_path = "uploads/profile_images/" + req.file.filename;
+    }
+    else
+    {
+        profile_image_path = "";
+    }
+    console.log(profile_image_path);
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(req.body.pwd, salt, function(err, hash) {
             password = hash;
             console.log(password);
             payload = {
-             action: 'register',
+                action:"user",
+                type:"update_user",
                 user : {
+                    user_id : req.params.userID,
                     "first_name": first_name,
                     "last_name": last_name,
-                    "useroremail": useroremail,
-                    "phone_number": phone_number,
-                    "password": password,
-                    "address":address,
+                    "email": email,
+                    "phone": phone,
+                    "address": address,
+                    "zipcode":zipcode,
                     "city":city,
                     "state": state,
-                    "zip_code":zip_code,
-                    "credit_card_number": credit_card_number,
-                    "expiration_date": expiration_date,
-                    "profile_image_path":profile_image_path
+                    "profile_path":profile_image_path
                 }
              }
+             console.log(payload);
             kafka.make_request('requestTopic',payload, function(err,results){
                 console.log('in result');
                 console.log(results);
                 if(err){
-                    throw err;
+                    console.log(err);
+                    res.status(400).send({statusCode: 400, message : "", error: err.toString()});
                 }
                 else
                 {
@@ -105,6 +114,28 @@ router.delete('/:userID',function(req,res){
         {
             console.log(results);
             res.send(results);   
+        }
+    });
+});
+
+router.get('/get_history/:userID',function(req,res){
+    console.log("Inside History");
+    console.log("USER_ID: " + req.params.userID);
+    payload = {
+        action:"user",
+        type:"get_user_history",
+        user_id:req.params.userID
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in get user result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
         }
     });
 });
