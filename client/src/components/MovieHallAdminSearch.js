@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavAdmin from './NavAdmin';
+import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
 
 
@@ -65,7 +65,7 @@ render(){
 
   return(
         <div className="halladmindiv">
-        <NavAdmin></NavAdmin>
+        <NavHallAdmin></NavHallAdmin>
         <br/>
         <h3 class="nowshowing">Search Results:</h3><br/>
         {postItem}
