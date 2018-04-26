@@ -39,7 +39,7 @@ function handle_request(msg, callback){
         let query = "select movie_hall_id, user_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
             "from movie_hall inner join screen using (movie_hall_id) left outer join movies using (movie_id)\n" +
-            "where user_id = (?) group by movie_id, screen_number";
+            "where user_id = (?) group by movie_id, screen_number order by movie_hall_id, screen_number";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -76,7 +76,6 @@ function handle_request(msg, callback){
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id) \n" +
-            "inner join screen using (screen_id)\n" +
             "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
@@ -154,6 +153,7 @@ function handle_request(msg, callback){
     }
 
     if(msg.type ==='getMovieHallsAndTimes'){
+      console.log(msg.date);
         var hallWithSlot=[];
         conn.getConnection(function(err, connection){
           connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
@@ -171,14 +171,14 @@ function handle_request(msg, callback){
                callback(null, res);
              }else{
                var count = 0;
-               rows.forEach((row )=> {
+               rows.forEach((row)=> {
                  conn.getConnection(function(err, connection){
-                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id ,function(err,rows1){
+                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
                      if(rows1 !== undefined && rows1.length >0){
-                       var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0) ? true  : false;
-                       var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0) ? true  : false;
-                       var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0) ? true  : false;
-                       var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0) ? true  : false;
+                       var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0 ) ? true  : false;
+                       var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0 ) ? true  : false;
+                       var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0 ) ? true  : false;
+                       var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0 ) ? true  : false;
 
                        var data1 = {
                           movie_hall : row,

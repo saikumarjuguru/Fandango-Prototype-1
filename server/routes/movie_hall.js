@@ -189,11 +189,12 @@ router.get('/getmovienames', (req, res) => {
     });
 });
 
-router.get('/:movieid', (req, res) => {
+router.post('/times', (req, res) => {
     payload = {
       action: "movie_hall",
       type: "getMovieHallsAndTimes",
-      data : req.params.movieid
+      data : req.body.movieid,
+      date : req.body.date
     };
 
     kafka.make_request('requestTopic', payload, function(err,results){
