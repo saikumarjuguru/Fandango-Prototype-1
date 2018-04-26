@@ -109,8 +109,6 @@ function handle_request(msg, callback){
         });
     }
 
-<<<<<<< HEAD
-=======
     if (msg.type === "edit_movie_hall"){
         let updateQuery = "update movie_hall inner join screen using (movie_hall_id) \n" +
             "set movie_hall.movie_hall_name = ?, movie_hall.ticket_price = ?, movie_hall.city = ?, screen.max_seats = ?\n" +
@@ -148,9 +146,6 @@ function handle_request(msg, callback){
         });
     }
 
-<<<<<<< HEAD
->>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
-=======
     if (msg.type === "get_movies_in_hall"){
         let query = "select movie_hall_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
             "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
@@ -169,7 +164,23 @@ function handle_request(msg, callback){
         });
     }
 
->>>>>>> 064ba794cb9da8ff192745cf14dcb95881e45a41
+    if (msg.type === "add_movie"){
+        let query = "insert into movies (title, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in)\n" +
+            "values (?,?,?,?,?,?,?,?)";
+        let params = [msg.title, msg.trailer_link, msg.movie_characters, msg.release_date, msg.rating, msg.photos, msg.movie_length, msg.see_it_in];
+        conn.query(query, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Added Successfully";
+                callback(null, res);
+            }
+        });
+    }
+
 }
 
 exports.handle_request = handle_request;
