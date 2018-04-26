@@ -72,11 +72,12 @@ function handle_request(msg, callback){
         });
     }
     if (msg.type === "get_user_bill_details"){
-        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, billing.date\n" +
+        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, billing.date,\n" +
+            "if(is_cancelled = 1, 'Cancelled', 'Booked') as booking_status\n" +
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
-            "inner join movie_hall using (movie_hall_id) \n" +
-            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)  and is_cancelled <> 1";
+            "inner join movie_hall using (movie_hall_id)\n" +
+            "where billing.movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)";
         conn.query(query, [msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;

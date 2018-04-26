@@ -129,7 +129,7 @@ function handle_request(msg, callback){
 
     if (msg.type === "get_user_bill_details"){
         let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount, \n" +
-            "billing.date, if(is_cancelled = 1, 'cancelled', 'booked') as booking_status\n" +
+            "billing.date, if(is_cancelled = 1, 'Cancelled', 'Booked') as booking_status\n" +
             "from billing inner join users using (user_id)\n" +
             "inner join movies using (movie_id) \n" +
             "inner join movie_hall using (movie_hall_id)";
@@ -159,6 +159,23 @@ function handle_request(msg, callback){
             }
             else {
                 res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "add_movie"){
+        let query = "insert into movies (title, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in)\n" +
+            "values (?,?,?,?,?,?,?,?)";
+        let params = [msg.title, msg.trailer_link, msg.movie_characters, msg.release_date, msg.rating, msg.photos, msg.movie_length, msg.see_it_in];
+        conn.query(query, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Movie Added Successfully";
                 callback(null, res);
             }
         });

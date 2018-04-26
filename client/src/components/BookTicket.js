@@ -15,12 +15,13 @@ const mapDispatchToProps = (dispatch) => {
   }
 
   const mapStateToProps = (state) => {
-      console.log("dddd"+state.moviehallReducer.hallAndSlotdetail);
+      console.log(state.moviehallReducer.hallAndSlotdetail);
 
     return {
 
         booking : state.billingReducer.booking,
-        movie : state.movieReducer.moviedetail
+        movie : state.moviehallReducer.hallAndSlotdetail
+
     };
   }
 
@@ -39,7 +40,7 @@ class BookTicket extends Component {
     this.state = {
         user:"",
         activeStep :0,
-        price:5,
+        price:this.props.movie.ticket_price,
         amountDue: 0,
         error:"" ,
         cred_error:"",
@@ -64,7 +65,7 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get(config.API_URL+"/users/"+1)
+      axios.get(config.API_URL+"/users/"+this.props.movie.moviehall.movie_hall.user_id)
           .then((response)=>{
             console.log(response);
             let data = response.data.message;
@@ -93,7 +94,7 @@ incrementStep(){
         this.setState({error :"Please enter the number of seats."});
         return;
     } else {
-        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
+        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/'+this.props.movie.moviehall.movie_hall.movie_hall_id+'/'+this.props.movie.moviehall.slot+'/'+this.refs.number_of_seats.value+'/'+this.props.movie.date_of_movie).then((response)=>{
             console.log(response);
             let data = response.data;
             if(data.success===true){
@@ -113,31 +114,7 @@ incrementStep(){
             }
           });
     }
-
-    if(this.refs.number_of_seats.value>this.state.total_seats){
-        //alert(this.refs.number_of_seats.value+" seats not available!");
-        this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-        return;
-    }
-    let increment = this.state.activeStep + 1;
-    this.setState({
-        number_of_seats:this.refs.number_of_seats.value,
-        activeStep : increment
-    });
-
-
-    // if(this.refs.number_of_seats.value>this.state.total_seats){
-    //     //alert(this.refs.number_of_seats.value+" seats not available!");
-    //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-    //     return;
-    // }
-
-    // this.setState({
-    //     number_of_seats:this.refs.number_of_seats.value,
-    //     activeStep : increment
-    // });
-
-
+  
 }
 gotoPayment(){
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");
@@ -180,21 +157,21 @@ decrementStep(){
     });
 }
 
-calculateAmount(){
-    this.setState({error:""});
-    if(this.refs.number_of_seats.value>this.state.total_seats){
-        this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-        return;
-    } else {
-        let temp =  this.state.price * this.refs.number_of_seats.value;
-        let due = temp + temp*0.5;
-        this.setState({
-            amountDue:due,
-            number_of_seats: this.refs.number_of_seats.value
-        });
-    }
+// calculateAmount(){
+//     this.setState({error:""});
+//     if(this.refs.number_of_seats.value>this.state.total_seats){
+//         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+//         return;
+//     } else {
+//         let temp =  this.state.price * this.refs.number_of_seats.value;
+//         let due = temp + temp*0.5;
+//         this.setState({
+//             amountDue:due,
+//             number_of_seats: this.refs.number_of_seats.value
+//         });
+//     }
 
-}
+// }
 
 // calculateAmount(){
 //     this.setState({error:""});
@@ -345,7 +322,7 @@ render(){
                 <h5 className="card-title" align="center"><b>CONFIRMATION</b></h5>
                 {this.props.booking==true?
                 <p className="card-text confirmation"align="center">
-                Congratulations! You have a booking on "date" at "time" for "movie name" at screen {this.state.screen_number}
+                Congratulations! You have a booking on {this.props.movie.date} at "time" for {this.props.movie.movie.title} at screen {this.state.screen_number}
                 </p>: <p className="card-text confirmation confirmation_error"align="center">Your payment could not be processed. Please try again.</p>}
             </div>
             :""}
@@ -356,10 +333,10 @@ render(){
             <div className="card">
             <img className="card-img-top" src=".../public/images/fandangonow-logo.png" alt="Card image cap"/>
             <div className="card-body">
-                <h3 className="movie_name">Movie Name</h3>
-                <p className="movie_description">Movie Description</p>
-                <span className="type">type,duration</span>
-                <p className="hall_name">Movie Hall Name</p>
+                <h3 className="movie_name">{this.props.movie.movie.title}</h3>
+                <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
+                <span className="type">{this.props.movie.movie.type[0]},{this.props.movie.movie.movie_length}</span>
+                <p className="hall_name">{this.props.movie.moviehall.movie_hall.movie_hall_name}</p>
                 <p className="address">Movie Hall Address</p>
             </div>
             </div>

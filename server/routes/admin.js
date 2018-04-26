@@ -131,4 +131,29 @@ router.get('/getmoviesinhall', (req, res) => {
     });
 });
 
+router.post('/addmovie', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "add_movie",
+        title: req.body.title,
+        trailer_link: req.body.trailer_link,
+        movie_characters: req.body.movie_characters,
+        release_date: req.body.release_date,
+        rating: req.body.rating,
+        photos: req.body.photos,
+        movie_length: req.body.movie_length,
+        see_it_in: req.body.see_it_in
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;
