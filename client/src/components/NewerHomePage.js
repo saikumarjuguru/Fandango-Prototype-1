@@ -13,10 +13,7 @@ import EditMovieHallAdmin from './EditMovieHallAdmin'
 import EditProfile from "./EditProfile";
 import AdminHome from './AdminHome'
 import AdminHallEdit from './AdminHallEdit'
-<<<<<<< HEAD
-=======
 import AdminHallAdd from './AdminHallAdd'
->>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
 
 class NewerHomePage extends Component{
 
@@ -36,10 +33,7 @@ class NewerHomePage extends Component{
           <Route exact path="/editprofile" component={EditProfile}/>
           <Route exact path="/adminhome" component={AdminHome}/>
           <Route exact path="/adminhalledit" component={AdminHallEdit}/>
-<<<<<<< HEAD
-=======
           <Route exact path="/adminhalladd" component={AdminHallAdd}/>
->>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
 
         </div>
 

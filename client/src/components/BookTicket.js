@@ -15,12 +15,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 
   const mapStateToProps = (state) => {
-      console.log("dddd"+state.moviehallReducer.hallAndSlotdetail);
+      console.log(state.moviehallReducer.hallAndSlotdetail);
 
     return {
 
         booking : state.billingReducer.booking,
-        movie : state.movieReducer.moviedetail
+        movie : state.moviehallReducer.hallAndSlotdetail
     };
   }
 
@@ -39,7 +39,7 @@ class BookTicket extends Component {
     this.state = {
         user:"",
         activeStep :0,
-        price:5,
+        price:this.props.movie.ticket_price,
         amountDue: 0,
         error:"" ,
         cred_error:"",
@@ -64,7 +64,7 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get(config.API_URL+"/users/"+1)
+      axios.get(config.API_URL+"/users/"+this.props.movie.movie_hall.user_id)
           .then((response)=>{
             console.log(response);
             let data = response.data.message;
@@ -93,7 +93,7 @@ incrementStep(){
         this.setState({error :"Please enter the number of seats."});
         return;
     } else {
-        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
+        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/'+this.props.movie.movie_hall_id+'/'+this.props.movie.slot+'/'+this.refs.number_of_seats.value+'/'+this.props.movie.date_of_movie).then((response)=>{
             console.log(response);
             let data = response.data;
             if(data.success===true){
@@ -115,7 +115,6 @@ incrementStep(){
     }
 
     if(this.refs.number_of_seats.value>this.state.total_seats){
-        //alert(this.refs.number_of_seats.value+" seats not available!");
         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
         return;
     }
@@ -180,21 +179,21 @@ decrementStep(){
     });
 }
 
-calculateAmount(){
-    this.setState({error:""});
-    if(this.refs.number_of_seats.value>this.state.total_seats){
-        this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-        return;
-    } else {
-        let temp =  this.state.price * this.refs.number_of_seats.value;
-        let due = temp + temp*0.5;
-        this.setState({
-            amountDue:due,
-            number_of_seats: this.refs.number_of_seats.value
-        });
-    }
+// calculateAmount(){
+//     this.setState({error:""});
+//     if(this.refs.number_of_seats.value>this.state.total_seats){
+//         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
+//         return;
+//     } else {
+//         let temp =  this.state.price * this.refs.number_of_seats.value;
+//         let due = temp + temp*0.5;
+//         this.setState({
+//             amountDue:due,
+//             number_of_seats: this.refs.number_of_seats.value
+//         });
+//     }
 
-}
+// }
 
 // calculateAmount(){
 //     this.setState({error:""});

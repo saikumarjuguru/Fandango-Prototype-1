@@ -70,11 +70,7 @@ class AdminHallEdit extends Component {
                 <form>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter Hall Name:</label>
-<<<<<<< HEAD
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Hall Name" ref="ticket_price" defaultValue={data.movie_hall_name}/>
-=======
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Hall Name" ref="movie_hall_name" defaultValue={data.movie_hall_name}/>
->>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter Price for the Movie:</label>
@@ -86,15 +82,9 @@ class AdminHallEdit extends Component {
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Enter City Name:</label>
-<<<<<<< HEAD
-                        <input type="text" class="form-control" id="exampleFormControlInput1" ref="max_seats" placeholder="Enter City Name" defaultValue={data.city}/>
-                    </div>
-                        <a href="/editMovieDetailAdmin" class="btn btn-primary" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</a>
-=======
                         <input type="text" class="form-control" id="exampleFormControlInput1" ref="city" placeholder="Enter City Name" defaultValue={data.city}/>
                     </div>
                         <button class="btn btn-warning" onClick={()=>this.saveMovieDetailAdmin(this.refs)} >Save</button>
->>>>>>> 01ec5579dd35744eb05fcf433bcc3f6beec3e45a
                 </form>
             </div>
              <div class="alert alert-warning">
