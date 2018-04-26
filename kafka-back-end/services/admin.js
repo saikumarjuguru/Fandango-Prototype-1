@@ -146,6 +146,24 @@ function handle_request(msg, callback){
         });
     }
 
+    if (msg.type === "get_movies_in_hall"){
+        let query = "select movie_hall_id, screen_id, movie_hall_name, ticket_price, city, movie_id, screen_number, " +
+            "slot1, slot2, slot3, slot4, max_seats, title as movie_name, see_it_in\n" +
+            "from movie_hall inner join screen using (movie_hall_id) left outer join movies using (movie_id)\n" +
+            "where movie_hall_id = (?) group by movie_id, screen_number order by movie_hall_id, screen_number";
+        conn.query(query, [msg.movie_hall_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
 }
 
 exports.handle_request = handle_request;

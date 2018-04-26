@@ -113,4 +113,22 @@ router.get('/getuserbilldetails', (req, res) => {
     });
 });
 
+router.get('/getmoviesinhall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movies_in_hall",
+        movie_hall_id: req.param("movie_hall_id")
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;
