@@ -28,9 +28,13 @@ class Rating extends Component{
       temp_rating: null,
       disable : this.props.disable || false
     }
-    // this.rate = this.rate.bind(this);
-    // this.star_over = this.star_over.bind(this);
      this.star_out = this.star_out.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      rating : nextProps.rating || null
+    })
   }
 
   rate(rating) {

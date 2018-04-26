@@ -88,6 +88,7 @@ router.post('/review',function(req,res){
   }
   kafka.make_request('requestTopic', payload, function(err,results){
       if(err){
+        throw err;
        done(err,{});
        }
        else{

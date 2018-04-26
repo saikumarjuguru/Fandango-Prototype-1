@@ -102,7 +102,8 @@ class MovieTimeList extends Component{
                   </div>
                   <div class="theater__name-wrap">
                     <h3 class="theater__name font-sans-serif font-lg font-300 uppercase">
-                        <a class="color-light" href="/cinelux-almaden-cafe-and-lounge-AAFQQ/theater-page">{hall.movie_hall.movie_hall_name} Lounge</a>
+                        <a class="color-light" href="#">{hall.movie_hall.movie_hall_name} Lounge</a>
+                        <span  class="color-light pull-right" >$ {hall.movie_hall.ticket_price}</span>
                     </h3>
                   </div>
                   <div class="theater__address-wrap">

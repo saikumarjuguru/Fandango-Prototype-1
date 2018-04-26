@@ -8,7 +8,8 @@ function handle_request(msg, callback){
 
     if(msg.type =='getMovieDetail'){
       pool.getConnection(function(err, connection){
-         connection.query("select * from movies m join movie_type mt where m.movie_id = "+msg.data ,function(err,rows){
+
+         connection.query("select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data ,function(err,rows){
            connection.release();//release the connection
            if(err) {
               res.code = "500";
