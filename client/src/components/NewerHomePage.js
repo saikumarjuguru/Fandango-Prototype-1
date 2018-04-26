@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Login from './Login';
-import LandingPage from './LandingPage';
+import LandingPage from '../routes/LandingPage';
 import { Route, withRouter } from 'react-router-dom';
 import SignUp from "./SignUp";
 import BookTicket from "./BookTicket";
@@ -28,7 +28,7 @@ class NewerHomePage extends Component{
   render() {
       return (
         <div>
-          <Route exact path="/home" render={LandingPage}/>
+          <Route exact path="/" render={LandingPage}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/book" component={BookTicket}/>
