@@ -14,6 +14,11 @@ import EditProfile from "./EditProfile";
 import AdminHome from './AdminHome'
 import AdminHallEdit from './AdminHallEdit'
 import AdminHallAdd from './AdminHallAdd'
+import AdminMovieDetail from './AdminMovieDetail'
+import AdminMovieEdit from './AdminMovieEdit'
+import AdminBilling from './AdminBiiling'
+import AdminAddMovie from './AdminAddMovie'
+import AdminRevnue from './AdminRevnue'
 
 class NewerHomePage extends Component{
 
@@ -34,6 +39,11 @@ class NewerHomePage extends Component{
           <Route exact path="/adminhome" component={AdminHome}/>
           <Route exact path="/adminhalledit" component={AdminHallEdit}/>
           <Route exact path="/adminhalladd" component={AdminHallAdd}/>
+          <Route exact path="/adminmoviedetail" component={AdminMovieDetail}/>
+          <Route exact path="/adminmovieedit" component={AdminMovieEdit}/>
+          <Route exact path="/adminbilling" component={AdminBilling}/>
+          <Route exact path="/adminaddmovie" component={AdminAddMovie}/>
+          <Route exact path="/adminrevnue" component={AdminRevnue}/>
 
         </div>
 

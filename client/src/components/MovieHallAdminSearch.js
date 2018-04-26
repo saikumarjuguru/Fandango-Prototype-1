@@ -44,9 +44,13 @@ editMovieDetailAdmin(){
 render(){
   
   
-  console.log('render'+this.state.posts);
-  var postItem = this.state.posts.map(post=>
-      
+  console.log('render'+this.state.posts.length);
+  var postItem;
+  if(this.state.posts.length === 0){
+     postItem = <h4>"No Search Result Available"</h4>
+  }
+  else{ postItem = this.state.posts.map(post=>
+        
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
            <strong> Screen {post.screen_id}</strong>
@@ -61,7 +65,7 @@ render(){
           </div>
         </div>
   );
-
+  }
 
   return(
         <div className="halladmindiv">

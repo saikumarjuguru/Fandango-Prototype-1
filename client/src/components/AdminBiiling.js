@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import NavHallAdmin from './NavHallAdmin';
+import NavAdmin from './NavAdmin';
 import config from '../config'
 
 
-class MovieHallAdminBooking extends Component {
+class AdminBilling extends Component {
 
     constructor(props){
       super(props);
@@ -16,11 +16,7 @@ class MovieHallAdminBooking extends Component {
   componentWillMount(){
           let self = this;
           var UserId = 1;
-          axios.get(config.API_URL+'/movie_hall/getuserbilldetails', {
-            params: {
-              user_id: 1
-            }
-          })
+          axios.get(config.API_URL+'/admin/getuserbilldetails')
           .then(function (response) {
             console.log(response.data.message);
             self.setState({posts:response.data.message})
@@ -51,6 +47,7 @@ render(){
                     <tr key={post.billing_id}>
                         <th scope="row">{post.billing_id}</th>
                         <td>{post.username}</td>
+                        <td>{post.movie_hall_name}</td>
                         <td>{post.movie_name}</td>
                         <td>{post.screen_number}</td>
                         <td>{post.amount}</td>
@@ -63,7 +60,7 @@ render(){
 
   return(
         <div className="halladminBookingdiv">
-        <NavHallAdmin></NavHallAdmin>
+        <NavAdmin></NavAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>
         <table class="table table-dark">
@@ -71,6 +68,7 @@ render(){
                     <tr>
                         <th scope="col">Billing Id#</th>
                         <th scope="col">Username</th>
+                        <th scope="col">Movie Hall Name</th>
                         <th scope="col">Movie Name</th>
                         <th scope="col">Screen No</th>
                         <th scope="col">Amount</th>
@@ -90,4 +88,4 @@ render(){
 }
 }
 
-export default MovieHallAdminBooking;
+export default AdminBilling;
