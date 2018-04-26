@@ -74,4 +74,43 @@ router.post('/addmoviehall', (req, res) => {
     });
 });
 
+router.post('/editmoviehall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "edit_movie_hall",
+        movie_hall_id: req.body.movie_hall_id,
+        movie_hall_name: req.body.movie_hall_name,
+        ticket_price: req.body.ticket_price,
+        city: req.body.city,
+        max_seats: req.body.max_seats
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getuserbilldetails', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_user_bill_details"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;
