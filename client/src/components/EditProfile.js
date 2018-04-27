@@ -116,10 +116,10 @@ class EditProfile extends Component {
 
 
         var url = config.API_URL + "/users/" + 1;
-        axios.post(url, formData, {withCredentials: true, contentType: 'multipart/form-data'})
+        axios.post(url, formData, {contentType: 'multipart/form-data'})
             .then((response) => {
                 if (response.data.statusCode === 200) {
-                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111")
+                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     console.log(response.data);
                     //window.location="/login";
                     self.setState({

@@ -41,19 +41,18 @@ class Login extends Component {
             .then(() => this.props.isAuthentic ? this.props.history.push('/home') : this.props.history.push('/login'));
     }
 
-    componentWillReceiveProps(nextProps)
+    componentDidUpdate()
     {
-        this.setState({msg:true})
-        if(nextProps.loginStatus == true)
+        if(this.props.loginStatus == true)
         {
-            if(nextProps.userDetails.role == 1){
-                nextProps.history.push("moviehalladminhome");
+            if(this.props.userDetails.role == 1){
+                this.props.history.push("moviehalladminhome");
             }
-            else if(nextProps.userDetails.role == 2){
-                // nextProps.history.push(""); // add fandango admin home page link
+            else if(this.props.userDetails.role == 2){
+                this.props.history.push("adminhome");
             }
             else{
-                nextProps.history.push("/home");
+                this.props.history.push("/home");
             }
         }
     }
@@ -127,9 +126,13 @@ class Login extends Component {
                             <h3 className="modal-title text-xs-center">Sign In</h3>
                             <br/>
                             <br/>
-                            {this.state.msg ? <div className="alert alert-danger">
-                                {this.props.loginMsg}
-                            </div> : null}
+                            <div >
+                                {this.props.loginMsg && (
+                                    <div className="alert alert-warning text-danger small" role="alert">
+                                        {this.props.loginMsg}
+                                    </div>
+                                )}
+                            </div>
                             <form role="form" method="POST" onSubmit = {this.handleSubmit} >
                                 <div className="form-group">
                                     { this.state.emailorusernameValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter valid email address.</div>}
@@ -173,7 +176,7 @@ class Login extends Component {
                             </form>
                             <span className="login-form-signup-link">
                             Dont have an account?
-                            <a className="switch-to-login">Sign Up</a>
+                            <a className="switch-to-login" href="signup">Sign Up</a>
                         </span>
                         </div>
 

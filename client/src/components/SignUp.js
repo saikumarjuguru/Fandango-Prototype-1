@@ -186,7 +186,7 @@ class Login extends Component {
                             </div>
                             <span className="login-form-signup-link">
                             Dont have an account?
-                            <a className="switch-to-login">Sign In</a>
+                            <a className="switch-to-login" href="login">Sign In</a>
                         </span>
                         </div>
 
