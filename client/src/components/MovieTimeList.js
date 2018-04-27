@@ -92,7 +92,7 @@ class MovieTimeList extends Component{
 
   render(){
     return(
-      <div className = "col-md-7">
+      <div className = "col-md-8">
         <DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>
 
         {this.props.hallsWithSlot.map(hall =>
