@@ -94,8 +94,10 @@ clickDate(event){
    var date = new Date()
       date.setDate(date.getDate() + i )
        dateItems.push(
-         <div key={i}  class= 'item' onClick ={this.clickDate}>
-            <div class={ i==0 ? 'fandango-calender-click col-xs-12 col-sm-6 col-md-2 item-date': 'col-xs-12 col-sm-6 col-md-2 item-date'} data={date}  >
+         <div key={i}  className='item' onClick ={this.clickDate}>
+           <div className="row">
+
+            <div class={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
               <div className ="fandango-calender" >
                 <span class="date-picker__date-weekday">{days[date.getDay()]}</span>
                 <span class="date-picker__date-month">{months[date.getMonth()]}</span>
@@ -103,31 +105,20 @@ clickDate(event){
 
               </div>
             </div>
+            </div>
          </div>
 
        );
   }
 
     return(
-      <div class="container">
-
-
-    <div class="row">
-       <div class="col-md-12">
           <div class="carousel carousel-showmanymoveone slide" id="carousel-tilenav" data-interval="false">
-
              <div class="carousel-inner fandango-carousel">
               {dateItems}
             </div>
                <a class="left carousel-control" href="#carousel-tilenav" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
             <a class="right carousel-control" href="#carousel-tilenav" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
           </div>
-       </div>
-    </div>
-
-
-    </div>
-
     );
   }
 }

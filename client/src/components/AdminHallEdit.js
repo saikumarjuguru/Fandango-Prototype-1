@@ -21,11 +21,6 @@ class AdminHallEdit extends Component {
 
     saveMovieDetailAdmin(userInput){
         var data = JSON.parse(localStorage.getItem('hall_selected'));
-        console.log(data.movie_hall_id);
-        console.log(userInput.movie_hall_name.value);
-        console.log(userInput.ticket_price.value);
-        console.log(userInput.max_seats.value);
-        console.log(userInput.city.value);
 
         let req ={
             "movie_hall_id": data.movie_hall_id,
