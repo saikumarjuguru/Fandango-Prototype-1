@@ -156,4 +156,102 @@ router.post('/addmovie', (req, res) => {
     });
 });
 
+router.post('/searchmovie', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "search_movie",
+        searchtext: req.body.searchtext
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/searchmoviehall', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "search_movie_hall",
+        searchtext: req.body.searchtext
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/searchbillbydate', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "search_bill_by_date",
+        searchtext: req.body.searchtext
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/searchbillbymonth', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "search_bill_by_month",
+        searchtext: req.body.searchtext
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/editmovie', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "edit_movie",
+        movie_id: req.body.movie_id,
+        title: req.body.title,
+        trailer_link: req.body.trailer_link,
+        movie_characters: req.body.movie_characters,
+        release_date: req.body.release_date,
+        rating: req.body.rating,
+        photos: req.body.photos,
+        movie_length: req.body.movie_length,
+        see_it_in: req.body.see_it_in
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

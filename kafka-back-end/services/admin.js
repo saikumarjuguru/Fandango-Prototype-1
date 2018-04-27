@@ -181,6 +181,84 @@ function handle_request(msg, callback){
         });
     }
 
+    if (msg.type === "search_movie"){
+        let query = "select movie_id, title as movie_name, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in\n" +
+            "from movies where title like '%"+ msg.searchtext +"%' order by movie_name";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "search_movie_hall"){
+        let query = "select movie_hall_id, movie_hall_name, ticket_price, city, max_seats\n" +
+            "from movie_hall left outer join screen using (movie_hall_id)\n" +
+            "where movie_hall_name like '%"+ msg.searchtext +"%' \n" +
+            "group by movie_hall_id order by movie_hall_name";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "search_bill_by_date"){
+        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount,\n" +
+            "billing.date, if(is_cancelled = 1, 'Cancelled', 'Booked') as booking_status\n" +
+            "from billing inner join users using (user_id)\n" +
+            "inner join movies using (movie_id)\n" +
+            "inner join movie_hall using (movie_hall_id)\n" +
+            "where date(billing.date) = STR_TO_DATE(?, '%m/%d/%Y')";
+        conn.query(query, [msg.searchtext], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "search_bill_by_month"){
+        let query = "select billing_id, username, title as movie_name, movie_hall_name, screen_number, amount,\n" +
+            "billing.date, if(is_cancelled = 1, 'Cancelled', 'Booked') as booking_status\n" +
+            "from billing inner join users using (user_id)\n" +
+            "inner join movies using (movie_id)\n" +
+            "inner join movie_hall using (movie_hall_id)\n" +
+            "where month(billing.date) = month(str_to_date(?, '%b'))";
+        conn.query(query, [msg.searchtext], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "edit_movie"){
+        
+    }
+
 }
 
 exports.handle_request = handle_request;
