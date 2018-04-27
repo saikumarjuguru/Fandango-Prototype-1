@@ -290,7 +290,18 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "delete_user"){
-        
+        let deleteQuery = "delete from users where user_id = ?";
+        conn.query(deleteQuery, [msg.user_id], function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "User Deleted Successfully ";
+                callback(null, res);
+            }
+        });
     }
 
 }
