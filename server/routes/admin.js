@@ -254,4 +254,39 @@ router.post('/editmovie', (req, res) => {
     });
 });
 
+router.get('/getuserdetails', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_user_details"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.post('/deleteuser', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "delete_user",
+        user_id: req.body.user_id
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

@@ -36,11 +36,14 @@ class BookTicket extends Component {
     let cvv = "";
     let expiration_date = "";
     let save = 0;
+    let date="";
+    let time="";
+   
 
     this.state = {
         user:"",
         activeStep :0,
-        price:this.props.movie.ticket_price,
+        price:this.props.movie.moviehall.movie_hall.ticket_price,
         amountDue: 0,
         error:"" ,
         cred_error:"",
@@ -65,7 +68,7 @@ componentWillReceiveProps(){
 }
 componentDidMount(){
     let self=this;
-      axios.get(config.API_URL+"/users/"+this.props.movie.moviehall.movie_hall.user_id)
+      axios.get(config.API_URL+"/users/"+this.props.movie.movie.user_id)
           .then((response)=>{
             console.log(response);
             let data = response.data.message;
@@ -94,7 +97,25 @@ incrementStep(){
         this.setState({error :"Please enter the number of seats."});
         return;
     } else {
-        axios.get(config.API_URL+'/movie_hall/check-available-seats/1/'+this.props.movie.moviehall.movie_hall.movie_hall_id+'/'+this.props.movie.moviehall.slot+'/'+this.refs.number_of_seats.value+'/'+this.props.movie.date_of_movie).then((response)=>{
+        this.date = this.props.movie.date;
+        this.date = this.date.getUTCFullYear() + '-' +
+                ('00' + (this.date.getUTCMonth() + 1)).slice(-2) + '-' +
+                ('00' + this.date.getUTCDate()).slice(-2);   
+        console.log("price",this.state.price);
+        console.log("date",this.date);
+        console.log("slot",this.props.movie.slot);
+        switch(this.props.movie.slot){
+            case 'slot1': this.time = '9:00 AM';
+            break;
+            case 'slot2':this.time='12:00 PM';
+            break;
+            case 'slot3': this.time='03:00 PM';
+            break;
+            case 'slot4': this.time = '06:00 PM';
+            break;
+
+        }
+        axios.get(config.API_URL+'/movie_hall/check-available-seats/'+this.props.movie.movie.movie_id+'/'+this.props.movie.moviehall.movie_hall.movie_hall_id+'/'+this.props.movie.slot+'/'+this.refs.number_of_seats.value+'/'+this.date).then((response)=>{
             console.log(response);
             let data = response.data;
             if(data.success===true){
@@ -157,74 +178,23 @@ decrementStep(){
     });
 }
 
-// calculateAmount(){
-//     this.setState({error:""});
-//     if(this.refs.number_of_seats.value>this.state.total_seats){
-//         this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-//         return;
-//     } else {
-//         let temp =  this.state.price * this.refs.number_of_seats.value;
-//         let due = temp + temp*0.5;
-//         this.setState({
-//             amountDue:due,
-//             number_of_seats: this.refs.number_of_seats.value
-//         });
-//     }
-
-// }
-
-// calculateAmount(){
-//     this.setState({error:""});
-//     axios.get(config.API_URL+'/movie_hall/check-available-seats/1/1/slot1/'+this.refs.number_of_seats.value+'/2018-04-23').then((response)=>{
-//         console.log(response);
-//         let data = response.data.message;
-//         if(data.success){
-//             let temp =  this.state.price * this.refs.number_of_seats.value;
-//             let due = temp + temp*0.5;
-//             this.setState({
-//                 amountDue:due,
-//                 number_of_seats: this.refs.number_of_seats.value,
-//                 screen_number: data.message
-//             });
-//         } else {
-//             this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-//             return;
-//         }
-//       });
-
-
-    // if(this.refs.number_of_seats.value>this.state.total_seats){
-    //     this.setState({error:this.refs.number_of_seats.value+" seats not available!"});
-    //     return;
-    // } else {
-    //     let temp =  this.state.price * this.refs.number_of_seats.value;
-    //     let due = temp + temp*0.5;
-    //     this.setState({
-    //         amountDue:due,
-    //         number_of_seats: this.refs.number_of_seats.value
-    //     });
-    // }
-
-//}
-
 makePayment() {
 
     let increment = this.state.activeStep + 1;
     let payload = {
-        movie_id:1,
-        movie_hall_id:1,
-        slot:2,
+        movie_id:this.props.movie.movie.movie_id,
+        movie_hall_id:this.props.movie.moviehall.movie_hall.movie_hall_id,
+        slot:this.props.movie.slot,
         screen_number:this.state.screen_number,
         screen_id:this.state.screen_id,
         amount: this.state.amountDue,
         tax: 0.5,
-        user_id: 1,
-        show_time:"02:00PM",
+        user_id: this.props.movie.movie.user_id,
+        show_time:this.time,
         number_of_seats: this.state.number_of_seats,
         credit_card_number: this.state.credit_card_number,
-        //cvv: this.state.cvv,
         expiration_date: this.state.expiration_date,
-        save:this.save,
+        save:this.save
 
     }
     this.props.dispatch(book(payload));
@@ -241,10 +211,11 @@ check(){
     }
     console.log(this.save);
 }
+
 render(){
 
   return(
-
+    
     <div className="container booking_container">
     <div className="row">
         <div className="col-sm-8">
@@ -322,7 +293,7 @@ render(){
                 <h5 className="card-title" align="center"><b>CONFIRMATION</b></h5>
                 {this.props.booking==true?
                 <p className="card-text confirmation"align="center">
-                Congratulations! You have a booking on {this.props.movie.date} at "time" for {this.props.movie.movie.title} at screen {this.state.screen_number}
+                CONGRATULATIONS! YOU HAVE A BOOKING ON {this.date} AT {this.time} FOR {this.props.movie.movie.title} AT SCREEN NO {this.state.screen_number}
                 </p>: <p className="card-text confirmation confirmation_error"align="center">Your payment could not be processed. Please try again.</p>}
             </div>
             :""}
@@ -331,13 +302,17 @@ render(){
         </div>
         <div className="col-sm-4 img_card">
             <div className="card">
-            <img className="card-img-top" src=".../public/images/fandangonow-logo.png" alt="Card image cap"/>
+            <img className="card-img-top" src={this.props.movie.movie.photos} alt="Card image cap"/>
             <div className="card-body">
                 <h3 className="movie_name">{this.props.movie.movie.title}</h3>
                 <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
-                <span className="type">{this.props.movie.movie.type[0]},{this.props.movie.movie.movie_length}</span>
+                <span className="type">
+                    Type: 
+                    {this.props.movie.movie.type.map(type =>
+                    type+", ")} Length: {this.props.movie.movie.movie_length}
+                </span>
                 <p className="hall_name">{this.props.movie.moviehall.movie_hall.movie_hall_name}</p>
-                <p className="address">Movie Hall Address</p>
+                <p className="address">{this.props.movie.moviehall.movie_hall.city}</p>
             </div>
             </div>
         </div>
