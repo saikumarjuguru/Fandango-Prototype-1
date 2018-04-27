@@ -182,7 +182,7 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "search_movie"){
-        let query = "select movie_id, title as movie_name, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in\n" +
+        let query = "select movie_id, title as movie_name, trailer_link, movie_characters, DATE_FORMAT(release_date, '%m/%d/%Y') AS release_date, rating, photos, movie_length, see_it_in\n" +
             "from movies where title like '%"+ msg.searchtext +"%' order by movie_name";
         conn.query(query, function (err, result) {
             if (err){
