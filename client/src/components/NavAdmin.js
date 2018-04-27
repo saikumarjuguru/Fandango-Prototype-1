@@ -31,7 +31,7 @@ class NavAdmin extends Component {
         <nav class="navbar navbar-expand-lg navbar-white bg-dark">
         
         <a class="navbar-brand">
-        <img src='images/fadango-header.png' width='160px'/>
+        <img src='images/fadango-header.png' width='140px'/>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
@@ -47,6 +47,9 @@ class NavAdmin extends Component {
             </li>
             <li class="nav-item">
               <a class="nav-link text-warning" href="./adminrevnue">Revenue</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-warning" href="./adminuserdetail">Users</a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
