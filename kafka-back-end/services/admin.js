@@ -273,6 +273,26 @@ function handle_request(msg, callback){
         });
     }
 
+    if (msg.type === "get_user_details"){
+        let query = "select user_id, username, first_name, last_name, address, city, state, zipcode, phone, email \n" +
+            "from users where role = 0";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "delete_user"){
+        
+    }
+
 }
 
 exports.handle_request = handle_request;
