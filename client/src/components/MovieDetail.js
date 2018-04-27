@@ -94,8 +94,7 @@ class MovieDetail extends Component{
                             </div>
                         </div>
                       </section>
-        <div class="row mop__layout">
-            <div class="mop__details-container col-md-12">
+        <div class="mop__layout row">
                 <section class="movie-details col-md-4">
                 <a class="movie-details__mop-link" href="#">
                     <img class="movie-details__movie-img visual-thumb" src={this.props.moviedetail.photos} alt="Avengers: Infinity War Movie Poster"/>
@@ -122,14 +121,13 @@ class MovieDetail extends Component{
                 </section>
 
     {this.state.showOverview ?
-          <div>
+          <div className="col-md-8">
             <iframe width="700" height="450"  src={this.props.moviedetail.trailer_link+'?autoplay=1'}></iframe>
 
         </div> :  null }
         {this.state.showReview ? <MovieReview  movieid = {this.props.moviedetail.movie_id}/> :  null }
         {this.state.showMovieTimes ? <MovieTimeList movie = {this.props.moviedetail} /> : null}
           </div>
-        </div>
       </div> : <div>{this.props.moviefetcherror}</div>}
 
         </div>
