@@ -1,41 +1,62 @@
 var mongoose = require('mongoose');
 var Movie= require('../schemas/movies');
 var pool = require('./../pool');
+var redis = require('redis').createClient();
+
 
 function handle_request(msg, callback){
 
     var res = {};
 
     if(msg.type =='getMovieDetail'){
-      pool.getConnection(function(err, connection){
 
-         connection.query("select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data ,function(err,rows){
-           connection.release();//release the connection
-           if(err) {
-              res.code = "500";
-              data = {success: false,message: "Cannot get Movie. Some internal error occured!"};
-              res.value = data;
-              callback(null, res);
+    var redisKey= "select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data;
+     redis.get( JSON.stringify(redisKey)  , function(err , reply){
+        if(!err && reply != null){
+                res.code = 200  ;
+                console.log("===="+JSON.parse(reply));
+                res.value =  data = {success: true,message: "Movie fetched successfully",movie : JSON.parse(reply)};
+                callback(null , res) ;
+        }else{
+            pool.getConnection(function(err, connection){
+                connection.query("select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data ,function(err,rows){
+                   connection.release();//release the connection
+                   if(err) {
+                      res.code = "500";
+                      data = {success: false,message: "Cannot get Movie. Some internal error occured!"};
+                      res.value = data;
+                      callback(null, res);
+                    }
+                    if(rows!=undefined && rows.length>0) {
+                      var movie = rows[0];
+                      movie.type = rows.map(function(row,index){
+                        return row.type;
+                      })
+                      console.log(JSON.stringify(movie));
+                      redis.set( JSON.stringify(redisKey), JSON.stringify(movie), function () {
+                         res.code = 200  ;
+                         data = {success: true,message: "Movie fetched successfully",movie : movie};
+                         res.value = data;
+                         callback(null , res) ;
+                     });
+
+
+
+
+                      // res.code = "200";
+                      // res.value = data;
+                      // callback(null, res);
+                    }
+                    else{
+                      data = {success: false,message: "Movie does not exist"};
+                      res.code = "400";
+                      res.value = data;
+                      callback(null, res);
+                    }
+                 });
+              });
             }
-            if(rows!=undefined && rows.length>0) {
-              var movie = rows[0];
-              movie.type = rows.map(function(row,index){
-                return row.type;
-              })
-              console.log(JSON.stringify(movie));
-              data = {success: true,message: "Movie fetched successfully",movie : movie};
-              res.code = "200";
-              res.value = data;
-              callback(null, res);
-            }
-            else{
-              data = {success: false,message: "Movie does not exist"};
-              res.code = "400";
-              res.value = data;
-              callback(null, res);
-            }
-         });
-      })
+          });
 
     }
     if(msg.type == 'starMovie'){
