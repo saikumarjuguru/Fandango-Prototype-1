@@ -2,6 +2,7 @@ var kafka = require('./kafka/client');
 var bcrypt = require('bcrypt');
 var express = require('express');
 var router = express.Router();
+var fs = require('fs-extra');
 
 
 //for storing profile image
@@ -32,7 +33,7 @@ router.post('/:userID',upload.single('profile_image'),function(req,res){
     // let credit_card_number = req.body.credit_card_number;
     //console.log(req);
     let profile_image_path
-    if(typeof req.file.filename != undefined) {
+    if(req.file) {
         profile_image_path = "uploads/profile_images/" + req.file.filename;
     }
     else
@@ -93,7 +94,19 @@ router.get('/:userID',function(req,res){
         }
         else
         {
-            console.log(results);
+            // console.log(results);
+            console.log("-----------" + results.message.profile_image + "----------------------" );
+            if (results.message.profile_image) {
+                console.log("Inside Image &&&&&&&&&&&&&&&");
+                var buffer = fs.readFileSync(results.message.profile_image);
+                var bufferBase64 = new Buffer(buffer);
+                results.message.encodeImage = bufferBase64;
+            } else {
+                //console.log(obj);
+                var buffer = fs.readFileSync("./uploads/profile_images/default.png");
+                var bufferBase64 = new Buffer(buffer);
+                results.message.encodeImage = bufferBase64;
+            }
             res.send(results);   
         }
     });
@@ -119,7 +132,7 @@ router.delete('/:userID',function(req,res){
 });
 
 router.get('/get_history/:userID',function(req,res){
-    console.log("Inside History");
+    console.log("Inside History *********************************");
     console.log("USER_ID: " + req.params.userID);
     payload = {
         action:"user",
@@ -127,14 +140,13 @@ router.get('/get_history/:userID',function(req,res){
         user_id:req.params.userID
     }
     kafka.make_request('requestTopic',payload, function(err,results){
-        console.log('in get user result');
-        console.log(results);
+        // console.log('in get user result');
+        // console.log(results);
         if(err){
             throw err;
         }
         else
         {
-            console.log(results);
             res.send(results);
         }
     });
