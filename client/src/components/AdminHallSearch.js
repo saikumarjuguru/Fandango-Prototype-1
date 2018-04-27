@@ -20,7 +20,7 @@ class AdminHallSearch extends Component {
           let req ={
                     "searchtext":searchtext
                     }
-           axios.post(config.API_URL+'/movie_hall/searchmoviehalladmin',req)
+           axios.post(config.API_URL+'/admin/searchmoviehall',req)
                 .then(function (response) {
                     console.log(response.data.message);
                     self.setState({posts:response.data.message})

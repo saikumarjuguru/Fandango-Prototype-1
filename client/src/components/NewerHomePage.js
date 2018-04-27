@@ -22,6 +22,9 @@ import AdminRevnue from './AdminRevnue'
 import AdminMovieSearch from './AdminMovieSearch'
 import AdminHallSearch from './AdminHallSearch'
 import AdminBillSearch from './AdminBillSearch'
+import AdminMovieSearchEdit from './AdminMovieSearchEdit'
+import AdminUserDetail from './AdminUserDetail'
+import AdminUserEditDetail from './AdminUserEditDetail'
 
 class NewerHomePage extends Component{
 
@@ -50,7 +53,10 @@ class NewerHomePage extends Component{
           <Route exact path="/adminmoviesearch" component={AdminMovieSearch}/>
           <Route exact path="/adminhallsearch" component={AdminHallSearch}/>
           <Route exact path="/adminbillsearch" component={AdminBillSearch}/>
-
+          <Route exact path="/adminmoviesearchedit" component={AdminMovieSearchEdit}/>
+          <Route exact path="/adminuserdetail" component={AdminUserDetail}/>
+          <Route exact path="/adminedituserdetail" component={AdminUserEditDetail}/>
+        
         </div>
 
     );

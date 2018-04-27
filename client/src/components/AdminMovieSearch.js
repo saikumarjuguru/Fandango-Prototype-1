@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import NavAdmin from './NavAdmin';
 import config from '../config'
-
+import {withRouter} from 'react-router-dom';
 
 class AdminMovieSearch extends Component {
 
@@ -21,7 +21,8 @@ class AdminMovieSearch extends Component {
           let req ={
                     "searchtext":searchtext
                     }
-           axios.post(config.API_URL+'/movie_hall/searchmoviehalladmin',req)
+            console.log(req);
+           axios.post(config.API_URL+'/admin/searchmovie',req)
                 .then(function (response) {
                     console.log(response.data.message);
                     self.setState({posts:response.data.message})
@@ -36,8 +37,10 @@ class AdminMovieSearch extends Component {
 
 }
 
-editMovieDetailAdmin(){
-  
+editMovieDetailAdmin(movie_selected_search){
+    console.log(JSON.stringify(movie_selected_search));
+    localStorage.setItem('movie_selected_search',JSON.stringify(movie_selected_search)); 
+    this.props.history.push('/adminmoviesearchedit');
 }
 
 render(){
@@ -52,15 +55,21 @@ render(){
         
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-           <strong> Screen {post.screen_id}</strong>
+           <strong>{post.movie_name}</strong>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Movie: {post.movie_name}</h5>
-            <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
-            <h5 class="card-title">See it in: {post.see_it_in}</h5>
-            <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
-            <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
-            <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
+        <div class="card-body row">
+            <div class="col-md-9">
+            <h5 class="card-title">Movie Characters: {post.movie_characters}</h5>
+            <h5 class="card-title">Trailer Link: <a href={post.trailer_link} target="_blank">{post.trailer_link}</a></h5>
+            <h5 class="card-title">Release Date: {post.release_date}</h5>
+            <h5 class="card-title">Rating: {post.rating}</h5>
+            <h5 class="card-title">Duration: {post.movie_length}</h5>
+            <h5 class="card-title">See it in: {post.see_it_in}</h5> 
+            <button class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
+            </div>
+            <div class="col-md-3">
+            <img class="card-img-right" src={post.photos} alt="Card image cap"/>
+            </div>
           </div>
         </div>
   );
@@ -78,4 +87,4 @@ render(){
 }
 }
 
-export default AdminMovieSearch;
+export default withRouter(AdminMovieSearch);

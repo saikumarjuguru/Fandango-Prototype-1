@@ -59,8 +59,10 @@ render(){
   return(
         <div className="halladmindiv">
         <NavAdmin></NavAdmin>
+            <br/>
+          <div class="row">
           <div className="col-md-6">
-            <h2 class="nowshowing">Revnue By Movie:</h2><br/>
+            <h2 class="nowshowing">Revenue By Movie:</h2><br/>
             <table class="table table-dark">
             <thead>
                     <tr>
@@ -74,7 +76,7 @@ render(){
         </table>
           </div>
           <div className="col-md-6">
-            <h2 class="nowshowing">Revnue By Movie Hall:</h2><br/>
+            <h2 class="nowshowing">Revenue By Movie Hall:</h2><br/>
             <table class="table table-dark">
             <thead>
                     <tr>
@@ -86,6 +88,7 @@ render(){
             {postItem2}
             </tbody>
         </table>
+          </div>
           </div>
       </div>
        
