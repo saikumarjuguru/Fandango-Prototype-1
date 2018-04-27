@@ -256,7 +256,21 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "edit_movie"){
-        
+        let updateQuery = "update movies \n" +
+            "set title = ?, trailer_link = ?, movie_characters = ?, release_date = ?, rating = ?, photos = ?, movie_length = ?, see_it_in = ?\n" +
+            "where movie_id = ?";
+        let params = [msg.title, msg.trailer_link, msg.movie_characters, msg.release_date, msg.rating, msg.photos, msg.movie_length, msg.see_it_in, msg.movie_id];
+        conn.query(updateQuery, params, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = "Edit Movie Successful";
+                callback(null, res);
+            }
+        });
     }
 
 }
