@@ -2,7 +2,6 @@ import React , {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import $ from 'jquery';
-import mixitup from 'mixitup';
 import axios from 'axios';
 import config from '../config';
 
