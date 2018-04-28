@@ -19,15 +19,19 @@
    display: none;
 }
 
-.carousel .item .col-xs-12 {
-   padding: 0;
+.carousel .carousel-item .col-xs-12 {
+  padding: 0;
+}
+
+.carousel .carousel-item.active {
+  display: inline-flex !important;
 }
 
 
 /* Medium Devices, Desktops */
 
 @media only screen and (max-width: 992px) {
-   .carousel .item .col-xs-12:nth-last-child(-n+2) {
+   .carousel .carousel-item .col-xs-12:nth-last-child(-n+2) {
       display: none;
    }
 }
@@ -53,21 +57,21 @@
 
 @media all and (min-width: 768px) and (transform-3d),
 all and (min-width: 768px) and (-webkit-transform-3d) {
-   .carousel-showmanymoveone .carousel-inner > .item.active.right,
-   .carousel-showmanymoveone .carousel-inner > .item.next {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active.right,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.next {
       -webkit-transform: translate3d(50%, 0, 0);
       transform: translate3d(50%, 0, 0);
       left: 0;
    }
-   .carousel-showmanymoveone .carousel-inner > .item.active.left,
-   .carousel-showmanymoveone .carousel-inner > .item.prev {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active.left,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.prev {
       -webkit-transform: translate3d(-50%, 0, 0);
       transform: translate3d(-50%, 0, 0);
       left: 0;
    }
-   .carousel-showmanymoveone .carousel-inner > .item.left,
-   .carousel-showmanymoveone .carousel-inner > .item.prev.right,
-   .carousel-showmanymoveone .carousel-inner > .item.active {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.left,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.prev.right,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active {
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
       left: 0;
@@ -96,21 +100,21 @@ all and (min-width: 768px) and (-webkit-transform-3d) {
 
 @media all and (min-width: 992px) and (transform-3d),
 all and (min-width: 992px) and (-webkit-transform-3d) {
-   .carousel-showmanymoveone .carousel-inner > .item.active.right,
-   .carousel-showmanymoveone .carousel-inner > .item.next {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active.right,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.next {
       -webkit-transform: translate3d(16.6%, 0, 0);
       transform: translate3d(16.6%, 0, 0);
       left: 0;
    }
-   .carousel-showmanymoveone .carousel-inner > .item.active.left,
-   .carousel-showmanymoveone .carousel-inner > .item.prev {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active.left,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.prev {
       -webkit-transform: translate3d(-16.6%, 0, 0);
       transform: translate3d(-16.6%, 0, 0);
       left: 0;
    }
-   .carousel-showmanymoveone .carousel-inner > .item.left,
-   .carousel-showmanymoveone .carousel-inner > .item.prev.right,
-   .carousel-showmanymoveone .carousel-inner > .item.active {
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.left,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.prev.right,
+   .carousel-showmanymoveone .carousel-inner > .carousel-item.active {
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
       left: 0;
@@ -190,3 +194,20 @@ background-color: rebeccapurple;
 .fandango-calender:hover {
       background-color: goldenrod;
 }
+
+
+/*.carousel-inner .carousel-item-right.active,
+.carousel-inner .carousel-item-next {
+  transform: translateX(33.33%);
+}
+
+.carousel-inner .carousel-item-left.active, 
+.carousel-inner .carousel-item-prev {
+  transform: translateX(-33.33%)
+}
+  
+.carousel-inner .carousel-item-right,
+.carousel-inner .carousel-item-left{ 
+  transform: translateX(0);
+}*/
+
