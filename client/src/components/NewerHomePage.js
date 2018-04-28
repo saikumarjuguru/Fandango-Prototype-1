@@ -25,6 +25,7 @@ import AdminBillSearch from './AdminBillSearch'
 import AdminMovieSearchEdit from './AdminMovieSearchEdit'
 import AdminUserDetail from './AdminUserDetail'
 import AdminUserEditDetail from './AdminUserEditDetail'
+import AdminDashboard from './AdminDashboard';
 
 class NewerHomePage extends Component{
 
@@ -56,6 +57,7 @@ class NewerHomePage extends Component{
           <Route exact path="/adminmoviesearchedit" component={AdminMovieSearchEdit}/>
           <Route exact path="/adminuserdetail" component={AdminUserDetail}/>
           <Route exact path="/adminedituserdetail" component={AdminUserEditDetail}/>
+          <Route exact path="/admindashboard" component={AdminDashboard}/>
         
         </div>
 
