@@ -60,6 +60,9 @@ class AdminMovieEdit extends Component {
            if(userInput.slot4.checked){
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
+        
+        
+           
         let req ={
                     "movie_hall_id": data.movie_hall_id,
                     "screen_number": data.screen_number,

@@ -24,6 +24,16 @@ class AdminHallAdd extends Component {
             console.log(userInput.ticket_price.value);
             console.log(userInput.max_seats.value);
             console.log(userInput.city.value);
+            
+            if(userInput.movie_hall_name.value === null || userInput.movie_hall_name.value ===''||
+            userInput.ticket_price.value === null || userInput.ticket_price.value ===''||
+            userInput.max_seats.value === null || userInput.max_seats.value ===''||
+            userInput.city.value === null || userInput.city.value ==='')
+           {
+                alert("All fields are mandatory!!");
+                return false;
+           } 
+           else{
             let req ={
                 "movie_hall_name": userInput.movie_hall_name.value,
                 "ticket_price": userInput.ticket_price.value,
@@ -37,7 +47,7 @@ class AdminHallAdd extends Component {
                 .then(function (response) {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
-                })
+                })}
 
     }
 

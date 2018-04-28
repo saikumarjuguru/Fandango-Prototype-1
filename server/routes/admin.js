@@ -359,4 +359,38 @@ router.get('/getpageclicks', (req, res) => {
     });
 });
 
+router.get('/getmovieclicks', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movie_clicks"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getmoviereviews', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movie_reviews"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;
