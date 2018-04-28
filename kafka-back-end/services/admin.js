@@ -275,7 +275,7 @@ function handle_request(msg, callback){
 
     if (msg.type === "edit_movie"){
         let updateQuery = "update movies inner join movie_type using (movie_id)\n" +
-            "set title = ?, trailer_link = ?, movie_characters = ?, release_date = ?, rating = ?, photos = ?, movie_length = ?, see_it_in = ?, movie_type = ?\n" +
+            "set title = ?, trailer_link = ?, movie_characters = ?, release_date = ?, rating = ?, photos = ?, movie_length = ?, see_it_in = ?, movie_type.type = ?\n" +
             "where movie_id = ?";
         let params = [msg.title, msg.trailer_link, msg.movie_characters, msg.release_date, msg.rating, msg.photos, msg.movie_length, msg.see_it_in, msg.movie_type, msg.movie_id];
         conn.query(updateQuery, params, function (err, result) {
