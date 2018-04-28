@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import $ from 'jquery'
 
 const mapDispatchToProps = (dispatch) => {
+  let actions = {};
+  return { ...actions, dispatch };
+}
 
-    let actions = {};
-    return { ...actions, dispatch };
+const mapStateToProps = (state) => {
+  return {
 
-  }
-
-  const mapStateToProps = (state) => {
-    return {
-
-    };
-  }
+  };
+}
 
 
 class DateCarousel extends Component{
@@ -32,17 +30,14 @@ class DateCarousel extends Component{
 
 
 
-  componentDidMount(){
-
-
+  componentDidMount (){
     var self = this;
 
-    $('.carousel-showmanymoveone .item').each(function(index ){
-
+    $('.carousel-showmanymoveone .carousel-item').each(function(index){
       var itemToClone = $(this);
       if(index ==0){
         itemToClone.addClass('active ')
-        .on('click',self.clickDate);
+        .on('click', self.clickDate);
       }
       for(var i=1;i<6;i++) {
 
@@ -57,34 +52,32 @@ class DateCarousel extends Component{
           .addClass("cloneditem-"+(i))
           .on('click',self.clickDate)
           .appendTo($(this));
-
-
       }
-
     });
   }
 
-clickDate(event){
+  clickDate(event){
+    console.log(event.target.parentElement.parentElement.getAttribute("data"));
 
-  console.log(event.target.parentElement.parentElement.getAttribute("data"));
-  let date = event.target.parentElement.parentElement.getAttribute("data");
-  if($('.fandango-calender-click').html() !==undefined){
+    let date = event.target.parentElement.parentElement.getAttribute("data");
+    if($('.fandango-calender-click').html() !==undefined){
       $('.fandango-calender-click').removeClass('fandango-calender-click');
       $(event.target.parentElement).addClass('fandango-calender-click')
-  }else{
+    } else {
       $(event.target.parentElement).addClass('fandango-calender-click')
+    }
+
+    if(this.state.date!== date){
+      this.setState({
+        date : date
+      },function(){
+        console.log("STATE "+this.state.date);
+        this.props.onDateSelect(new Date(this.state.date));
+      })
+    }
+
   }
 
-  if(this.state.date!== date){
-    this.setState({
-      date : date
-    },function(){
-      console.log("STATE "+this.state.date);
-      this.props.onDateSelect(new Date(this.state.date));
-    })
-  }
-
-}
   render(){
 
    let dateItems = [];
@@ -93,32 +86,37 @@ clickDate(event){
    for (var i = 0; i < 7; i++) {
    var date = new Date()
       date.setDate(date.getDate() + i )
-       dateItems.push(
-         <div key={i}  className='item' onClick ={this.clickDate}>
-           <div className="row">
-
-            <div class={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
-              <div className ="fandango-calender" >
-                <span class="date-picker__date-weekday">{days[date.getDay()]}</span>
-                <span class="date-picker__date-month">{months[date.getMonth()]}</span>
-                <span class="date-picker__date-day">{date.getDate()}</span>
-
-              </div>
+        dateItems.push(
+          <div key={i}  className='carousel-item row' onClick={this.clickDate}>
+              <div class={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
+                <div className ="fandango-calender" >
+                  <span class="date-picker__date-weekday">{days[date.getDay()]}</span>
+                  <span class="date-picker__date-month">{months[date.getMonth()]}</span>
+                  <span class="date-picker__date-day">{date.getDate()}</span>
+                </div>
             </div>
-            </div>
-         </div>
-
+          </div>
        );
   }
 
     return(
-          <div class="carousel carousel-showmanymoveone slide" id="carousel-tilenav" data-interval="false">
-             <div class="carousel-inner fandango-carousel">
-              {dateItems}
+      
+
+            <div className="carousel carousel-showmanymoveone" id="carousel-tilenav" data-interval="false">
+              <div className="carousel-inner">
+                {dateItems}
+              </div>
+              <a class="carousel-control-prev text-faded" href="#carousel-tilenav" role="button" data-slide="prev">
+                <i class="fa fa-chevron-left fa-lg text-muted"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next text-faded" href="#carousel-tilenav" role="button" data-slide="next">
+                <i class="fa fa-chevron-right fa-lg text-muted"></i>
+                <span class="sr-only">Next</span>
+              </a>
             </div>
-               <a class="left carousel-control" href="#carousel-tilenav" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-            <a class="right carousel-control" href="#carousel-tilenav" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-          </div>
+
+
     );
   }
 }
