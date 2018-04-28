@@ -22,6 +22,15 @@ class AdminHallEdit extends Component {
     saveMovieDetailAdmin(userInput){
         var data = JSON.parse(localStorage.getItem('hall_selected'));
 
+        if(userInput.movie_hall_name.value === null || userInput.movie_hall_name.value ===''||
+        userInput.ticket_price.value === null || userInput.ticket_price.value ===''||
+        userInput.max_seats.value === null || userInput.max_seats.value ===''||
+        userInput.city.value === null || userInput.city.value ==='')
+        {
+                alert("All fields are mandatory!!");
+                return false;
+        } 
+        else{
         let req ={
             "movie_hall_id": data.movie_hall_id,
             "movie_hall_name": userInput.movie_hall_name.value,
@@ -36,7 +45,7 @@ class AdminHallEdit extends Component {
             .then(function (response) {
                 console.log(response.data.message);
                 window.location.replace('http://localhost:3000/adminhome');
-            })
+            })}
             
     }
 
