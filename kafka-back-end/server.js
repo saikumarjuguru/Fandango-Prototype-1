@@ -7,6 +7,7 @@ let billing = require('./services/billing');
 let users = require('./services/users');
 let signup = require('./services/signup');
 let admin = require('./services/admin');
+let logging = require('./services/logging');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://fan:123@ds115352.mlab.com:15352/fandango', { poolSize: 100 },function(err){
@@ -41,6 +42,8 @@ consumer.on('message', function (message) {
         case 'user': handler = users;
         break;
         case 'admin': handler = admin;
+        break;
+        case 'logging': handler = logging;
         break;
         default: console.log("Handler Not Found!");
     }

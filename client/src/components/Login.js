@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { login,requestAuth} from '../actions';
+import  axios from 'axios';
+import config from '../config';
 import Message from './Message';
 
 const mapDispatchToProps = (dispatch) => {
@@ -59,6 +61,11 @@ class Login extends Component {
 
     handleSubmit(e){
         e.preventDefault();
+        console.log("Call to page ");
+        let payload = {
+            page: "login"
+        }
+        axios.post(config.API_URL+'/logs',payload);
         if(this.validateUsername() == true)
         {
             if(this.validatePassword() == true)

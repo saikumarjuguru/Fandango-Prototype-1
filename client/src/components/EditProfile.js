@@ -56,6 +56,12 @@ class EditProfile extends Component {
 
     gotoUpdate() {
 
+
+        let payload = {
+            page: "profile"
+        }
+        axios.post(config.API_URL+'/logs',payload);
+
         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.userdata.email))) {
             this.setState({emailValid: false})
             return;

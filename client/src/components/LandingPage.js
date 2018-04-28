@@ -19,7 +19,20 @@ const mapDispatchToProps = (dispatch) => {
 
 
 class LandingPage extends Component {
-  render(){
+
+    componentDidMount(){
+        if(!this.props.isAuthentic){
+            this.props.history.push('/login');
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(!this.props.isAuthentic){
+            this.props.history.push('/login');
+        }
+    }
+
+    render(){
 
     return(
       <div>

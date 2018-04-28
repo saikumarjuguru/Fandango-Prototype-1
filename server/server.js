@@ -4,7 +4,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var expressSessions = require("express-session")
+var expressSessions = require("express-session");
+var passport = require("passport");
 
 
 //connecting to mlab using mongoose
@@ -23,6 +24,7 @@ let movie_hall = require('./routes/movie_hall');
 let billing = require('./routes/billing');
 var signup = require('./routes/signup');
 let admin = require('./routes/admin');
+let logs = require('./routes/logs');
 
 var app = express();
 const port = process.env.PORT || 5000;
@@ -66,6 +68,7 @@ app.use('/movie',movie);
 app.use('/billing',billing);
 app.use('/signup',signup);
 app.use('/admin',admin);
+app.use('/logs',logs);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

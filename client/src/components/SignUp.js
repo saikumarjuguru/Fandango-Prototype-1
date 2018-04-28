@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { signup} from '../actions';
 import Message from './Message';
+import config from "../config";
+import axios from "axios/index";
 
 const mapDispatchToProps = (dispatch) => {
     let actions = {signup};
@@ -43,6 +45,10 @@ class Login extends Component {
 
     handleSubmit(e){
 
+        let payload = {
+            page: "signup"
+        }
+        axios.post(config.API_URL+'/logs',payload);
         console.log(this.state.userdata);
         if(this.validateEmail() == true)
         {
