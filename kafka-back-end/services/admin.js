@@ -1,4 +1,5 @@
 var conn = require('../pool');
+var movieclicks = require('../schemas/pageclickslog');
 
 function handle_request(msg, callback){
 
@@ -165,18 +166,35 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "add_movie"){
-        let query = "insert into movies (title, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in)\n" +
+        let insertQuery = "insert into movies (title, trailer_link, movie_characters, release_date, rating, photos, movie_length, see_it_in)\n" +
             "values (?,?,?,?,?,?,?,?)";
         let params = [msg.title, msg.trailer_link, msg.movie_characters, msg.release_date, msg.rating, msg.photos, msg.movie_length, msg.see_it_in];
-        conn.query(query, params, function (err, result) {
+        conn.query(insertQuery, params, function (err, result) {
             if (err){
                 res.statusCode = 401;
                 res.message = err;
                 callback(err, res);
             }
             else {
-                res.message = "Movie Added Successfully";
-                callback(null, res);
+                let selectQuery = "select distinct movie_id from movies where movie_id = ?";
+                conn.query(selectQuery, [msg.movie_id], function (err, result) {
+                    if (err){
+                        console.log(err);
+                    }
+                    else {
+                        let movie_id = result[0].movie_id;
+                        let insertTypeQuery = "insert into movie_type (movie_id, type) values (?,?)";
+                        conn.query(insertTypeQuery, [movie_id, msg.movie_type], function (err, result) {
+                            if (err){
+                                console.log(err);
+                            }
+                            else {
+                                res.message = "Movie Added Successfully";
+                                callback(null, res);
+                            }
+                        });
+                    }
+                });
             }
         });
     }
@@ -354,6 +372,20 @@ function handle_request(msg, callback){
                 callback(null, res);
             }
         });
+    }
+
+    if (msg.type === "get_page_clicks"){
+        movieclicks.find((err, result) => {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        }).select({"_id":0, "page":1, "clicks":1});
     }
 
 }
