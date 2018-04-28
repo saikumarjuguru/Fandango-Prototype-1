@@ -45,7 +45,7 @@ editMovieDetailAdmin(movie_selected_search){
 
 render(){
   
-  
+
   console.log('render'+this.state.posts.length);
   var postItem;
   if(this.state.posts.length === 0){
@@ -55,16 +55,16 @@ render(){
         
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-           <strong>{post.movie_name}</strong>
+           <h6><strong>{post.movie_name}</strong></h6>
         </div>
         <div class="card-body row">
             <div class="col-md-9">
-            <h5 class="card-title">Movie Characters: {post.movie_characters}</h5>
-            <h5 class="card-title">Trailer Link: <a href={post.trailer_link} target="_blank">{post.trailer_link}</a></h5>
-            <h5 class="card-title">Release Date: {post.release_date}</h5>
-            <h5 class="card-title">Rating: {post.rating}</h5>
-            <h5 class="card-title">Duration: {post.movie_length}</h5>
-            <h5 class="card-title">See it in: {post.see_it_in}</h5> 
+            <h6 class="card-title">Movie Characters: {post.movie_characters}</h6>
+            <h6 class="card-title">Trailer Link: <a href={post.trailer_link} target="_blank">{post.trailer_link}</a></h6>
+            <h6 class="card-title">Release Date: {post.release_date}</h6>
+            <h6 class="card-title">Rating: {post.rating}</h6>
+            <h6 class="card-title">Duration: {post.movie_length}</h6>
+            <h6 class="card-title">See it in: {post.see_it_in}</h6> 
             <button class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
             </div>
             <div class="col-md-3">
