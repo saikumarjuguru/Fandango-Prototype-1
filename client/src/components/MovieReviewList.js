@@ -54,22 +54,18 @@ class MovieReviewList extends Component{
 
           <li class="media">
             <div class="media-body">
-              <div class="well well-sm well-review">
-                  <h4 class="media-heading text-uppercase reviews">{reviewers.username} </h4>
-                    {reviewers.star!== null ? <Rating rating = {reviewers.star} disable = "true"/> : null }
-                    {/*<span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>*/}
-                  <ul class="media-date text-uppercase reviews list-inline pull-right">
-                    <li class="dd">{new Date(reviewers.review_date).getDate()}</li>
-                    <li class="mm">{months[new Date(reviewers.review_date).getMonth()]}</li>
-                    <li class="aaaa">{new Date(reviewers.review_date).getFullYear()}</li>
-                  </ul>
-                  <p class="media-comment">
-                    {reviewers.comment}
-                  </p>
+
+              <div className="card text-white bg-dark mb-3">
+                <div class="card-header reviews">
+                  {reviewers.comment} <div className = "offset-9">{reviewers.star!== null ? <Rating rating = {reviewers.star} disable = "true"/> : null }</div>
+
+                    <ul class="media-date  reviews list-inline pull-right">
+                      written by {reviewers.username} on &nbsp;
+                      {new Date(reviewers.review_date).getDate()}-
+                      {months[new Date(reviewers.review_date).getMonth()]}-
+                     {new Date(reviewers.review_date).getFullYear()}
+                    </ul>
+                </div>
               </div>
             </div>
 

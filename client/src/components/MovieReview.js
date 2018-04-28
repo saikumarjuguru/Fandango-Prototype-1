@@ -34,7 +34,7 @@ class MovieReview extends Component{
 
   handleSubmitComment(){
     let comment = this.refs.comment.value;
-    let userid = 1; //needs to be changed
+    let userid = localStorage.getItem("userId");
     if(comment === ''){
       this.setState({
         commentError :true
@@ -60,9 +60,9 @@ class MovieReview extends Component{
     return(
 
       <div class="comment-tabs col-md-7">
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Reviews</h4></a></li>
-                <li><a href="#add-comment" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}><h4 class="reviews text-capitalize">Add Review</h4></a></li>
+            <ul class="nav nav-tabs">
+                <li class="nav-item active"><a class="nav-link" href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Reviews</h4></a></li>
+                <li class="nav-item"><a class="nav-link" href="#add-comment" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}><h4 class="reviews text-capitalize">Add Review</h4></a></li>
             </ul>
 
             <div class="tab-content">
