@@ -142,7 +142,8 @@ router.post('/addmovie', (req, res) => {
         rating: req.body.rating,
         photos: req.body.photos,
         movie_length: req.body.movie_length,
-        see_it_in: req.body.see_it_in
+        see_it_in: req.body.see_it_in,
+        movie_type: req.body.movie_type
     };
     kafka.make_request('requestTopic',payload, function(err,results){
         if(err){
@@ -327,6 +328,23 @@ router.get('/getmoviehallsgraphdata', (req, res) => {
     payload = {
         action: "admin",
         type: "get_movie_halls_graph_data"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getpageclicks', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_page_clicks"
     };
     kafka.make_request('requestTopic',payload, function(err,results){
         if(err){
