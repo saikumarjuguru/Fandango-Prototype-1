@@ -1,6 +1,10 @@
 import React , {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import $ from 'jquery';
+import mixitup from 'mixitup';
+import axios from 'axios';
+import config from '../config';
 
 import Navbar from '../components/Navbar';
 
@@ -11,341 +15,115 @@ const mapDispatchToProps = (dispatch) => {
 
 }
 
-  const mapStateToProps = (state) => {
-    return {
-      loginMsg: state.loginReducer.loginMsg,
-      loginStatus : state.loginReducer.loginStatus,
-      username : state.loginReducer.username
-    };
-  }
+const mapStateToProps = (state) => {
+  return {
+    loginMsg: state.loginReducer.loginMsg,
+    status : state.loginReducer.loginStatus,
+    username : state.loginReducer.username
+  };
+}
 
 
 class LandingPage extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      movies: []
+    }
+  }
+
+  componentDidMount() {
+    axios.post(config.API_URL+'/admin/searchmovie', {
+      searchtext: ""
+    }).then((response) => {
+      this.setState({
+        movies: response.data.message
+      });
+    })
+  }
+
   render(){
 
+    let {movies} = this.state;
+    let buttonStyle = {
+      fontSize: 12,
+      borderRadius: 0
+    }
+
+    let padding20 = {
+      paddingTop: 20
+    }
+
+
     return(
-      <div>
-        <Navbar></Navbar>
-  
-
-  <main>
-    {/*Main layout*/}
-    <div className="container">
-      {/*First row*/}
-      <div className="row wow fadeIn" data-wow-delay="0.2s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.2s'}}>
-        <div className="col-md-12">
-          {/*Card*/}
-          <div className="card">
-            {/*Card image*/}
-            <div className="view overlay hm-white-slight">
-              <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(28).jpg" className="img-fluid" alt />
-              <a href="#">
-                <div className="mask waves-effect waves-light" />
-              </a>
-            </div>
-            {/*Card content*/}
-            <div className="card-body text-center mb-3">
-              {/*Title*/}
-              <h3 className="card-title mt-2 pb-4">
-                <strong>Card title</strong>
-              </h3>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-              </p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Button</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-      </div>
-      {/*/.First row*/}
-      {/*Second row*/}
-      <div className="row mt-5 pt-4">
-        {/*First columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card mb-r wow fadeIn" data-wow-delay="0.2s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.2s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/15.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*First columnn*/}
-        {/*Second columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card mb-r wow fadeIn" data-wow-delay="0.4s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.4s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/17.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*Second columnn*/}
-        {/*Third columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card wow fadeIn" data-wow-delay="0.6s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.6s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/19.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*Third columnn*/}
-      </div>
-      {/*/.Second row*/}
-      {/*Third row*/}
-      <div className="row mb-4">
-        {/*First columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card mb-r wow fadeIn" data-wow-delay="0.2s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.2s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/16.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*First columnn*/}
-        {/*Second columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card mb-r wow fadeIn" data-wow-delay="0.4s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.4s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/14.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*Second columnn*/}
-        {/*Third columnn*/}
-        <div className="col-lg-4">
-          {/*Card*/}
-          <div className="card mb-r wow fadeIn" data-wow-delay="0.6s" style={{visibility: 'visible', animationName: 'fadeIn', animationDelay: '0.6s'}}>
-            {/*Card image*/}
-            <img className="img-fluid" src="https://mdbootstrap.com/img/Photos/Others/images/12.jpg" alt="Card image cap" />
-            {/*Card content*/}
-            <div className="card-body">
-              {/*Title*/}
-              <h4 className="card-title">
-                <strong>This is title</strong>
-              </h4>
-              {/*Text*/}
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-blue-grey btn-md waves-effect waves-light">Read more</a>
-            </div>
-          </div>
-          {/*/.Card*/}
-        </div>
-        {/*Third columnn*/}
-      </div>
-      {/*/.Third row*/}
-      {/*Pagination dark grey*/}
-      <div className="row flex-center">
-        <nav>
-          <ul className="pagination pg-darkgrey">
-            {/*Arrow left*/}
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect" aria-label="Previous">
-                <span aria-hidden="true">«</span>
-                <span className="sr-only">Previous</span>
-              </a>
-            </li>
-            {/*Numbers*/}
-            <li className="page-item active">
-              <a className="page-link waves-effect waves-effect">1</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect">2</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect">3</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect">4</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect">5</a>
-            </li>
-            {/*Arrow right*/}
-            <li className="page-item">
-              <a className="page-link waves-effect waves-effect" aria-label="Next">
-                <span aria-hidden="true">»</span>
-                <span className="sr-only">Next</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      {/*/Pagination dark grey*/}
-    </div>
-    {/*/.Main layout*/}
-  </main>
-  {/*Footer*/}
-  <footer className="page-footer center-on-small-only">
-    {/*Footer links*/}
-    <div className="container">
-      <div className="row mt-4">
-        {/*First column*/}
-        <div className="col-lg-3 col-md-6">
-          <h5 className="title mb-3">
-            <strong>About material design</strong>
-          </h5>
-          <p>Material Design for Bootstrap (MDB) is a powerful Material Design UI KIT for most popular HTML, CSS,
-            and JS framework - Bootstrap.</p>
-        </div>
-        {/*/.First column*/}
-        <hr className="w-100 clearfix d-sm-none" />
-        {/*Second column*/}
-        <div className="col-lg-2 col-md-6 ml-auto">
-          <h5 className="title mb-3">
-            <strong>First column</strong>
-          </h5>
-          <ul>
-            <li>
-              <a href="#!">Link 1</a>
-            </li>
-            <li>
-              <a href="#!">Link 2</a>
-            </li>
-            <li>
-              <a href="#!">Link 3</a>
-            </li>
-            <li>
-              <a href="#!">Link 4</a>
-            </li>
-          </ul>
-        </div>
-        {/*/.Second column*/}
-        <hr className="w-100 clearfix d-sm-none" />
-        {/*Third column*/}
-        <div className="col-lg-2 col-md-6 ml-auto">
-          <h5 className="title mb-3">
-            <strong>Second column</strong>
-          </h5>
-          <ul>
-            <li>
-              <a href="#!">Link 1</a>
-            </li>
-            <li>
-              <a href="#!">Link 2</a>
-            </li>
-            <li>
-              <a href="#!">Link 3</a>
-            </li>
-            <li>
-              <a href="#!">Link 4</a>
-            </li>
-          </ul>
-        </div>
-        {/*/.Third column*/}
-        <hr className="w-100 clearfix d-sm-none" />
-        {/*Fourth column*/}
-        <div className="col-lg-2 col-md-6 ml-auto">
-          <h5 className="title mb-3">
-            <strong>Third column</strong>
-          </h5>
-          <ul>
-            <li>
-              <a href="#!">Link 1</a>
-            </li>
-            <li>
-              <a href="#!">Link 2</a>
-            </li>
-            <li>
-              <a href="#!">Link 3</a>
-            </li>
-            <li>
-              <a href="#!">Link 4</a>
-            </li>
-          </ul>
-        </div>
-        {/*/.Fourth column*/}
-      </div>
-    </div>
-    {/*/.Footer links*/}
-    <hr />
-    {/*Call to action*/}
-    <div className="call-to-action">
-      <h4 className="mb-5">Material Design for Bootstrap</h4>
-      <ul>
-        <li>
-          <h5>Get our UI KIT for free</h5>
-        </li>
-        <li>
-          <a target="_blank" href="https://mdbootstrap.com/getting-started/" className="btn btn-primary waves-effect waves-light" rel="nofollow">Sign up!</a>
-        </li>
-        <li>
-          <a target="_blank" href="https://mdbootstrap.com/material-design-for-bootstrap/" className="btn btn-deep-orange waves-effect waves-light" rel="nofollow">Learn more</a>
-        </li>
-      </ul>
-    </div>
-    {/*/.Call to action*/}
-    {/*Copyright*/}
-    <div className="footer-copyright">
       <div className="container-fluid">
-        © 2015 Copyright:
-        <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
-      </div>
-    </div>
-    {/*/.Copyright*/}
-  </footer>
-  {/*/.Footer*/}
-  {/* SCRIPTS */}
-  {/* JQuery */}
-  {/* Bootstrap dropdown */}
-  {/* Bootstrap core JavaScript */}
-  {/* MDB core JavaScript */}
-  <div className="hiddendiv common" />
-</div>
+        <Navbar></Navbar>        
+        <main>
+          <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+            <ol className="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to={0} className="active" />
+              <li data-target="#carouselExampleIndicators" data-slide-to={1} />
+              <li data-target="#carouselExampleIndicators" data-slide-to={2} />
+            </ol>
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <img className="d-block w-100" src="images/infinity_wars_banner.jpg" alt="Avengers" width="1080" height="480" />
+              </div>
+              <div className="carousel-item">
+                <img className="d-block w-100" src="images/gangster_squad_banner.jpg" alt="Ganngster Squad" width="1080" height="480" />
+              </div>
+              <div className="carousel-item">
+                <img className="d-block w-100" src="images/into_the_storm_banner.jpg" alt="Into The Storm" width="1080" height="480" />
+              </div>
+            </div>
+            <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true" />
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true" />
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
 
+          <br/>
+
+          <div className="container-fluid text-center">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-danger">NOW SHOWING</button>
+              <button type="button" class="btn btn-outline-danger">COMING SOON</button>
+            </div>
+          </div>
+
+          <div className="container-fluid">
+            <div className="row d-flex d-md-block flex-nowrap wrapper">
+              <div className="col-md-2 float-left col-1 pr-0 collapse width show" id="sidebar">
+                
+              </div>
+              <div className="col-md-10 float-left col px-5 pl-md-2 main">
+                  <div className="row mt-5">
+                    { movies.length > 0 && movies.map((movie) => {
+                      return(
+                        <div className="col-lg-3" style={padding20}>
+                          <div className="card mb-r">
+                            <img className="img-fluid" src={movie.photos} width="260" />
+                            <div className="card-body">
+                              <h4 className="card-title text-center">
+                                <strong>{movie.movie_name}</strong>
+                              </h4>
+                            </div>
+                              <button className="btn btn-secondary btn-block btn-lg" style={buttonStyle}>BOOK NOW</button>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     )
   }
 
