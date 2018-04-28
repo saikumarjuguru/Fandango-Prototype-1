@@ -62,10 +62,6 @@ class Login extends Component {
     handleSubmit(e){
         e.preventDefault();
         console.log("Call to page ");
-        let payload = {
-            page: "login"
-        }
-        axios.post(config.API_URL+'/logs',payload);
         if(this.validateUsername() == true)
         {
             if(this.validatePassword() == true)
@@ -125,7 +121,12 @@ class Login extends Component {
         console.log("render");
         return(
 
-            <div id="ModalExample" className="modal-signup modal ">
+            <div id="ModalExample" className="modal-signup modal" onClick={() => {
+                let payload = {
+                    page: "login"
+                }
+                axios.post(config.API_URL+'/logs',payload);
+            }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">

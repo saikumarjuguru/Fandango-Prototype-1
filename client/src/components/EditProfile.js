@@ -249,7 +249,12 @@ class EditProfile extends Component {
             return (
 
 
-                <div className="container">
+                <div className="container" onClick={() => {
+                    let payload = {
+                        page: "editprofile"
+                    }
+                    axios.post(config.API_URL+'/logs',payload);
+                }}>
                     <div className="row align-content-md-center justify-content-center">
                         <div className="align-content-md-center justify-content-center"><img className="img-circle" src = {this.state.userdata.bloburl} height="130"></img></div>
                     </div>

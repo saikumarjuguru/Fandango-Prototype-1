@@ -39,16 +39,12 @@ class Login extends Component {
         this.setState({msg:true})
         if(nextProps.signupStatus == true)
         {
-            nextProps.history.push("/home");
+            nextProps.history.push("/login");
         }
     }
 
     handleSubmit(e){
 
-        let payload = {
-            page: "signup"
-        }
-        axios.post(config.API_URL+'/logs',payload);
         console.log(this.state.userdata);
         if(this.validateEmail() == true)
         {
@@ -126,7 +122,12 @@ class Login extends Component {
         console.log("render");
         return(
 
-            <div id="ModalExample" className="modal-signup modal ">
+            <div id="ModalExample" className="modal-signup modal " onClick={() => {
+                let payload = {
+                    page: "signup"
+                }
+                axios.post(config.API_URL+'/logs',payload);
+            }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">

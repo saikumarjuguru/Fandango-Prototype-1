@@ -93,10 +93,6 @@ componentDidUpdate(nextProps, nextState) {
 }
 
 incrementStep(){
-      let payload = {
-        page: "booking"
-        }
-    axios.post(config.API_URL+'/logs',payload);
 
     if(this.refs.number_of_seats.value == ""){
         this.setState({error :"Please enter the number of seats."});
@@ -143,10 +139,6 @@ incrementStep(){
   
 }
 gotoPayment(){
-    let payload = {
-        page: "booking"
-    }
-    axios.post(config.API_URL+'/logs',payload);
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");
     //var pattern = new RegExp("^(0[1-9]|1[0-2]|[1-9])\/(1[4-9]|[2-9][0-9]|20[1-9][1-9])$");
     if(this.refs.credit_card_number.value=="" || this.refs.credit_card_number.value.length<16 || this.refs.credit_card_number.value.length>16){
@@ -181,10 +173,6 @@ gotoPayment(){
     });
 }
 decrementStep(){
-    let payload = {
-        page: "booking"
-    }
-    axios.post(config.API_URL+'/logs',payload);
     let decrement = this.state.activeStep - 1;
     this.setState({
         activeStep : decrement
@@ -193,10 +181,7 @@ decrementStep(){
 
 makePayment() {
 
-    let data = {
-        page: "booking"
-    }
-    axios.post(config.API_URL+'/logs',data);
+
     let increment = this.state.activeStep + 1;
     let payload = {
         movie_id:this.props.movie.movie.movie_id,
@@ -221,10 +206,7 @@ makePayment() {
 }
 
 check(){
-    let payload = {
-        page: "booking"
-    }
-    axios.post(config.API_URL+'/logs',payload);
+
     if(document.getElementById("customCheck1").checked){
         this.save = 1;
     } else{
@@ -237,7 +219,12 @@ render(){
 
   return(
     
-    <div className="container booking_container">
+    <div className="container booking_container" onClick={() => {
+        let payload = {
+            page: "booking"
+        }
+        axios.post(config.API_URL+'/logs',payload);
+    }}>
     <div className="row">
         <div className="col-sm-8">
             <div className="card">
