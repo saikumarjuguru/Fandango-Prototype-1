@@ -28,23 +28,55 @@ class LandingPage extends Component {
   constructor() {
     super();
     this.state = {
-      movies: []
+      movies: [],
+      activeFilter: ""
     }
   }
 
-  componentDidMount() {
-    axios.post(config.API_URL+'/admin/searchmovie', {
+  getMovies() {
+    return axios.post(config.API_URL+'/admin/searchmovie', {
       searchtext: ""
-    }).then((response) => {
+    });
+  }
+
+  componentDidMount() {
+    this.getMovies().then((response) => {
       this.setState({
         movies: response.data.message
       });
     })
   }
 
+  handleFilterButton(type, e) {
+    e.preventDefault();
+    let nowShowing = [];
+    let comingSoon = [];
+
+    this.getMovies().then((response) => {
+      response.data.message.forEach((movie) => {
+        if(new Date(movie.release_date) < new Date) {
+          nowShowing.push(movie);
+        } else {
+          comingSoon.push(movie);
+        }
+      });
+      if(type === 'now-showing') {
+        this.setState({
+          movies: nowShowing,
+          activeFilter: 'now-showing'
+        })
+      } else if(type === 'coming-soon') {
+        this.setState({
+          movies: comingSoon,
+          activeFilter: 'coming-soon'
+        })
+      }
+    });
+  }
+
   render(){
 
-    let {movies} = this.state;
+    let {movies, activeFilter} = this.state;
     let buttonStyle = {
       fontSize: 12,
       borderRadius: 0
@@ -89,9 +121,9 @@ class LandingPage extends Component {
           <br/>
 
           <div className="container-fluid text-center">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-outline-danger">NOW SHOWING</button>
-              <button type="button" class="btn btn-outline-danger">COMING SOON</button>
+            <div className="btn-group" role="group">
+              <button type="button" className={(activeFilter === 'now-showing') ? "active btn btn-outline-danger" : "btn btn-outline-danger" } onClick={this.handleFilterButton.bind(this, 'now-showing')}>NOW SHOWING</button>
+              <button type="button" className={(activeFilter === 'coming-soon') ? "active btn btn-outline-danger" : "btn btn-outline-danger" }  onClick={this.handleFilterButton.bind(this, 'coming-soon')}>COMING SOON</button>
             </div>
           </div>
 
