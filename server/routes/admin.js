@@ -289,4 +289,55 @@ router.post('/deleteuser', (req, res) => {
     });
 });
 
+router.get('/getmoviesgraphdata', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movies_graph_data"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getcitiesgraphdata', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_cities_graph_data"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
+router.get('/getmoviehallsgraphdata', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_movie_halls_graph_data"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

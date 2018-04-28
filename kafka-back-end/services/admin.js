@@ -304,6 +304,58 @@ function handle_request(msg, callback){
         });
     }
 
+    if (msg.type === "get_movies_graph_data"){
+        let query = "select title as movie_name, year(billing.date) as movie_year, sum(amount) as revenue \n" +
+            "from billing inner join movies using (movie_id)\n" +
+            "group by movie_id,movie_year order by revenue desc limit 10";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "get_cities_graph_data"){
+        let query = "select city as city_name, year(billing.date) as city_year, sum(amount) as revenue \n" +
+            "from billing inner join movie_hall using (movie_hall_id)\n" +
+            "group by city_name,city_year order by revenue desc limit 10";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
+    if (msg.type === "get_movie_halls_graph_data"){
+        let query = "select movie_hall_name, sum(amount) as revenue \n" +
+            "from billing inner join movie_hall using (movie_hall_id)\n" +
+            "where month(billing.date) = month(current_date() - interval 1 month)\n" +
+            "group by movie_hall_id order by revenue desc limit 10";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
+    }
+
 }
 
 exports.handle_request = handle_request;
