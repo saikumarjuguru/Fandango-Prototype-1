@@ -241,7 +241,8 @@ router.post('/editmovie', (req, res) => {
         rating: req.body.rating,
         photos: req.body.photos,
         movie_length: req.body.movie_length,
-        see_it_in: req.body.see_it_in
+        see_it_in: req.body.see_it_in,
+        movie_type: req.body.movie_type
     };
     kafka.make_request('requestTopic',payload, function(err,results){
         if(err){
