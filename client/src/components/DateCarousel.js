@@ -88,11 +88,11 @@ class DateCarousel extends Component{
       date.setDate(date.getDate() + i )
         dateItems.push(
           <div key={i}  className='carousel-item row' onClick={this.clickDate}>
-              <div class={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
+              <div className={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
                 <div className ="fandango-calender" >
-                  <span class="date-picker__date-weekday">{days[date.getDay()]}</span>
-                  <span class="date-picker__date-month">{months[date.getMonth()]}</span>
-                  <span class="date-picker__date-day">{date.getDate()}</span>
+                  <span className="date-picker__date-weekday">{days[date.getDay()]}</span>
+                  <span className="date-picker__date-month">{months[date.getMonth()]}</span>
+                  <span className="date-picker__date-day">{date.getDate()}</span>
                 </div>
             </div>
           </div>
@@ -100,19 +100,19 @@ class DateCarousel extends Component{
   }
 
     return(
-      
+
 
             <div className="carousel carousel-showmanymoveone" id="carousel-tilenav" data-interval="false">
               <div className="carousel-inner">
                 {dateItems}
               </div>
-              <a class="carousel-control-prev text-faded" href="#carousel-tilenav" role="button" data-slide="prev">
-                <i class="fa fa-chevron-left fa-lg text-muted"></i>
-                <span class="sr-only">Previous</span>
+              <a className="carousel-control-prev text-faded" href="#carousel-tilenav" role="button" data-slide="prev">
+                <i className="fa fa-chevron-left fa-lg text-muted"></i>
+                <span className="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next text-faded" href="#carousel-tilenav" role="button" data-slide="next">
-                <i class="fa fa-chevron-right fa-lg text-muted"></i>
-                <span class="sr-only">Next</span>
+              <a className="carousel-control-next text-faded" href="#carousel-tilenav" role="button" data-slide="next">
+                <i className="fa fa-chevron-right fa-lg text-muted"></i>
+                <span className="sr-only">Next</span>
               </a>
             </div>
 

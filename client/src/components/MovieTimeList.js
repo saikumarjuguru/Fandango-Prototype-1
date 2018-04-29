@@ -175,44 +175,44 @@ class MovieTimeList extends Component{
         {this.state.hallsWithSlotForFilter !== undefined && this.state.hallsWithSlotForFilter.length >0 ?
         <div>
             {this.state.hallsWithSlotForFilter.map(hall =>
-                  <div class="theater__wrap" style = {{display :hall.display}}>
-                      <div class="theater__header">
-                        <div class="theaters__promoted-amenity-wrap">
+                  <div className="theater__wrap" style = {{display :hall.display}}>
+                      <div className="theater__header">
+                        <div className="theaters__promoted-amenity-wrap">
                           </div>
-                          <div class="theater__name-wrap">
-                            <h3 class="theater__name font-sans-serif font-lg font-300 uppercase">
-                                <a class="color-light" href="#">{hall.movie_hall.movie_hall_name} Lounge</a>
-                                <span  class="color-light pull-right" >$ {hall.movie_hall.ticket_price}</span>
+                          <div className="theater__name-wrap">
+                            <h3 className="theater__name font-sans-serif font-lg font-300 uppercase">
+                                <a className="color-light" href="#">{hall.movie_hall.movie_hall_name} Lounge</a>
+                                <span  className="color-light pull-right" >$ {hall.movie_hall.ticket_price}</span>
                             </h3>
                           </div>
-                          <div class="theater__address-wrap">
+                          <div className="theater__address-wrap">
                             <span> {hall.movie_hall.city}</span>
                     </div>
               </div>
-                <ul class="theater__showtimes font-sans-serif-alt">
+                <ul className="theater__showtimes font-sans-serif-alt">
                   <li class="theater__showtimes-variant theater__showtimes-variant--last-li">
                     <h3 class="theater__tick-headline font-serif">
                         <span class="icon icon-ticket"></span>
                           Select a movie time to buy Standard Showtimes
                     </h3>
-                    <ol class="theater__btn-list">
-                      <li class="theater__btn-list-item">
-                          <span class={hall.slot1Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
+                    <ol className="theater__btn-list">
+                      <li className="theater__btn-list-item">
+                          <span className={hall.slot1Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                             onClick={()=> {hall.slot1Available ? this.handleSlot1(hall) : null}}>
                             09:00 AM</span>
                       </li>
-                      <li class="theater__btn-list-item">
-                        <span class={hall.slot2Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
+                      <li className="theater__btn-list-item">
+                        <span className={hall.slot2Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot2Available ? this.handleSlot2(hall) : null}}>
                           12:00 PM</span>
                       </li>
-                      <li class="theater__btn-list-item">
-                        <span class={hall.slot3Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
+                      <li className="theater__btn-list-item">
+                        <span className={hall.slot3Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot3Available ? this.handleSlot3(hall) : null}}>
                           3:00 PM</span>
                       </li>
-                      <li class="theater__btn-list-item">
-                        <span class={hall.slot4Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
+                      <li className="theater__btn-list-item">
+                        <span className={hall.slot4Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot4Available ? this.handleSlot4(hall) : null}}>
                           6:00 PM</span>
                       </li>
