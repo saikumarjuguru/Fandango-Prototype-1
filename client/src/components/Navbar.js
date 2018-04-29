@@ -10,7 +10,8 @@ class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      options: []
+      options: [],
+      genreOptions: []
     }
   }
 
@@ -23,7 +24,8 @@ class Navbar extends Component {
   componentDidMount() {
     this.getMovies().then((response) => {
       this.setState({
-        options: response.data.message
+        options: response.data.message,
+        genreOptions: response.data.message.map(movie => movie.genre)
       })
     })
   }
@@ -60,33 +62,31 @@ class Navbar extends Component {
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 MOVIES
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">Action</a>
-                <a className="dropdown-item" href="#">Another action</a>
-                <div className="dropdown-divider" />
-                <a className="dropdown-item" href="#">Something else here</a>
+              <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                { options && options.map((movie) => {
+                  let url = `/movieDetails/${movie.movie_id}`;
+                  return (
+                    <Link className="dropdown-item text-white" to="">{movie.movie_name}</Link>
+                  )
+                })}
               </div>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 MOVIE TIMES + TICKETS
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">Action</a>
-                <a className="dropdown-item" href="#">Another action</a>
-                <div className="dropdown-divider" />
-                <a className="dropdown-item" href="#">Something else here</a>
+              <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                <a className="dropdown-item text-white" href="#">Action</a>
+                <a className="dropdown-item text-white" href="#">Another action</a>
               </div>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 MOVIE NEWS
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="#">Action</a>
-                <a className="dropdown-item" href="#">Another action</a>
-                <div className="dropdown-divider" />
-                <a className="dropdown-item" href="#">Something else here</a>
+              <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                <a className="dropdown-item text-white" href="#">Action</a>
+                <a className="dropdown-item text-white" href="#">Another action</a>
               </div>
             </li>
           </ul>
