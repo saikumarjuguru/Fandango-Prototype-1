@@ -29,8 +29,9 @@ class LandingPage extends Component {
     super();
     this.state = {
       movies: [],
+      filteredMovies: [],
       activeFilters: {
-        type: null,
+        type: "",
         genre: []
       }
     }
@@ -46,12 +47,13 @@ class LandingPage extends Component {
     this.getMovies().then((response) => {
       this.setState({
         movies: response.data.message
+      }, () => {
+        this.handleFilters();
       });
     })
   }
 
   componentWillMount(){
-
     if(localStorage.getItem("userId")) {
         let userTrace = {
             user_id: localStorage.getItem("userId"),
@@ -63,115 +65,64 @@ class LandingPage extends Component {
   }
 
   handleFilters() {
-    let { activeFilters } = this.state;
-    let { type, genre } = activeFilters;
-    let filteredMovies;
-    debugger
-    // this.getMovies().then((response) => {
-    //   let movies = response.data.message;
-    //   filteredMovies = movies.filter((movie) => {
-    //     debugger
-    //     if(type && genre) {
-    //       if(type === 'now-showing') {
-    //         return Date.parse(movie.release_date) < Date.parse(new Date()) && movie.genre.toLowerCase() === genre;
-    //       } else {
-    //         return Date.parse(movie.release_date) > Date.parse(new Date()) && movie.genre.toLowerCase() === genre;
-    //       } 
-    //     } else if(!type && genre) {
-    //       return  movie.genre.toLowerCase() === genre;
-    //     } else if(type && !genre) {
-    //       if(type === 'now-showing') {
-    //         return Date.parse(movie.release_date) < Date.parse(new Date());
-    //       } else {
-    //         return Date.parse(movie.release_date) > Date.parse(new Date());
-    //       } 
-    //     }
+    let filteredMovies = this.state.movies
+    let { activeFilters, movies } = this.state;
 
+    if(activeFilters.type === 'now-showing') {
+      filteredMovies = movies.filter((movie) => {
+        return Date.parse(movie.release_date) < Date.parse(new Date());
+      });
+    } else if(activeFilters.type === 'coming-soon') {
+      filteredMovies = movies.filter((movie) => {
+        return Date.parse(movie.release_date) > Date.parse(new Date());
+      });
+    }
 
-        // if(!this.state.activeFilters.genre && this.state.activeFilters.type) {
+    if(activeFilters.genre && activeFilters.genre.length > 0) {
+      filteredMovies = filteredMovies.filter((movie) => {
+        return activeFilters.genre.includes(movie.genre.toLowerCase());
+      });
+    }
 
-        //   if(this.state.activeFilters.type === 'now-showing') {
-        //     return 
-        //     if(new Date(movie.release_date) < new Date) {
-        //       return movie;
-        //     }
-        //   } else {
-
-        //   }
-
-        // } else if(this.state.activeFilters.genre && !this.state.activeFilters.type) {
-
-        //     return movie.genre.toLowerCase() === this.state.activeFilters.type;
-
-        // } else if(this.state.activeFilters.genre && this.state.activeFilters.type) {
-
-        //   return
-
-        // } else {
-        //   return null;
-        // }
-    //   });
-    //   debugger
-    //   this.setState({
-    //     movies: filteredMovies
-    //   });
-    // });
+    this.setState({
+      filteredMovies: filteredMovies
+    });
   }
 
   handleFilterButton(type, e) {
-    e.preventDefault();
     this.setState({
       activeFilters: {
-        type: type
+        type: type,
+        genre: (this.state.activeFilters.genre) ? this.state.activeFilters.genre : []
       }
+    },() => {
+      this.handleFilters()
     });
-    this.handleFilters();
-    // let nowShowing = [];
-    // let comingSoon = [];
-
-    // this.getMovies().then((response) => {
-    //   response.data.message.forEach((movie) => {
-    //     if(new Date(movie.release_date) < new Date) {
-    //       nowShowing.push(movie);
-    //     } else {
-    //       comingSoon.push(movie);
-    //     }
-    //   });
-    //   if(type === 'now-showing') {
-    //     this.setState({
-    //       movies: nowShowing,
-    //       activeFilter: 'now-showing'
-    //     })
-    //   } else if(type === 'coming-soon') {
-    //     this.setState({
-    //       movies: comingSoon,
-    //       activeFilter: 'coming-soon'
-    //     })
-    //   }
-    // });
   }
 
   handleGenre(e) {
-    // e.preventDefault();
-    let { genre } = this.state.activeFilters;
+    let genre = this.state.activeFilters.genre;
 
     if(e.target.checked && !genre.includes(e.target.value)) {
       genre.push(e.target.value);
     } else if(!e.target.checked && genre.includes(e.target.value)) {
       genre.splice(genre.indexOf(e.target.value), 1);
     }
-    debugger
+
     this.setState({
       activeFilters: {
+        type: (this.state.activeFilters.type) ? this.state.activeFilters.type : "",
         genre: genre
       }
+    }, () => {
+      this.handleFilters();
     });
+
   }
 
   render(){
-    let {movies, activeFilters} = this.state;
+    let {movies, activeFilters, filteredMovies} = this.state;
     let {genre} = activeFilters;
-    debugger
     let buttonStyle = {
       fontSize: 12,
       borderRadius: 0
@@ -240,7 +191,7 @@ class LandingPage extends Component {
                 <a className="list-group-item">
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre.includes("drama")) ? true : false} value="drama" onClick={this.handleGenre.bind(this)} />
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre && genre.includes("drama")) ? true : false} value="drama" onClick={this.handleGenre.bind(this)} />
                       Drama
                     </label>
                   </div>
@@ -248,7 +199,7 @@ class LandingPage extends Component {
                 <a className="list-group-item">
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("comedy") : false} value="comedy" onClick={this.handleGenre.bind(this)} />
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre && genre.includes("comedy")) ? true : false} value="comedy" onClick={this.handleGenre.bind(this)} />
                       Comedy
                     </label>
                   </div>
@@ -256,7 +207,7 @@ class LandingPage extends Component {
                 <a className="list-group-item">
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("action") : false} value="action" onClick={this.handleGenre.bind(this)} />
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre && genre.includes("action")) ? true : false} value="action" onClick={this.handleGenre.bind(this)} />
                       Action
                     </label>
                   </div>
@@ -264,7 +215,7 @@ class LandingPage extends Component {
                 <a className="list-group-item">
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("romance") : false} value="romance" onClick={this.handleGenre.bind(this)} />
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre && genre.includes("romance")) ? true : false} value="romance" onClick={this.handleGenre.bind(this)} />
                       Romance
                     </label>
                   </div>
@@ -272,7 +223,7 @@ class LandingPage extends Component {
                  <a className="list-group-item">
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("horror") : false} value="horror" onClick={this.handleGenre.bind(this)} />
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre && genre.includes("horror")) ? true : false} value="horror" onClick={this.handleGenre.bind(this)} />
                       Horror
                     </label>
                   </div>
@@ -283,8 +234,7 @@ class LandingPage extends Component {
             <div className="col-lg-9">
               <div className="row">
 
-
-                { movies.length > 0 && movies.map((movie) => {
+                { filteredMovies.length > 0 && filteredMovies.map((movie) => {
                   let movieDetailURL = `/movieDetails/${movie.movie_id}`;
                   if(movie.photos) {
                     return (
