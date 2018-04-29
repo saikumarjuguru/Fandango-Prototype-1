@@ -49,7 +49,7 @@ class MovieDetail extends Component{
     if(localStorage.getItem("userId")){
       let {match} = this.props;
       this.props.dispatch(this.props.getMovieDetail(match.params.id));
-     this.props.dispatch(this.props.getMovieDetail(2));
+  
     }else{
       this.props.history.push("/login");
     }
@@ -60,8 +60,8 @@ class MovieDetail extends Component{
     if(localStorage.getItem("userId")){
         let {match} = this.props;
         if(this.props.match!== nextProps.match){
-          this.props.dispatch(this.props.getMovieDetail(nextProps.match.params.id));
-    
+          nextProps.dispatch(nextProps.getMovieDetail(nextProps.match.params.id));
+
         }
     }else{
         this.props.history.push("/login");

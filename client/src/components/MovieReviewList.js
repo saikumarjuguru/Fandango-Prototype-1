@@ -29,8 +29,8 @@ class MovieReviewList extends Component{
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.movieReviewers.length !== this.props.movieReviewers.length){
-      this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid))
+    if((nextProps !== this.props) || (nextProps.movieReviewers.length !== this.props.movieReviewers.length)){
+      this.props.dispatch(nextProps.getReviewsOfMovie(nextProps.movieid))
     }
   }
 
@@ -49,8 +49,9 @@ class MovieReviewList extends Component{
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return(
       <div className="tab-pane active" id="comments-logout">
+      {this.props.movieReviewers !== undefined && this.props.movieReviewers.length >0 ?
         <ul className="media-list">
-        {this.props.movieReviewers.map(reviewers =>
+          {this.props.movieReviewers.map(reviewers =>
 
           <li className="media">
             <div className="media-body">
@@ -73,7 +74,7 @@ class MovieReviewList extends Component{
         )}
 
 
-        </ul>
+      </ul> : <div>  <strong className="text-warning">{this.props.movieReviewersErrorMessage}</strong></div>}
       </div>
     );
   }
