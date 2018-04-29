@@ -44,9 +44,26 @@ class MovieDetail extends Component{
   }
 
   componentDidMount(){
-    let {match} = this.props;
-    this.props.dispatch(this.props.getMovieDetail(match.params.id));
+    if(localStorage.getItem("userId")){
+      let {match} = this.props;
+      this.props.dispatch(this.props.getMovieDetail(match.params.id));
+    }else{
+      this.props.history.push("/login");
+    }
   }
+
+  componentWillReceiveProps(nextProps){
+    if(localStorage.getItem("userId")){
+        let {match} = this.props;
+        if(this.props.match!== nextProps.match){
+          this.props.dispatch(this.props.getMovieDetail(nextProps.match.params.id));
+        }
+    }else{
+        this.props.history.push("/login");
+    }
+  }
+
+
 
   showMovieReviews(){
     this.setState({
