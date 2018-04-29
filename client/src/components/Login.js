@@ -39,6 +39,13 @@ class Login extends Component {
     }
 
     componentWillMount(){
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user : localStorage.getItem("userDetails"),
+            path : "login"
+        }
+        axios.post(config.API_URL+'/logs/user_journey',userTrace);
+
         this.props.dispatch(this.props.requestAuth(this.state.userdata))
             .then(() => this.props.isAuthentic ? this.props.history.push('/home') : this.props.history.push('/login'));
     }
