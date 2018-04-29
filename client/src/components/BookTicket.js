@@ -6,6 +6,7 @@ import Stepper from 'react-stepper-horizontal'; //https://devarchy.com/react/rea
 import config from '../config.js';
 import axios from 'axios';
 import { stat } from 'fs';
+import Navbar from './Navbar';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -43,7 +44,7 @@ class BookTicket extends Component {
     this.state = {
         user:"",
         activeStep :0,
-        price:this.props.movie.moviehall.movie_hall.ticket_price,
+        price:this.props.movie!=null?this.props.movie.moviehall.movie_hall.ticket_price:"Not Available",
         amountDue: 0,
         error:"" ,
         cred_error:"",
@@ -218,8 +219,9 @@ check(){
 render(){
 
   return(
-    
-    <div className="container booking_container" onClick={() => {
+    <div>
+        <Navbar/>
+    <div className="container booking_container center" onClick={() => {
         let payload = {
             page: "booking"
         }
@@ -243,7 +245,7 @@ render(){
                 </div>
                 <p>Tax: 0.5</p>
                 {/* <p>Amount Due: ${this.state.amountDue}</p> */}
-                <a onClick={this.incrementStep.bind(this)} className="btn btn-primary">Payment ></a>
+                <a onClick={this.incrementStep.bind(this)} className="btn btn-primary bookingbuttons">Payment ></a>
                 {/* <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back">Back</a> */}
             </div>
             :""}
@@ -282,8 +284,8 @@ render(){
                 <br/>
                 <div className="row">
                     <div className="col-sm-8">
-                    <a href="#" onClick={this.gotoPayment.bind(this)} className="btn btn-primary">Confirm Payment ></a>
-                    <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back">Back</a>
+                    <a href="#" onClick={this.gotoPayment.bind(this)} className="btn btn-primary bookingbuttons">Confirm Payment ></a>
+                    <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back bookingbuttons">Back</a>
                     </div>
                 </div>
             </div>
@@ -292,8 +294,8 @@ render(){
             <div className="card-body">
                 <h5 className="card-title">PAYMENT</h5>
                 <p className="card-text">An amount of ${this.state.amountDue} will be deducted from your account</p>
-                <a onClick={this.makePayment.bind(this)} className="btn btn-primary">Proceed</a>
-                <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back">Back</a>
+                <a onClick={this.makePayment.bind(this)} className="btn btn-primary bookingbuttons">Proceed</a>
+                <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back bookingbuttons">Back</a>
             </div>
             :""}
              {this.state.activeStep==3?
@@ -310,7 +312,7 @@ render(){
         </div>
         <div className="col-sm-4 img_card">
             <div className="card">
-            <img className="card-img-top" src={this.props.movie.movie.photos} alt="Card image cap"/>
+            <img className="card-img-top"  src={this.props.movie.movie.photos} alt="Card image cap"/>
             <div className="card-body">
                 <h3 className="movie_name">{this.props.movie.movie.title}</h3>
                 <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
@@ -324,6 +326,7 @@ render(){
             </div>
             </div>
         </div>
+    </div>
     </div>
     </div>
 

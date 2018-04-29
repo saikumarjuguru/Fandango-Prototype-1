@@ -12,7 +12,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div class="main">
           <BrowserRouter>
             <NewerHomePage/>
           </BrowserRouter>
