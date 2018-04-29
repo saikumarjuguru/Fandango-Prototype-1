@@ -98,7 +98,7 @@ class Navbar extends Component {
             </div>
           </form>
           { !isAuthenticated &&  <Link className="btn btn-outline-primary" to="/login">SIGN IN</Link>}
-          { isAuthenticated && <Link className="btn btn-outline-info" style={marginR50} to="/editprofile`"><i class="fa fa-user-circle"></i></Link>}
+          { isAuthenticated && <Link className="btn btn-outline-info" style={marginR50} to="/editprofile"><i class="fa fa-user-circle"></i></Link>}
           { isAuthenticated && <button className="btn btn-outline-danger" onClick={()=>this.logOut()} >LOGOUT</button>}
 
         </div>
