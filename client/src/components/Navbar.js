@@ -56,7 +56,7 @@ class Navbar extends Component {
 		return(
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={borderRadiusZero}>
         <Link className="navbar-brand" to='/'>
-        	<img src="images/Fandango.png" width="210px"/>
+        	<img src="/images/fadango-header.png" width="210px"/>
         </Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />

@@ -58,7 +58,7 @@ class NavAdmin extends Component {
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-sm-0">
                     <div class="form-group">
                         <select class="form-control" ref="searchType" id="exampleFormControlSelect1">
                             <option>Movie</option> 
@@ -72,7 +72,7 @@ class NavAdmin extends Component {
                 </form>&nbsp;
                 <a href='./adminhalladd'><button class="btn btn btn-warning navbar-btn">Add Movie Hall</button> </a>&nbsp;
                 <a href='./adminaddmovie'><button class="btn btn btn-warning navbar-btn">Add Movie</button></a>&nbsp;
-                <button class="btn btn btn-warning navbar-btn" onClick={()=>this.logOut()}>LogOut</button>
+                <button class="btn btn-sm btn-warning navbar-btn" onClick={()=>this.logOut()}>LogOut</button>
           </ul>
         </div>
       </nav>

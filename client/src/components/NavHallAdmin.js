@@ -25,7 +25,7 @@ class NavHallAdmin extends Component {
     return(
         <nav class="navbar navbar-expand-lg navbar-white bg-dark">
          <a class="navbar-brand">
-        <img src='images/fadango-header.png' width='160px'/>
+        <img src='images/Fandango.png' width='160px'/>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         
