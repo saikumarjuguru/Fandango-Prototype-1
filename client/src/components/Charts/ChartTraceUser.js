@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import NavAdmin from '../NavAdmin';
 import config from '../../config'
-import {Bar,Pie,Doughnut,Line} from 'react-chartjs-2'
+import {Bar,Pie,Doughnut,Line,Polar} from 'react-chartjs-2'
 
 class ChartTraceUser extends Component {
 
@@ -37,7 +37,7 @@ class ChartTraceUser extends Component {
 
   componentWillMount(){
     let self = this;
-    axios.get(config.API_URL+'/admin/getpageclicks')
+    axios.get(config.API_URL+'/admin/getusertrace')
     .then(function (response) {
       console.log(response.data.message);
       self.setState({posts:response.data.message})
@@ -45,8 +45,8 @@ class ChartTraceUser extends Component {
       var labels_temp=[];
       var data_temp = [];
       self.state.posts.map((post)=>{
-        labels_temp.push(post.page);
-        data_temp.push(post.clicks);
+        labels_temp.push(post.path+'-'+post.user.username);
+        data_temp.push(post.user.user_id);
       })
       console.log(labels_temp);
       console.log(data_temp);
@@ -92,7 +92,7 @@ render(){
   
 
   return(
-          <Line
+          <Polar
           data={this.state.chartData}
           
          
