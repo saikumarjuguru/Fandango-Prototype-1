@@ -29,7 +29,9 @@ class Navbar extends Component {
   }
 
   handleSelected(selected) {
-    this.props.history.push(`/movieDetails/${selected[0].movie_id}`)
+    if(selected.length > 0) {
+      this.props.history.push(`/movieDetails/${selected[0].movie_id}`)
+    }
   }
 
 	render() {
@@ -46,9 +48,9 @@ class Navbar extends Component {
 
 		return(
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={borderRadiusZero}>
-        <a className="navbar-brand">
-        	<img src='/images/fadango-header.png' width='160px'/>
-        </a>
+        <Link className="navbar-brand" to='/'>
+        	<img src="/images/fadango-header.png" width="210px"/>
+        </Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
@@ -107,9 +109,10 @@ class Navbar extends Component {
           { isAuthenticated && <button className="btn btn-outline-danger bg-white">LOGOUT</button>}
         </div>
       </nav>
-
+      
 		)
 	}
 }
 
 export default withRouter(Navbar);
+

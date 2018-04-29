@@ -201,8 +201,10 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "search_movie"){
-        let query = "select movie_id, title as movie_name, trailer_link, movie_characters, DATE_FORMAT(release_date, '%Y-%m-%d') AS release_date, rating, photos, movie_length, see_it_in\n" +
-            "from movies where title like '%"+ msg.searchtext +"%' order by movie_name";
+        let query = "select movie_id, title as movie_name, trailer_link, movie_characters, DATE_FORMAT(release_date, '%Y-%m-%d') AS release_date, \n" +
+            "rating, photos, movie_length, see_it_in, movie_type.type as genre\n" +
+            "from movies inner join movie_type using (movie_id) \n" +
+            "where title like '%"+ msg.searchtext +"%' order by movie_name";
         conn.query(query, function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -417,6 +419,21 @@ function handle_request(msg, callback){
                 callback(null, res);
             }
         });
+    }
+
+    if (msg.type === "get_less_seen"){
+        //dummy service
+        pageclicks.find((err, result) => {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result[0];
+                callback(null, res);
+            }
+        }).sort("clicks");
     }
 
 }
