@@ -88,7 +88,7 @@ class DateCarousel extends Component{
       date.setDate(date.getDate() + i )
         dateItems.push(
           <div key={i}  className='carousel-item row' onClick={this.clickDate}>
-              <div className={ i==0 ? 'fandango-calender-click col-md-2 item-date': 'col-md-2 item-date'} data={date}  >
+              <div className={ i==0 ? 'fandango-calender-click col-md-2 item-date p-0': 'col-md-2 item-date p-0'} data={date}  >
                 <div className ="fandango-calender" >
                   <span className="date-picker__date-weekday">{days[date.getDay()]}</span>
                   <span className="date-picker__date-month">{months[date.getMonth()]}</span>

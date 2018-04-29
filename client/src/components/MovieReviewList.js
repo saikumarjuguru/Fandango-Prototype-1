@@ -28,9 +28,10 @@ class MovieReviewList extends Component{
     this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid))
   }
 
-  componentWillReceiveProps(nextProps){
-    if((nextProps !== this.props) || (nextProps.movieReviewers.length !== this.props.movieReviewers.length)){
-      this.props.dispatch(nextProps.getReviewsOfMovie(nextProps.movieid))
+  componentDidUpdate(prevProps) {
+    let {match} = this.props;
+    if((prevProps.movieid !== this.props.movieid)){
+      this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid))
     }
   }
 
