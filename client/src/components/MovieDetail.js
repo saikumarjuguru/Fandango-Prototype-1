@@ -4,6 +4,8 @@ import { getMovieDetail } from '../actions';
 import Rating from './Rating';
 import MovieReview from './MovieReview';
 import MovieTimeList from './MovieTimeList'
+import axios from "axios/index";
+import config from "../config";
 import Navbar from './Navbar';
 
 const mapDispatchToProps = (dispatch) => {
@@ -43,7 +45,17 @@ class MovieDetail extends Component{
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
+
+      let userTrace = {
+          user_id: localStorage.getItem("userId"),
+          user : localStorage.getItem("userDetails"),
+          path : "moviedetails"
+      }
+      axios.post(config.API_URL+'/logs/user_journey',userTrace);
+  }
+
+componentDidMount(){
     let {match} = this.props;
     this.props.dispatch(this.props.getMovieDetail(match.params.id));
   }
@@ -133,7 +145,7 @@ class MovieDetail extends Component{
       </div> : <div>{this.props.moviefetcherror}</div>}
 
         </div>
-        </div>
+</div>
     );
   }
 

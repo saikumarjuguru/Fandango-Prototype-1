@@ -39,12 +39,6 @@ class Login extends Component {
     }
 
     componentWillMount(){
-        let userTrace = {
-            user_id: localStorage.getItem("userId"),
-            user : localStorage.getItem("userDetails"),
-            path : "login"
-        }
-        axios.post(config.API_URL+'/logs/user_journey',userTrace);
 
         this.props.dispatch(this.props.requestAuth(this.state.userdata))
             .then(() => this.props.isAuthentic ? this.props.history.push('/home') : this.props.history.push('/login'));
@@ -58,10 +52,16 @@ class Login extends Component {
                 this.props.history.push("moviehalladminhome");
             }
             else if(this.props.userDetails.role == 2){
-                this.props.history.push("adminhome");
+                this.props.history.push("admindashboard");
             }
             else{
-                this.props.history.push("/home");
+                let userTrace = {
+                    user_id: localStorage.getItem("userId"),
+                    user : JSON.parse(localStorage.getItem("userDetails")),
+                    path : "login"
+                }
+                axios.post(config.API_URL+'/logs/user_journey',userTrace);
+                this.props.history.push("/");
             }
         }
     }
@@ -150,7 +150,7 @@ class Login extends Component {
                             </div>
                             <form role="form" method="POST" onSubmit = {this.handleSubmit} >
                                 <div className="form-group">
-                                    { this.state.emailorusernameValid ? null : <div className="text-input-error-wrapper text-left errormessage">Please enter valid email address.</div>}
+                                    { this.state.emailorusernameValid ? null : <div className="text-input-error-wrapper text-left errormessage">Username is required.</div>}
                                     <input  className="form-control large-input" id="username" ref = "useroremail" name="useroremail" type="text" placeholder="Email or Username"
                                             onChange={(event) => {
                                                 this.setState({
@@ -165,7 +165,7 @@ class Login extends Component {
                                             }}/>
                                 </div>
                                 <div className="form-group">
-                                    { this.state.passwordValid ? null : <div className="text-input-error-wrapper text-left errormessage">Password must contain more than 6 character with digit.</div>}
+                                    { this.state.passwordValid ? null : <div className="text-input-error-wrapper text-left errormessage">Password is required.</div>}
                                     <input  className="form-control large-input" id="password"  ref = "password" name="password" type="password"
                                             placeholder="Password"
                                             onChange={(event) => {this.setState({

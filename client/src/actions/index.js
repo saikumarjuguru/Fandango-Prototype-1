@@ -15,7 +15,7 @@ export function login(state){
             if( response.data.value){
                 localStorage.setItem('userId', response.data.value.userDetails.user_id);
                 localStorage.setItem('role', response.data.value.userDetails.role);
-                localStorage.setItem('userDetails', response.data.value.userDetails);
+                localStorage.setItem('userDetails', JSON.stringify(response.data.value.userDetails));
                 dispatch({type:actionType.LOGIN_SUCCESS, payload: response.data.value})
             }
         }).catch((err) => {
