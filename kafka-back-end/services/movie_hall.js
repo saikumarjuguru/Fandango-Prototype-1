@@ -248,6 +248,29 @@ function handle_request(msg, callback){
 
         });
     }
+    if(msg.type==="check_screen_capacity"){
+        console.log("HEYYYYY!");
+        response = {
+            success:"",
+            statusCode :200,
+            message:""
+        }
+        conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
+            if(err) throw err;
+            for(var i=0; i<screens.length;i++){
+
+                
+                    response.message+= "Screen "+screens[i]['screen_number']+": "+screens[i][msg.slot]+ " ";
+                    response.success = true;
+                    callback(null,response);
+                
+            }
+
+               
+
+        });
+
+    }
 }
 
 exports.handle_request = handle_request;
