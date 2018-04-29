@@ -55,13 +55,16 @@ class Login extends Component {
                 this.props.history.push("admindashboard");
             }
             else{
-                let userTrace = {
-                    user_id: localStorage.getItem("userId"),
-                    user : JSON.parse(localStorage.getItem("userDetails")),
-                    path : "login"
+                if(localStorage.getItem("userId")) {
+                    let userTrace = {
+                        user_id: localStorage.getItem("userId"),
+                        user: JSON.parse(localStorage.getItem("userDetails")),
+                        path: "login"
+                    }
+                    axios.post(config.API_URL + '/logs/user_journey', userTrace);
                 }
-                axios.post(config.API_URL+'/logs/user_journey',userTrace);
-                this.props.history.push("/");
+                    this.props.history.push("/");
+
             }
         }
     }
@@ -184,7 +187,7 @@ class Login extends Component {
                                 <div className="form-group">
                                     <div >
                                         <button id="signup_btn" type="submit" className="btn btn-info btn-large btn-submit large-input freelancer-font">
-                                            Log In
+                                            Sign In
                                         </button>
                                     </div>
                                 </div>
