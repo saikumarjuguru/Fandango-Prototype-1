@@ -42,6 +42,27 @@ class LandingPage extends Component {
     })
   }
 
+  componentWillMount(){
+
+    if(localStorage.getItem("userId")) {
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user: localStorage.getItem("userDetails"),
+            path: "home"
+        }
+        axios.post(config.API_URL + '/logs/user_journey', userTrace);
+    }
+    else
+    {
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user: localStorage.getItem("userDetails"),
+            path: "landingpage"
+        }
+        axios.post(config.API_URL + '/logs/user_journey', userTrace);
+    }
+  }
+
   render(){
 
     let {movies} = this.state;
