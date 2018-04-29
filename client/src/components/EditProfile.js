@@ -309,7 +309,12 @@ class EditProfile extends Component {
                     <div>
                         <br/>
                         <br/>
-                        <div>
+                        <div onClick={()=>{
+                            let componentData = {
+                                component: "editprofile"
+                            }
+                            axios.post(config.API_URL+'/logs/component_click',componentData);
+                        }}>
                         <Collapsible trigger="Update Profile"
                                      triggerOpenedClassName="btn btn-warning form-control collapsibleFont customCollapse"
                                      triggerClassName="btn btn-warning form-control collapsibleFont customCollapse"
@@ -515,14 +520,24 @@ class EditProfile extends Component {
                         </Collapsible>
                         </div>
                         <br/>
-                        <div>
+                        <div onClick={()=>{
+                            let componentData = {
+                                component: "mybookings"
+                            }
+                            axios.post(config.API_URL+'/logs/component_click',componentData);
+                        }}>
                         <Collapsible trigger="See My Bookings" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
                             {this.display_tickets()}
                         </Collapsible>
                         </div>
                         <br/>
-                        <div>
+                        <div onClick={()=>{
+                            let componentData = {
+                                component: "myreviews"
+                            }
+                            axios.post(config.API_URL+'/logs/component_click',componentData);
+                        }}>
                         <Collapsible trigger="My Reviews" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
                             {this.display_reviews()}
