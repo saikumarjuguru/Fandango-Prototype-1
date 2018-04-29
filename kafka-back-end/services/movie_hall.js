@@ -170,10 +170,14 @@ function handle_request(msg, callback){
                res.value = data;
                callback(null, res);
              }else{
+
                var count = 0;
                rows.forEach((row)=> {
                  conn.getConnection(function(err, connection){
-                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
+                   connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where  movie_id ="+msg.data+ " and movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
+                     if(err){
+                       throw err;
+                     }
                      if(rows1 !== undefined && rows1.length >0){
                        var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0 ) ? true  : false;
                        var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0 ) ? true  : false;
