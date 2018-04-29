@@ -57,15 +57,6 @@ class LandingPage extends Component {
         }
         axios.post(config.API_URL + '/logs/user_journey', userTrace);
     }
-    else
-    {
-        let userTrace = {
-            user_id: localStorage.getItem("userId"),
-            user: localStorage.getItem("userDetails"),
-            path: "landingpage"
-        }
-        axios.post(config.API_URL + '/logs/user_journey', userTrace);
-    }
   }
 
 handleFilterButton(type, e) {
@@ -101,9 +92,9 @@ handleFilterButton(type, e) {
       fontSize: 12,
       borderRadius: 0
     }
-
+    
     return(
-      <div className="container-fluid">
+      <div className="container-fluid landingpage">
         <Navbar movies={this.state.movies}></Navbar>
 
         <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">

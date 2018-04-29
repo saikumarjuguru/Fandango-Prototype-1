@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
         signupStatus : state.signupReducer.status
     };
 };
-class Login extends Component {
+class SignUp extends Component {
 
     state={
         userdata: {
@@ -41,6 +41,15 @@ class Login extends Component {
         {
             nextProps.history.push("/login");
         }
+    }
+
+    componentWillMount() {
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user: localStorage.getItem("userDetails"),
+            path: "signup"
+        }
+        axios.post(config.API_URL + '/logs/user_journey', userTrace);
     }
 
     handleSubmit(e){
@@ -206,4 +215,4 @@ class Login extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

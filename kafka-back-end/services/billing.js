@@ -48,16 +48,16 @@ function handle_request(msg, callback){
             console.log(screen[0]);
             if(err) throw err;
             let temp="";
-            if(bill.slot==1){
+            if(bill.slot=="slot1"){
                 temp = screen[0].slot1-bill.number_of_seats;
-            } else if (bill.slot == 2){
+            } else if (bill.slot == "slot2"){
                 temp = screen[0].slot2-bill.number_of_seats;
-            } else if(bill.slot==3){
+            } else if(bill.slot=="slot3"){
                 temp = screen[0].slot3-bill.number_of_seats;
             } else {
                 temp = screen[0].slot4 - bill.number_of_seats;
             }
-            con.query('UPDATE screen SET slot'+bill.slot+' =? WHERE screen_id=?',[temp,bill.screen_id],function(err,result){
+            con.query('UPDATE screen SET '+bill.slot+' =? WHERE screen_id=?',[temp,bill.screen_id],function(err,result){
                 if(err) throw err;
 
             });
