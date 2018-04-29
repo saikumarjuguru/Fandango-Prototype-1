@@ -58,7 +58,7 @@ function handle_request(msg, callback){
             "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) a\n" +
             "left outer join\n" +
             "(select movie_id, sum(amount) as revenue from billing\n" +
-            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?) group by movie_id) b using (movie_id) order by revenue desc";
+            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ? and is_cancelled <> 1) group by movie_id) b using (movie_id) order by revenue desc";
         conn.query(query, [msg.user_id, msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
