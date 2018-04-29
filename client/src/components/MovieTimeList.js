@@ -157,14 +157,14 @@ class MovieTimeList extends Component{
       <div className = "col-md-8">
 
         <DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>
-        <div className = "pull-right"><strong>Price Range </strong>Min:
-          <span className = "display-inline"><select   onChange={this.filter1Change} >
+        <div className = "m-5 mt-lg-4 pull-right"><strong>Price Range </strong>Min:
+          <span className = "display-inline"><select  className = "form-control" onChange={this.filter1Change} >
                   <option> 8$</option>
                   <option> 9$</option>
                   <option> 10$</option>
           </select></span>
         &nbsp; - &nbsp;  Max:
-          <span className = "display-inline"><select   onChange={this.filter2Change} >
+          <span className = "display-inline"><select className="form-control"  onChange={this.filter2Change} >
                   <option> 13$</option>
                   <option> 14$</option>
                   <option> 15$</option>
@@ -173,7 +173,7 @@ class MovieTimeList extends Component{
         <br/>
         <br/>
         {this.state.hallsWithSlotForFilter !== undefined && this.state.hallsWithSlotForFilter.length >0 ?
-        <div>
+        <div className = "mt-5">
             {this.state.hallsWithSlotForFilter.map(hall =>
                   <div className="theater__wrap" style = {{display :hall.display}}>
                       <div className="theater__header">
