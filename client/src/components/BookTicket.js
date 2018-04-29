@@ -63,10 +63,9 @@ componentWillMount() {
     let userTrace = {
         user_id: localStorage.getItem("userId"),
         user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "login"
+        path : "booking"
     }
     axios.post(config.API_URL+'/logs/user_journey',userTrace);
-    this.props.history.push("/");
 }
 
 componentWillReceiveProps(){
