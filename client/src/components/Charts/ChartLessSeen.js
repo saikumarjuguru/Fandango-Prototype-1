@@ -92,7 +92,7 @@ render(){
   
 
   return(
-          <Pie
+          <Bar
           data={this.state.chartData}
           
          

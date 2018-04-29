@@ -44,6 +44,8 @@ class EditProfile extends Component {
             collapsible1Open: false,
             collapsible2Open: false,
             ProfileUpdateMsg: false,
+            reviewsAvailable: false,
+            bookingsAvailable: false
 
         }
         this.gotoUpdate = this.gotoUpdate.bind(this);
@@ -528,7 +530,9 @@ class EditProfile extends Component {
                         }}>
                         <Collapsible trigger="See My Bookings" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
-                            {this.display_tickets()}
+                            {this.state.tickets.length > 0 ? this.display_tickets() : <div className="alert alert-info">
+                                No reviews yet.
+                            </div>}
                         </Collapsible>
                         </div>
                         <br/>
@@ -540,7 +544,9 @@ class EditProfile extends Component {
                         }}>
                         <Collapsible trigger="My Reviews" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
-                            {this.display_reviews()}
+                            {this.state.reviews.length > 0 ? this.display_reviews() : <div className="alert alert-info">
+                                No reviews yet.
+                            </div>}
                         </Collapsible>
                         </div>
                     </div>

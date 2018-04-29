@@ -60,7 +60,13 @@ class EditMovieHallAdmin extends Component {
            if(userInput.slot4.checked){
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
-        let req ={
+           if(userInput.max_seats.value ==='' || userInput.max_seats.value===null){
+               alert("Please enter number of seats");
+           }
+           if(userInput.ticket_price.value ==='' || userInput.ticket_price.value===null){
+            alert("Please enter ticket price");
+        }
+           let req ={
                     "movie_hall_id": data.movie_hall_id,
                     "screen_number": data.screen_number,
                     "movie_id": movie_id,
@@ -111,7 +117,7 @@ class EditMovieHallAdmin extends Component {
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Select Movie to be played:</label>
                         <select class="form-control" ref="movie_name" id="exampleFormControlSelect1">
-                            <option>Select a Movie to be Shown</option>    
+                              
                             {postItem}
                         </select>
                     </div>
