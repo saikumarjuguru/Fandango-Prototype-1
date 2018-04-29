@@ -52,6 +52,11 @@ class MovieTimeList extends Component{
   }
 
   componentWillReceiveProps(nextProps){
+    if((nextProps !== this.props) || (nextProps.hallsWithSlot.length !== this.props.hallsWithSlot.length)){
+      let date = new Date();
+      let formatDate = date.getFullYear() + '-' +(date.getMonth() + 1)+ '-' + date.getDate()
+      this.props.dispatch(nextProps.getMovieHallsAndTimes(nextProps.movie.movie_id,formatDate));
+    }
     if(nextProps.hallsWithSlot !== undefined){
       this.setState({
         hallsWithSlot :nextProps.hallsWithSlot,
@@ -59,6 +64,7 @@ class MovieTimeList extends Component{
       })
     }
   }
+
 
   onDateSelect(date){
     let formatDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' +  date.getFullYear()

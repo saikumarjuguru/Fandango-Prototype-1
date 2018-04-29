@@ -18,14 +18,17 @@
 .heading-style-1 {
     display: block;
     color: #4c4c4c;
-
+    margin-top: 56px;
+margin-bottom: 13px;
     font-family: alternate-gothic-no-1-d,"Futura Condensed","Arial Narrow",Arial,sans-serif;
+    font-weight: 800;
+color: darkorange;
 }
 .cta, .heading-style-1 {
     text-transform: uppercase;
 }
 .subnav__link-list {
-    margin-bottom: 10px;
+  margin-bottom: 21px;
 }
 
 
@@ -237,5 +240,5 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 .cursor-a{
   cursor : pointer;
-  color : blue!important;
+  color : #3d8ede!important;
 }

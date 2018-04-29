@@ -49,7 +49,7 @@ class MovieDetail extends Component{
     if(localStorage.getItem("userId")){
       let {match} = this.props;
       this.props.dispatch(this.props.getMovieDetail(match.params.id));
-  
+
     }else{
       this.props.history.push("/login");
     }

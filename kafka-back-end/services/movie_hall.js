@@ -172,8 +172,9 @@ function handle_request(msg, callback){
              }else{
 
                var count = 0;
+                  conn.getConnection(function(err, connection){
                rows.forEach((row)=> {
-                 conn.getConnection(function(err, connection){
+
                    connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where  movie_id ="+msg.data+ " and movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
                      if(err){
                        throw err;
@@ -184,12 +185,12 @@ function handle_request(msg, callback){
                        var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0 ) ? true  : false;
                        var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0 ) ? true  : false;
 
-                       var data1 = {
-                          movie_hall : row,
-                          slot1Available : slot1Available,
-                          slot2Available : slot2Available,
-                          slot3Available : slot3Available,
-                          slot4Available : slot4Available
+                        var data1 = {
+                            movie_hall : row,
+                            slot1Available : slot1Available,
+                            slot2Available : slot2Available,
+                            slot3Available : slot3Available,
+                            slot4Available : slot4Available
                         }
                          hallWithSlot.push(data1);
                          count++;
