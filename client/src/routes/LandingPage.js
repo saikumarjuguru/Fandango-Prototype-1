@@ -101,9 +101,9 @@ handleFilterButton(type, e) {
       fontSize: 12,
       borderRadius: 0
     }
-
+    
     return(
-      <div className="container-fluid">
+      <div className="container-fluid landingpage">
         <Navbar movies={this.state.movies}></Navbar>
 
         <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">

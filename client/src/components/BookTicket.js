@@ -221,7 +221,7 @@ render(){
   return(
     <div>
         <Navbar/>
-    <div className="container booking_container center" onClick={() => {
+    <div className="container-fluid booking_container center" onClick={() => {
         let payload = {
             page: "booking"
         }
@@ -231,7 +231,7 @@ render(){
         <div className="col-sm-8">
             <div className="card">
             <div className="card-header">
-            <Stepper steps={ [{title: 'Step One'}, {title: 'Step Two'},{title: 'Step Three'},{title: 'Step Four'}] } activeStep={ this.state.activeStep } />
+            <Stepper steps={ [{title: 'Step One'}, {title: 'Step Two'},{title: 'Step Three'},{title: 'Step Four'}] } activeStep={ this.state.activeStep } activeColor={"#ffc107"} completeColor={"#ffc107"}/>
             </div>
             <form>
             {this.state.activeStep==0?
@@ -245,7 +245,7 @@ render(){
                 </div>
                 <p>Tax: 0.5</p>
                 {/* <p>Amount Due: ${this.state.amountDue}</p> */}
-                <a onClick={this.incrementStep.bind(this)} className="btn btn-primary bookingbuttons">Payment ></a>
+                <a onClick={this.incrementStep.bind(this)} className="btn btn-warning">Payment ></a>
                 {/* <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back">Back</a> */}
             </div>
             :""}
@@ -284,8 +284,8 @@ render(){
                 <br/>
                 <div className="row">
                     <div className="col-sm-8">
-                    <a href="#" onClick={this.gotoPayment.bind(this)} className="btn btn-primary bookingbuttons">Confirm Payment ></a>
-                    <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back bookingbuttons">Back</a>
+                    <a href="#" onClick={this.gotoPayment.bind(this)} className="btn btn-warning ">Confirm Payment ></a>
+                    <a onClick={this.decrementStep.bind(this)} className="btn btn-warning pay_back ">Back</a>
                     </div>
                 </div>
             </div>
@@ -294,8 +294,8 @@ render(){
             <div className="card-body">
                 <h5 className="card-title">PAYMENT</h5>
                 <p className="card-text">An amount of ${this.state.amountDue} will be deducted from your account</p>
-                <a onClick={this.makePayment.bind(this)} className="btn btn-primary bookingbuttons">Proceed</a>
-                <a onClick={this.decrementStep.bind(this)} className="btn btn-primary pay_back bookingbuttons">Back</a>
+                <a onClick={this.makePayment.bind(this)} className="btn btn-warning ">Proceed</a>
+                <a onClick={this.decrementStep.bind(this)} className="btn btn-warning pay_back ">Back</a>
             </div>
             :""}
              {this.state.activeStep==3?
