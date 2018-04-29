@@ -522,7 +522,7 @@ class EditProfile extends Component {
                         <br/>
                         <div onClick={()=>{
                             let componentData = {
-                                component: "mybookings"
+                                component: "editprofile"
                             }
                             axios.post(config.API_URL+'/logs/component_click',componentData);
                         }}>
@@ -534,7 +534,7 @@ class EditProfile extends Component {
                         <br/>
                         <div onClick={()=>{
                             let componentData = {
-                                component: "myreviews"
+                                component: "editprofile"
                             }
                             axios.post(config.API_URL+'/logs/component_click',componentData);
                         }}>
