@@ -1,6 +1,8 @@
 var conn = require('../pool');
 var pageclicks = require('../schemas/pageclickslog');
 var movieclicks = require('../schemas/movieclickslog');
+var componentclicks = require('../schemas/componentclicklog');
+var usertrace = require('../schemas/usertrace');
 
 function handle_request(msg, callback){
 
@@ -422,8 +424,7 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "get_less_seen"){
-        //dummy service
-        pageclicks.find((err, result) => {
+        componentclicks.find((err, result) => {
             if (err){
                 res.statusCode = 401;
                 res.message = err;
@@ -434,6 +435,20 @@ function handle_request(msg, callback){
                 callback(null, res);
             }
         }).sort("clicks");
+    }
+
+    if (msg.type === "get_user_trace"){
+        usertrace.find((err, result) => {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        }).select({"_id":0, "path":1, "user":1});
     }
 
 }
