@@ -37,8 +37,10 @@ class MovieHallAdminSearch extends Component {
 
 }
 
-editMovieDetailAdmin(){
-  
+editMovieDetailAdmin(movie_selected){
+  console.log(JSON.stringify(movie_selected));
+  localStorage.setItem('movie_selected',JSON.stringify(movie_selected));
+  this.props.history.push('/editMovieDetailAdmin');
 }
 
 render(){
@@ -61,7 +63,7 @@ render(){
             <h6 class="card-title">See it in: {post.see_it_in}</h6>
             <h6 class="card-title">Ticket Price: ${post.ticket_price}</h6>
             <h6 class="card-title">Number Of Seats: {post.max_seats}</h6>
-            <a href="/editMovieDetailAdmin" class="btn btn-warning btn-sm" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
+            <button class="btn btn-warning btn-sm" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
           </div>
         </div>
   );
