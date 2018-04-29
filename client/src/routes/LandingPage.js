@@ -47,7 +47,28 @@ class LandingPage extends Component {
     })
   }
 
-  handleFilterButton(type, e) {
+  componentWillMount(){
+
+    if(localStorage.getItem("userId")) {
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user: localStorage.getItem("userDetails"),
+            path: "home"
+        }
+        axios.post(config.API_URL + '/logs/user_journey', userTrace);
+    }
+    else
+    {
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user: localStorage.getItem("userDetails"),
+            path: "landingpage"
+        }
+        axios.post(config.API_URL + '/logs/user_journey', userTrace);
+    }
+  }
+
+handleFilterButton(type, e) {
     e.preventDefault();
     let nowShowing = [];
     let comingSoon = [];

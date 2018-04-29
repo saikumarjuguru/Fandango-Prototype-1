@@ -54,9 +54,11 @@ render(){
           </div>
         </div>
   );
-
-
+  console.log("test"+localStorage.getItem('role'));
+  console.log("userId"+localStorage.getItem('userId'));
+  if(localStorage.getItem('role')==='2'){
   return(
+   
         <div className="halladmindiv">
         <NavAdmin></NavAdmin>
         <br/>
@@ -64,7 +66,10 @@ render(){
         {postItem}
       </div>
        
-  )
+  )}
+  else{
+    window.location.replace('http://localhost:3000/login');
+  }
 }
 }
 

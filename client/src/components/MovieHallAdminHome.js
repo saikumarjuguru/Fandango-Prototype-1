@@ -60,7 +60,7 @@ render(){
         </div>
   );
 
-
+  if(localStorage.getItem('role')==='1'){
   return(
         <div className="halladmindiv">
         <NavHallAdmin></NavHallAdmin>
@@ -69,7 +69,10 @@ render(){
         {postItem}
       </div>
        
-  )
+  )}
+  else{
+    window.location.replace("http://localhost:3000/login");
+  }
 }
 }
 

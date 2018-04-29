@@ -68,7 +68,7 @@ render(){
             <button class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
             </div>
             <div class="col-md-3">
-            <img class="card-img-right" src={post.photos} alt="Card image cap"/>
+            <img class="card-img-right imagesearch" src={post.photos} alt="Card image cap" />
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ componentWillMount(){
 render(){
   
   
-
+if(localStorage.getItem('role')==='2'){
   return(
         <div className="halladmindashboard">
           <NavAdmin></NavAdmin>
@@ -60,12 +60,23 @@ render(){
             <ChartReviews/>
           </div>
         </div>
+        div class="card text-white bg-dark mb-3">
+        <div className="row">
+          <div className="col-md-4">
+            <h4 class="nowshowing">Least Seen Area:</h4><br/>
+           
+          </div>
+          
+        </div>
         
         <br/>
         </div>
       </div>
        
-  )
+  )}
+  else{
+    window.location.replace('http://localhost:3000/login');
+  }
 }
 }
 
