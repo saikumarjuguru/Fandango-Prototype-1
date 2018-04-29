@@ -53,11 +53,11 @@ if(localStorage.getItem('role')==='2'){
         <div class="card text-white bg-dark mb-3">
         <div className="row">
           <div className="col-md-4">
-            <h4 class="nowshowing">Top 10 Movies with Revnue/Year:</h4><br/>
+            <h4 class="nowshowing">Top 10 Movies with Revenue/Year:</h4><br/>
             <ChartMovies/>
           </div>
           <div className="col-md-4">
-            <h4 class="nowshowing">Top 10 Cities with Revnue/Year:</h4><br/>
+            <h4 class="nowshowing">Top 10 Cities with Revenue/Year:</h4><br/>
             <ChartCity/>
           </div>
           <div className="col-md-4">

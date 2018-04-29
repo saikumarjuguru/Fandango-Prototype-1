@@ -61,10 +61,10 @@ class AdminMovieEdit extends Component {
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
         
-        if(userInput.max_seats.value === '' || userInput.max_seats.value === null){
+        if(userInput.max_seats.value === '' || userInput.max_seats.value === null || userInput.ticket_price.value === 0){
                 alert("Please enter no of seats");
         }
-        if(userInput.ticket_price.value === '' || userInput.ticket_price.value === null){
+        if(userInput.ticket_price.value === '' || userInput.ticket_price.value === null || userInput.ticket_price.value === 0){
             alert("Please enter ticket price");
         }
            

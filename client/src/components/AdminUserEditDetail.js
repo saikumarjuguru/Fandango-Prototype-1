@@ -190,12 +190,12 @@ render(){
   
 
   return(
-    <div className="halladminBookingdiv">
+    <div className="halladmindiv">
         <NavAdmin></NavAdmin><br/>
         <h3>Edit Profile Detail</h3>
         <div className="container">
         <div className="row align-content-md-center justify-content-center">
-                        <div className="align-content-md-center justify-content-center"><img className="img-circle" src = {this.state.userdata.bloburl} height="130"></img></div>
+                     <div className="align-content-md-center justify-content-center"><img className="img-circle" src = {this.state.userdata.bloburl} height="130"></img></div>
                     </div>
                     <div>
                         <br/>
