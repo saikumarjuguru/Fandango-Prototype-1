@@ -14,7 +14,7 @@ class ChartPPP extends Component {
         labels: [],
         datasets:[
           {
-            label:'Revenue',
+            label:'Page Clicks',
             data:[],
             backgroundColor:[
               'rgba(255, 99, 132, 0.6)',
