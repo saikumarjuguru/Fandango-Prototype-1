@@ -60,13 +60,14 @@ class BookTicket extends Component {
 
   }
 componentWillMount() {
-    let userTrace = {
-        user_id: localStorage.getItem("userId"),
-        user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "booking"
-    }
-    axios.post(config.API_URL+'/logs/user_journey',userTrace);
-
+      if(localStorage.getItem("userId")) {
+          let userTrace = {
+              user_id: localStorage.getItem("userId"),
+              user: JSON.parse(localStorage.getItem("userDetails")),
+              path: "booking"
+          }
+          axios.post(config.API_URL + '/logs/user_journey', userTrace);
+      }
 }
 
 
