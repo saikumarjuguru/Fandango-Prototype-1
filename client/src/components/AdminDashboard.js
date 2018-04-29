@@ -80,9 +80,13 @@ if(localStorage.getItem('role')==='2'){
         </div>
         <div class="card text-white bg-dark mb-3">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-8">
             <h4 class="nowshowing">User Trace Diagram:</h4><br/>
             <ChartTraceUser/>
+          </div>
+          <div className="col-md-4">
+            <h4 class="nowshowing">Area Less Seen:</h4><br/>
+            <ChartLessSeen/>
           </div>
           
         </div>

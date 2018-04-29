@@ -14,7 +14,7 @@ class ChartMovieClick extends Component {
         labels: [],
         datasets:[
           {
-            label:'Page',
+            label:'Area Less Seen',
             data:[],
             backgroundColor:[
               'rgba(255, 99, 132, 0.6)',
@@ -45,7 +45,7 @@ class ChartMovieClick extends Component {
       var labels_temp=[];
       var data_temp = [];
       self.state.posts.map((post)=>{
-        labels_temp.push(post.page);
+        labels_temp.push(post.component);
         data_temp.push(post.clicks);
       })
       console.log(labels_temp);
@@ -57,7 +57,7 @@ class ChartMovieClick extends Component {
               labels:labels_temp,
               datasets:[
                 {
-                  label:'Least Seen',
+                  label:'Area Less Seen',
                   data:data_temp,
                   backgroundColor:[
                     'rgba(255, 99, 132, 0.6)',
@@ -92,7 +92,7 @@ render(){
   
 
   return(
-          <Bar
+          <Pie
           data={this.state.chartData}
           
          

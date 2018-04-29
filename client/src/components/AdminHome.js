@@ -49,8 +49,8 @@ render(){
              <h6 class="card-title">Ticket Price:&nbsp; ${post.ticket_price}</h6>
             <h6 class="card-title">Number Of Seats: &nbsp;{post.max_seats}</h6>
             <h6 class="card-title">Location:&nbsp;{post.city}</h6>
-            <a href="/adminhalledit" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>Edit Hall Details</a> &nbsp;
-            <a href="/adminmoviedetail" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>View Movie Details</a>
+            <a href="/adminhalledit" class="btn btn-warning btn-sm" onClick={this.editHallDetails.bind(this,post)}>Edit Hall Details</a> &nbsp;
+            <a href="/adminmoviedetail" class="btn btn-warning btn-sm" onClick={this.editHallDetails.bind(this,post)}>View Movie Details</a>
           </div>
         </div>
   );
