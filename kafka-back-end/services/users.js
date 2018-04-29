@@ -30,7 +30,7 @@ function handle_request(msg, callback){
         console.log("Inside history kafka");
             var user_id = msg.user_id;
             console.log(user_id);
-                var query = "select m.title, mh.movie_hall_name, mh.city, s.screen_number,b.amount, b.is_cancelled from users u inner join billing b on u.user_id = b.user_id inner join movies m on b.movie_id = m.movie_id  inner join movie_hall mh on b.movie_hall_id = mh.movie_hall_id inner join screen s on b.screen_number = s.screen_number where u.user_id = " + user_id ;
+                var query = "select m.title, mh.movie_hall_name, mh.city, s.screen_number,b.amount, b.is_cancelled from users u inner join billing b on u.user_id = b.user_id inner join movies m on b.movie_id = m.movie_id  inner join movie_hall mh on b.movie_hall_id = mh.movie_hall_id inner join screen s on b.screen_number = s.screen_number where u.user_id = " + user_id + " group by b.billing_id";
             console.log(query);
             con.query(query,function(err,user1){
                 if(err){
