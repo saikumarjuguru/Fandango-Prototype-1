@@ -156,7 +156,8 @@ function handle_request(msg, callback){
     if(msg.type ==='getMovieHallsAndTimes'){
         var hallWithSlot=[];
         conn.getConnection(function(err, connection){
-          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
+          console.log("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" and s.date_of_movie = '"+msg.date +"' group by mh.movie_hall_id; " );
+          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" and s.date_of_movie = '"+msg.date +"' group by mh.movie_hall_id; " ,function(err,rows){
             connection.release();//release the connection
             if(err) {
                res.code = "500";

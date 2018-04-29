@@ -58,43 +58,48 @@ class MovieReview extends Component{
   render(){
 
     return(
-
       <div className="comment-tabs col-md-7">
-            <ul className="nav nav-tabs">
-                <li className="nav-item active"><a className="nav-link" href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Reviews</h4></a></li>
-                <li className="nav-item"><a className="nav-link" href="#add-comment" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}><h4 class="reviews text-capitalize">Add Review</h4></a></li>
-            </ul>
-
-            <div className="tab-content">
-                  <MovieReviewList movieid = {this.props.movieid} />
-                  <div className="tab-pane" id="add-comment">
-                  {this.state.submitCommentState ? <div id="proposal-panel">
-                  <div className="BidProposal-alert alert alert-success">
-                          <strong>Your comment has been posted successfully!</strong>
-                    </div>
-                </div> : null}
-                    <div  className="form-horizontal" id="commentForm" >
-                        <div className="form-group">
-                            <strong for="email" className ="pull-left comment col-sm-2" >Review Comments</strong>
-                            <strong  className="pull-right comment col-sm-3">Star
-                              <div className = "rating-review"><Rating movieid = {this.props.movieid}/></div>
-                            </strong>
-
-                          <br/>
-                            <div className="col-sm-7">
-                              <textarea  ref = "comment"  className="form-control" name="addComment" id="addComment" rows="5">{this.state.comment}</textarea>
-                                <button className="mt-4 form-control btn btn-success btn-circle text-uppercase"  id="submitComment" onClick = {this.handleSubmitComment}><span class="glyphicon glyphicon-send"></span> Summit comment</button>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-
+        <ul className="nav nav-tabs nav-fills">
+          <li className="nav-item active">
+            <a className="nav-link" href="#comments-logout" role="tab" data-toggle="tab">
+              <h4 class="reviews text-capitalize">Reviews</h4>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#add-comment" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}>
+              <h4 class="reviews text-capitalize">Add Review</h4>
+            </a>
+          </li>
+        </ul>
+        <div className="tab-content">
+          <MovieReviewList movieid = {this.props.movieid} />
+          <div className="tab-pane" id="add-comment">
+            {this.state.submitCommentState ? 
+            <div id="proposal-panel">
+              <div className="BidProposal-alert alert alert-success">
+                <strong>Your comment has been posted successfully!</strong>
+              </div>
             </div>
+            : null}
+            <div  className="form-horizontal" id="commentForm" >
+              <div className="form-group">
+                <strong for="email" className ="pull-left comment col-sm-2" >Review Comments</strong>
+                <strong  className="pull-right comment col-sm-3">
+                  Star
+                  <div className = "rating-review">
+                    <Rating movieid = {this.props.movieid}/>
+                  </div>
+                </strong>
+                <br/>
+                <div className="col-sm-7">
+                  <textarea  ref = "comment"  className="form-control" name="addComment" id="addComment" rows="5">{this.state.comment}</textarea>
+                  <button className="mt-4 form-control btn btn-success btn-circle text-uppercase"  id="submitComment" onClick = {this.handleSubmitComment}><span class="glyphicon glyphicon-send"></span> Summit comment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-
-
-
     );
   }
 
