@@ -68,31 +68,18 @@ class Navbar extends Component {
                 MOVIES
               </a>
               <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                { options && options.map((movie) => {
+                { options && options.map((movie, index) => {
                   let url = `/movieDetails/${movie.movie_id}`;
                   return (
-                    <Link className="dropdown-item text-white" to="">{movie.movie_name}</Link>
+                    <Link key={index} className="dropdown-item text-white" to="">{movie.movie_name}</Link>
                   )
                 })}
               </div>
             </li>
             <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                MOVIE TIMES + TICKETS
-              </a>
-              <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item text-white" href="#">Action</a>
-                <a className="dropdown-item text-white" href="#">Another action</a>
-              </div>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a className="nav-link dropdown-toggle"  href="https://www.cinemablend.com/news.php">
                 MOVIE NEWS
               </a>
-              <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item text-white" href="#">Action</a>
-                <a className="dropdown-item text-white" href="#">Another action</a>
-              </div>
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
@@ -110,8 +97,10 @@ class Navbar extends Component {
               </div>
             </div>
           </form>
-          { !isAuthenticated &&  <Link className="btn btn-outline-primary bg-white" to="/login">SIGN IN</Link>}
-          { isAuthenticated && <button className="btn btn-outline-danger bg-white"onClick={()=>this.logOut()} >LOGOUT</button>}
+          { !isAuthenticated &&  <Link className="btn btn-outline-primary" to="/login">SIGN IN</Link>}
+          { isAuthenticated && <Link className="btn btn-outline-info" style={marginR50} to="/editprofile"><i class="fa fa-user-circle"></i></Link>}
+          { isAuthenticated && <button className="btn btn-outline-danger" onClick={()=>this.logOut()} >LOGOUT</button>}
+
         </div>
       </nav>
       
