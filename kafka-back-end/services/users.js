@@ -30,7 +30,7 @@ function handle_request(msg, callback){
         console.log("Inside history kafka");
             var user_id = msg.user_id;
             console.log(user_id);
-            var query = "select m.title, mh.movie_hall_name from users u inner join billing b on u.user_id = b.user_id inner join movies m on b.movie_id = m.movie_id  inner join movie_hall mh on b.movie_hall_id = mh.movie_hall_id where u.user_id = 1";
+                var query = "select m.title, mh.movie_hall_name, mh.city, s.screen_number,b.amount, b.is_cancelled from users u inner join billing b on u.user_id = b.user_id inner join movies m on b.movie_id = m.movie_id  inner join movie_hall mh on b.movie_hall_id = mh.movie_hall_id inner join screen s on b.screen_number = s.screen_number where u.user_id = " + user_id ;
             console.log(query);
             con.query(query,function(err,user1){
                 if(err){
@@ -41,7 +41,7 @@ function handle_request(msg, callback){
                 else{
                     console.log("Inside here");
                     // console.log(user1);
-                    var query1 = "select * from users u inner join movie_review mr  on u.user_id = mr.user_id inner join movies m on mr.movie_id = m.movie_id where u.user_id = 1"
+                    var query1 = "select * from users u inner join movie_review mr  on u.user_id = mr.user_id inner join movies m on mr.movie_id = m.movie_id where u.user_id = " + user_id
                     console.log(query1);
                     con.query(query1,function(err,user2){
                             if(err){
@@ -86,6 +86,7 @@ function handle_request(msg, callback){
                 "SET " +
                 "    first_name = '"+ msg.user.first_name +"', " +
                 "    last_name = '" + msg.user.last_name + "', " +
+                "    email = '"+ msg.user.email+ "', " +
                 "    address = '"+ msg.user.address+ "', " +
                 "    city = '"+msg.user.city +"', " +
                 "    state = '"+ msg.user.state + "', " +
@@ -100,6 +101,7 @@ function handle_request(msg, callback){
                 "    first_name = '" + msg.user.first_name + "', " +
                 "    last_name = '" + msg.user.last_name + "', " +
                 "    address = '" + msg.user.address + "', " +
+                "    email = '"+ msg.user.email+ "', " +
                 "    city = '" + msg.user.city + "', " +
                 "    state = '" + msg.user.state + "', " +
                 "    zipcode =  " + msg.user.zipcode + ", " +

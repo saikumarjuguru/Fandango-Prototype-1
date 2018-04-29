@@ -30,12 +30,15 @@ function handle_request(msg, callback){
     }
 
     if(msg.type=='component_click') {
+        console.log("Inside component clicks");
+
         var body = msg.body;
 
+        console.log(msg.body);
         ComponentClicksLog.update({component: body.component}, {$inc: {clicks: 1}},{upsert: true}, function (err, page) {
             if (err) throw err;
             if (page) {
-                console.log(component);
+                console.log(page);
                 res.success = true;
                 res.message = "Updated";
                 callback(null,res);
@@ -75,27 +78,6 @@ function handle_request(msg, callback){
                                 callback(null, res);
 
             });
-            // mongo.connect(mongoURL, function () {
-            //     var coll = mongo.collection('usertraces');
-            //     coll.insertOne(body,
-            //         function (err, page) {
-            //             //var trace = new UserTrace(body);
-            //             console.log("abc---------------");
-            //             if (err) {
-            //                 console.log(err);
-            //                 res.code = "500";
-            //                 res.message = "error";
-            //                 callback(null, res);
-            //             }
-            //             else {
-            //                 console.log(page);
-            //                 res.success = true;
-            //                 res.message = "Path Saved 1!";
-            //                 callback(null, res);
-            //             }
-            //
-            //         });
-            // })
         }
         else {
                 UserTrace.find({user_id: msg.body.user_id}, function (err, trace) {

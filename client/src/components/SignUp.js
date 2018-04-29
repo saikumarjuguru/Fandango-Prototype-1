@@ -139,6 +139,10 @@ class SignUp extends Component {
                     page: "signup"
                 }
                 axios.post(config.API_URL+'/logs',payload);
+                let componentData = {
+                    component: "signup"
+                }
+                axios.post(config.API_URL+'/logs/component_click',componentData);
             }}>
                 <div className="modal-dialog">
                     <div className="modal-content">

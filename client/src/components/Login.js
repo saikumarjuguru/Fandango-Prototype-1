@@ -136,6 +136,11 @@ class Login extends Component {
                     page: "login"
                 }
                 axios.post(config.API_URL+'/logs',payload);
+
+                let componentData = {
+                    component: "login"
+                }
+                axios.post(config.API_URL+'/logs/component_click',componentData);
             }}>
                 <div className="modal-dialog">
                     <div className="modal-content">
