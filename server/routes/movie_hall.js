@@ -238,5 +238,30 @@ router.get('/check-available-seats/:movie_id/:movie_hall_id/:slot/:seats/:date_o
 
 });
 
+router.get("/get-screen-capacities/:movie_id/:movie_hall_id/:slot/:date_of_movie",function(req,res){
+    
+    console.log("I have been called!");
+    let payload = {
+        action : 'movie_hall',
+        type:'check_screen_capacity',
+        movie_id: req.params.movie_id,
+        movie_hall_id: req.params.movie_hall_id,
+        date_of_movie: req.params.date_of_movie,
+        slot: req.params.slot
+    }
+    kafka.make_request('requestTopic',payload, function(err,results){
+        console.log('in check screens capacity result');
+        console.log(results);
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 
 module.exports = router;

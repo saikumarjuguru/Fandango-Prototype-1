@@ -60,12 +60,14 @@ class EditMovieHallAdmin extends Component {
            if(userInput.slot4.checked){
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
-           if(userInput.max_seats.value ==='' || userInput.max_seats.value===null){
+           if(userInput.max_seats.value ==='' || userInput.max_seats.value===null || userInput.ticket_price.value==='0'){
                alert("Please enter number of seats");
+               return false;
            }
-           if(userInput.ticket_price.value ==='' || userInput.ticket_price.value===null){
+           if(userInput.ticket_price.value ==='' || userInput.ticket_price.value===null ||userInput.ticket_price.value==='0'){
             alert("Please enter ticket price");
-        }
+            return false;
+             }
            let req ={
                     "movie_hall_id": data.movie_hall_id,
                     "screen_number": data.screen_number,
@@ -78,13 +80,11 @@ class EditMovieHallAdmin extends Component {
                     "ticket_price": userInput.ticket_price.value
         }
         console.log(req);
-        axios.post(config.API_URL+'/movie_hall/editmovieinfo',req
-      
-        )
-        .then(function (response) {
+        axios.post(config.API_URL+'/movie_hall/editmovieinfo',req)
+        .then( (response)=> {
             console.log(response.data.message);
             this.props.history.push('/moviehalladminhome')
-          })
+          }).catch((err)=>{console.log("error"+err)})
          
 
     }

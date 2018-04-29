@@ -3,6 +3,8 @@ import { getReviewsOfMovie,submitMovieComment} from '../actions';
 import { connect } from 'react-redux';
 import Rating from './Rating';
 import MovieReviewList from './MovieReviewList';
+import axios from "axios/index";
+import config from "../config";
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -29,8 +31,15 @@ class MovieReview extends Component{
     }
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
     this.handleSubmitCommentState = this.handleSubmitCommentState.bind(this);
+    this.handleClickData = this.handleClickData.bind(this);
   }
 
+  handleClickData(){
+    let componentData = {
+                          component: "editprofile"
+                        }
+    axios.post(config.API_URL+'/logs/component_click',componentData);
+  }
 
   handleSubmitComment(){
     let comment = this.refs.comment.value;
@@ -58,15 +67,15 @@ class MovieReview extends Component{
   render(){
 
     return(
-      <div className="comment-tabs col-md-7">
+      <div className="comment-tabs col-md-7" onCLick = {this.handleClickData}>
         <ul className="nav nav-tabs nav-fills">
           <li className="nav-item active">
-            <a className="nav-link" href="#comments-logout" onclick="return false;" role="tab" data-toggle="tab">
+            <a className="nav-link" href="#comments-logout" onClick="return false;" role="tab" data-toggle="tab">
               <h4 class="reviews text-capitalize">Reviews</h4>
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#add-comment"  onclick="return false;" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}>
+            <a className="nav-link" href="#add-comment"  onClick="return false;" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}>
               <h4 class="reviews text-capitalize">Add Review</h4>
             </a>
           </li>
