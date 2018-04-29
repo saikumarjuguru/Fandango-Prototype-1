@@ -183,7 +183,6 @@ router.get('/getmovienames', (req, res) => {
         }
         else
         {
-            console.log(results);
             res.send(results);
         }
     });
@@ -232,7 +231,7 @@ router.get('/check-available-seats/:movie_id/:movie_hall_id/:slot/:seats/:date_o
         else
         {
             console.log(results);
-            res.send(results);   
+            res.send(results);
         }
     });
 

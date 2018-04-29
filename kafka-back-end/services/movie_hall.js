@@ -154,7 +154,6 @@ function handle_request(msg, callback){
     }
 
     if(msg.type ==='getMovieHallsAndTimes'){
-      console.log(msg.date);
         var hallWithSlot=[];
         conn.getConnection(function(err, connection){
           connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
@@ -220,10 +219,9 @@ function handle_request(msg, callback){
         let screen_number = "";
         let query = 'SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=?';
         conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
-            console.log(screens.length);
             if(err) throw err;
             for(var i=0; i<screens.length;i++){
-                
+
                 if(screens[i][msg.slot]<msg.seats) {
                     continue;
                 } else {
@@ -234,12 +232,12 @@ function handle_request(msg, callback){
                     callback(null,response);
                 }
             }
-                     
+
                 response.message.screen_number = screen_number;
                 response.message.screen_id = "";
                 response.success = false;
                 callback(null,response);
-            
+
         });
     }
 }

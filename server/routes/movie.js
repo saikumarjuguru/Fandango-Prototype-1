@@ -70,7 +70,6 @@ router.get('/review/:movieID',function(req,res){
        done(err,{});
        }
        else{
-         console.log(results.value)
          if(results.code == 200){
             return res.status(200).json(results.value);;
           }else{
@@ -92,7 +91,6 @@ router.post('/review',function(req,res){
        done(err,{});
        }
        else{
-         console.log(results.value)
          if(results.code == 200){
             return res.status(200).json(results.value);;
           }else{

@@ -14,7 +14,6 @@ function handle_request(msg, callback){
      redis.get( JSON.stringify(redisKey)  , function(err , reply){
         if(!err && reply != null){
                 res.code = 200  ;
-                console.log("===="+JSON.parse(reply));
                 res.value =  data = {success: true,message: "Movie fetched successfully",movie : JSON.parse(reply)};
                 callback(null , res) ;
         }else{
@@ -32,7 +31,6 @@ function handle_request(msg, callback){
                       movie.type = rows.map(function(row,index){
                         return row.type;
                       })
-                      console.log(JSON.stringify(movie));
                       redis.set( JSON.stringify(redisKey), JSON.stringify(movie), function () {
                          res.code = 200  ;
                          data = {success: true,message: "Movie fetched successfully",movie : movie};
@@ -86,7 +84,6 @@ function handle_request(msg, callback){
       connection.query("select u.username, mr.comment, mr.star, mr.review_date  from movie_review mr join users u on u.user_id = mr.user_id and mr.movie_id = "+ msg.data+";",function(err,rows){
         connection.release();//release the connection
         if(err) {
-           console.log(err);
            res.code = "500";
            data = {success: false,message: "Cannot get Movie Reviewers. Some internal error occured!"};
            res.value = data;
@@ -117,7 +114,6 @@ function handle_request(msg, callback){
       "', CURDATE());" ,function(err,results, fields){
           connection.release();//release the connection
           if(err) {
-            console.log(err);
             res.code = "500";
             data = {success: false,message: "Cannot add Movie comment. Some internal error occured!"};
             res.value = data;
