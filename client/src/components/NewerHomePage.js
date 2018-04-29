@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Login from './Login';
-import LandingPage from '../routes/LandingPage';
+import LandingPage from './LandingPage';
 import { Route, withRouter } from 'react-router-dom';
 import SignUp from "./SignUp";
 import BookTicket from "./BookTicket";

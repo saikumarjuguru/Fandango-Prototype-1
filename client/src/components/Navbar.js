@@ -68,10 +68,10 @@ class Navbar extends Component {
                 MOVIES
               </a>
               <div className="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                { options && options.map((movie) => {
+                { options && options.map((movie, index) => {
                   let url = `/movieDetails/${movie.movie_id}`;
                   return (
-                    <Link className="dropdown-item text-white" to="">{movie.movie_name}</Link>
+                    <Link key={index} className="dropdown-item text-white" to="">{movie.movie_name}</Link>
                   )
                 })}
               </div>
