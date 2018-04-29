@@ -20,8 +20,19 @@ class AdminAddMovie extends Component {
     }
 
     addMovieAdmin(userInput){
-            
-            let req ={
+        
+        if(userInput.movie_name.value === null || userInput.movie_name.value ===''||
+        userInput.trailer_link.value === null || userInput.trailer_link.value ===''||
+        userInput.movie_characters.value === null || userInput.movie_characters.value ===''||
+        userInput.release_date.value === null || userInput.release_date.value ===''||
+        userInput.photos.value === null || userInput.photos.value ===''||
+        userInput.movie_length.value === null || userInput.movie_length.value ==='')
+           {
+                alert("All fields are mandatory!!");
+                return false;
+           } 
+        else{   
+        let req ={
                 "title": userInput.movie_name.value,
                 "trailer_link": userInput.trailer_link.value,
                 "movie_characters": userInput.movie_characters.value,
@@ -29,7 +40,8 @@ class AdminAddMovie extends Component {
                 "rating":userInput.rating.value,
                 "photos":userInput.photos.value,
                 "movie_length":userInput.movie_length.value,
-                "see_it_in":userInput.see_it_in.value
+                "see_it_in":userInput.see_it_in.value,
+                "movie_type":userInput.movie_type.value
             }
             console.log(req);
             axios.post(config.API_URL+'/admin/addmovie',req,
@@ -38,7 +50,7 @@ class AdminAddMovie extends Component {
                 .then(function (response) {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
-                })
+                })}
 
     }
 
@@ -99,6 +111,16 @@ class AdminAddMovie extends Component {
                         <select class="form-control" ref="see_it_in" id="exampleFormControlSelect1">
                             <option>Digital</option> 
                             <option>Imax 3D</option>      
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select Genre:</label>
+                        <select class="form-control" ref="movie_type" id="exampleFormControlSelect1">
+                            <option>Comedy</option> 
+                            <option>Horror</option>  
+                            <option>Thriller</option>  
+                            <option>Sci-Fi</option>  
+                            <option>Drama</option>    
                         </select>
                     </div>
                     <button class="btn btn-warning" onClick={()=>this.addMovieAdmin(this.refs)} >Save</button>

@@ -22,6 +22,15 @@ class AdminHallEdit extends Component {
     saveMovieDetailAdmin(userInput){
         var data = JSON.parse(localStorage.getItem('hall_selected'));
 
+        if(userInput.movie_hall_name.value === null || userInput.movie_hall_name.value ===''||
+        userInput.ticket_price.value === null || userInput.ticket_price.value ===''||
+        userInput.max_seats.value === null || userInput.max_seats.value ===''||
+        userInput.city.value === null || userInput.city.value ==='')
+        {
+                alert("All fields are mandatory!!");
+                return false;
+        } 
+        else{
         let req ={
             "movie_hall_id": data.movie_hall_id,
             "movie_hall_name": userInput.movie_hall_name.value,
@@ -30,13 +39,12 @@ class AdminHallEdit extends Component {
             "city": userInput.city.value
         }
         console.log(req);
-        axios.post(config.API_URL+'/admin/editmoviehall',req,
-            {withCredential: true}
+        axios.post(config.API_URL+'/admin/editmoviehall',req
             )
             .then(function (response) {
                 console.log(response.data.message);
-                window.location.replace('http://localhost:3000/adminhome');
-            })
+                this.props.history.push('/adminhome');
+            })}
             
     }
 
@@ -50,7 +58,7 @@ class AdminHallEdit extends Component {
            
             
     
-
+    if(localStorage.getItem('role')==='2'){
     return(
         
             <div className="halladmindiv">
@@ -88,7 +96,10 @@ class AdminHallEdit extends Component {
             </div>
         </div>
         
-    )
+    )}
+    else{
+        window.location.replace('http://localhost:3000/login');
+    }
     }
     }
 

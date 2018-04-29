@@ -1,5 +1,6 @@
 var conn = require('../pool');
-var movieclicks = require('../schemas/pageclickslog');
+var pageclicks = require('../schemas/pageclickslog');
+var movieclicks = require('../schemas/movieclickslog');
 
 function handle_request(msg, callback){
 
@@ -375,7 +376,7 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "get_page_clicks"){
-        movieclicks.find((err, result) => {
+        pageclicks.find((err, result) => {
             if (err){
                 res.statusCode = 401;
                 res.message = err;
@@ -386,6 +387,36 @@ function handle_request(msg, callback){
                 callback(null, res);
             }
         }).select({"_id":0, "page":1, "clicks":1});
+    }
+
+    if (msg.type === "get_movie_clicks"){
+        movieclicks.find((err, result) => {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        }).select({"_id":0, "title":1, "clicks":1});
+    }
+
+    if (msg.type === "get_movie_reviews"){
+        let query = "select title as movie_name, count(movie_id) as reviews \n" +
+            "from movie_review inner join movies using (movie_id) group by movie_id";
+        conn.query(query, function (err, result) {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                res.message = result;
+                callback(null, res);
+            }
+        });
     }
 
 }

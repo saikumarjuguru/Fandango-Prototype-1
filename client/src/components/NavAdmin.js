@@ -31,25 +31,25 @@ class NavAdmin extends Component {
         <nav class="navbar navbar-expand-lg navbar-white bg-dark">
         
         <a class="navbar-brand">
-        <img src='images/fadango-header.png' width='140px'/>
+        <img src='images/fadango-header.png' width='120px'/>
         </a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link text-warning" href="./adminhome">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-warning" href="./adminhome"><h6>Home</h6> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-warning" href="./admindashboard">Dashboard</a>
+              <a class="nav-link text-warning" href="./admindashboard"><h6>Dashboard</h6></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-warning" href="./adminbilling">Billing</a>
+              <a class="nav-link text-warning" href="./adminbilling"><h6>Billing</h6></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-warning" href="./adminrevnue">Revenue</a>
+              <a class="nav-link text-warning" href="./adminrevnue"><h6>Revenue</h6></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-warning" href="./adminuserdetail">Users</a>
+              <a class="nav-link text-warning" href="./adminuserdetail"><h6>Users</h6></a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

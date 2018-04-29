@@ -53,13 +53,13 @@ render(){
       
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-        <strong>{post.movie_hall_name}</strong>
+        <h6><strong>{post.movie_hall_name}</strong></h6>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Hall Name: &nbsp;{post.movie_hall_name}</h5>
-            <h5 class="card-title">Ticket Price:&nbsp; ${post.ticket_price}</h5>
-            <h5 class="card-title">Number Of Seats: &nbsp;{post.max_seats}</h5>
-            <h5 class="card-title">Location:&nbsp;{post.city}</h5>
+            <h6 class="card-title">Hall Name: &nbsp;{post.movie_hall_name}</h6>
+            <h6 class="card-title">Ticket Price:&nbsp; ${post.ticket_price}</h6>
+            <h6 class="card-title">Number Of Seats: &nbsp;{post.max_seats}</h6>
+            <h6 class="card-title">Location:&nbsp;{post.city}</h6>
             <a href="/adminhalledit" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>Edit Hall Details</a> &nbsp;
             <a href="/adminmoviedetail" class="btn btn-warning" onClick={this.editHallDetails.bind(this,post)}>View Movie Details</a>
         </div>

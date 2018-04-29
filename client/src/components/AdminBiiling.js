@@ -59,7 +59,7 @@ render(){
 
 
   return(
-        <div className="halladminBookingdiv">
+        <div className="halladminBillingdiv">
         <NavAdmin></NavAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>

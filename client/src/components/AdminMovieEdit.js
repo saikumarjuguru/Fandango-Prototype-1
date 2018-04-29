@@ -60,6 +60,9 @@ class AdminMovieEdit extends Component {
            if(userInput.slot4.checked){
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
+        
+        
+           
         let req ={
                     "movie_hall_id": data.movie_hall_id,
                     "screen_number": data.screen_number,
@@ -95,7 +98,7 @@ class AdminMovieEdit extends Component {
             console.log('test'+data.slot1);
             
     
-
+    if(localStorage.getItem('role')==='2'){
     return(
         
             <div className="halladmindiv">
@@ -147,7 +150,10 @@ class AdminMovieEdit extends Component {
             </div>
         </div>
         
-    )
+    )}
+    else{
+        window.location.replace("http://localhost:3000/login");
+    }
     }
     }
 
