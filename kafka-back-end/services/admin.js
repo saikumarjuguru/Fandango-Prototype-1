@@ -431,7 +431,8 @@ function handle_request(msg, callback){
                 callback(err, res);
             }
             else {
-                res.message = result[0];
+                less_seen = [result[0]];
+                res.message = less_seen;
                 callback(null, res);
             }
         }).sort("clicks");
