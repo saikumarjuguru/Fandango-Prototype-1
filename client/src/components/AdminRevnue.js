@@ -16,7 +16,7 @@ class AdminRevnue extends Component {
 
   componentWillMount(){
           let self = this;
-          var UserId = 1;
+         
           axios.get(config.API_URL+'/admin/getrevenuebymovie')
           .then(function (response) {
             console.log(response.data.message);
