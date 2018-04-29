@@ -52,6 +52,11 @@ class MovieTimeList extends Component{
   }
 
   componentWillReceiveProps(nextProps){
+    if((nextProps.movie.movie_id !== this.props.movie.movie_id) || (nextProps.hallsWithSlot.length !== this.props.hallsWithSlot.length)){
+      let date = new Date();
+      let formatDate = date.getFullYear() + '-' +(date.getMonth() + 1)+ '-' + date.getDate()
+      this.props.dispatch(nextProps.getMovieHallsAndTimes(nextProps.movie.movie_id,formatDate));
+    }
     if(nextProps.hallsWithSlot !== undefined){
       this.setState({
         hallsWithSlot :nextProps.hallsWithSlot,
@@ -59,6 +64,7 @@ class MovieTimeList extends Component{
       })
     }
   }
+
 
   onDateSelect(date){
     let formatDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' +  date.getFullYear()
@@ -156,15 +162,15 @@ class MovieTimeList extends Component{
     return(
       <div className = "col-md-8">
 
-        {/*<DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>*/}
-        <div className = "pull-right"><strong>Price Range </strong>Min:
-          <span className = "display-inline"><select   onChange={this.filter1Change} >
+        <DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>
+        <div className = "m-5 mt-lg-4 pull-right"><strong>Price Range </strong>Min:
+          <span className = "display-inline"><select  className = "form-control" onChange={this.filter1Change} >
                   <option> 8$</option>
                   <option> 9$</option>
                   <option> 10$</option>
           </select></span>
         &nbsp; - &nbsp;  Max:
-          <span className = "display-inline"><select   onChange={this.filter2Change} >
+          <span className = "display-inline"><select className="form-control"  onChange={this.filter2Change} >
                   <option> 13$</option>
                   <option> 14$</option>
                   <option> 15$</option>
@@ -173,7 +179,7 @@ class MovieTimeList extends Component{
         <br/>
         <br/>
         {this.state.hallsWithSlotForFilter !== undefined && this.state.hallsWithSlotForFilter.length >0 ?
-        <div>
+        <div className = "mt-5">
             {this.state.hallsWithSlotForFilter.map(hall =>
                   <div className="theater__wrap" style = {{display :hall.display}}>
                       <div className="theater__header">
@@ -197,24 +203,27 @@ class MovieTimeList extends Component{
                     </h3>
                     <ol className="theater__btn-list">
                       <li className="theater__btn-list-item">
-                          <span className={hall.slot1Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
+                          {hall.slot1Available!== undefined ? <span className={hall.slot1Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                             onClick={()=> {hall.slot1Available ? this.handleSlot1(hall) : null}}>
-                            09:00 AM</span>
+                            09:00 AM</span> : null}
                       </li>
                       <li className="theater__btn-list-item">
+                        {hall.slot2Available!== undefined ?
                         <span className={hall.slot2Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot2Available ? this.handleSlot2(hall) : null}}>
-                          12:00 PM</span>
+                          12:00 PM</span> : null}
                       </li>
                       <li className="theater__btn-list-item">
+                        {hall.slot3Available!== undefined ?
                         <span className={hall.slot3Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot3Available ? this.handleSlot3(hall) : null}}>
-                          3:00 PM</span>
+                          3:00 PM</span> : null}
                       </li>
                       <li className="theater__btn-list-item">
+                        {hall.slot4Available!== undefined ?
                         <span className={hall.slot4Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                           onClick={()=> {hall.slot4Available ? this.handleSlot4(hall) : null}}>
-                          6:00 PM</span>
+                          6:00 PM</span> : null}
                       </li>
 
                     </ol>

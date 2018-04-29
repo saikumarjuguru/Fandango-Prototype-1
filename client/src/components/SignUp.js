@@ -39,17 +39,19 @@ class SignUp extends Component {
         this.setState({msg:true})
         if(nextProps.signupStatus == true)
         {
+            if(localStorage.getItem("userId")) {
+                let userTrace = {
+                    user_id: localStorage.getItem("userId"),
+                    user: JSON.parse(localStorage.getItem("userDetails")),
+                    path: "signup"
+                }
+                axios.post(config.API_URL + '/logs/user_journey', userTrace);
+            }
             nextProps.history.push("/login");
         }
     }
 
     componentWillMount() {
-        let userTrace = {
-            user_id: localStorage.getItem("userId"),
-            user : JSON.parse(localStorage.getItem("userDetails")),
-            path : "signup"
-        }
-        axios.post(config.API_URL+'/logs/user_journey',userTrace);
     }
 
     handleSubmit(e){
@@ -62,6 +64,7 @@ class SignUp extends Component {
                 if(this.validatePassword() == true)
                 {
                     this.props.dispatch(signup(this.state.userdata));
+
                 }
                 else
                 {

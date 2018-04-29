@@ -9,13 +9,30 @@ import ChartHall from './Charts/ChartHall'
 import ChartCPP from './Charts/ChartCPP'
 import ChartMovieClick  from "./Charts/ChartMovieClick";
 import ChartReviews from './Charts/ChartReviews';
+import ChartTraceUser from './Charts/ChartTraceUser';
+import ChartLessSeen from './Charts/ChartLessSeen';
+
 class AdminDashboard extends Component {
-
-  
-componentWillMount(){
+  constructor(props){
+    super(props);
+    this.state = {
+      posts:[]
+    }
     
+  }
 
-  
+componentWillMount(){
+        let self = this;
+        axios.get(config.API_URL+'/admin/getlessseen')
+        .then(function (response) {
+          console.log(response.data.message);
+          self.setState({posts:response.data.message})
+          console.log(this.state.posts);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
 }
 
 
@@ -60,11 +77,16 @@ if(localStorage.getItem('role')==='2'){
             <ChartReviews/>
           </div>
         </div>
-        div class="card text-white bg-dark mb-3">
+        </div>
+        <div class="card text-white bg-dark mb-3">
         <div className="row">
           <div className="col-md-4">
             <h4 class="nowshowing">Least Seen Area:</h4><br/>
-           
+            <ChartLessSeen/>
+          </div>
+          <div className="col-md-8">
+            <h4 class="nowshowing">User Trace Diagram:</h4><br/>
+            <ChartTraceUser/>
           </div>
           
         </div>
@@ -75,7 +97,7 @@ if(localStorage.getItem('role')==='2'){
        
   )}
   else{
-    window.location.replace('http://localhost:3000/login');
+    window.location.replace("http://localhost:3000/login");
   }
 }
 }

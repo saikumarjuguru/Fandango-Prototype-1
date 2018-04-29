@@ -7,6 +7,7 @@ import config from '../config.js';
 import axios from 'axios';
 import { stat } from 'fs';
 import Navbar from './Navbar';
+import {Redirect} from 'react-router-dom';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -55,28 +56,30 @@ class BookTicket extends Component {
         expiration_date:"",
         save:0,
         screen_number:"",
-        screen_id:""
+        screen_id:"",
+        login:false
     }
 
   }
 componentWillMount() {
-    let userTrace = {
-        user_id: localStorage.getItem("userId"),
-        user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "booking"
+      if(localStorage.getItem("userId")) {
+          let userTrace = {
+              user_id: localStorage.getItem("userId"),
+              user: JSON.parse(localStorage.getItem("userDetails")),
+              path: "booking"
+          }
+          axios.post(config.API_URL + '/logs/user_journey', userTrace);
+      } 
+      if(!localStorage.getItem("userId")){
+        this.setState({login:true});
     }
-    axios.post(config.API_URL+'/logs/user_journey',userTrace);
 }
 
-componentWillReceiveProps(){
-  console.log("componentWillReceiveProps");
-  if(localStorage.getItem('jwtToken')){
-    this.props.history.push('/home');
-  }
-}
+
 componentDidMount(){
+    
     let self=this;
-      axios.get(config.API_URL+"/users/"+this.props.movie.movie.user_id)
+      axios.get(config.API_URL+"/users/"+localStorage.getItem("userId"))
           .then((response)=>{
             console.log(response);
             let data = response.data.message;
@@ -109,7 +112,7 @@ incrementStep(){
         this.date = this.props.movie.date;
         this.date = this.date.getUTCFullYear() + '-' +
                 ('00' + (this.date.getUTCMonth() + 1)).slice(-2) + '-' +
-                ('00' + this.date.getUTCDate()).slice(-2);   
+                ('00' + this.date.getUTCDate()).slice(-2);
         console.log("price",this.state.price);
         console.log("date",this.date);
         console.log("slot",this.props.movie.slot);
@@ -199,7 +202,7 @@ makePayment() {
         screen_id:this.state.screen_id,
         amount: this.state.amountDue,
         tax: 0.5,
-        user_id: this.props.movie.movie.user_id,
+        user_id: localStorage.getItem("userId"),
         show_time:this.time,
         number_of_seats: this.state.number_of_seats,
         credit_card_number: this.state.credit_card_number,
@@ -224,11 +227,14 @@ check(){
 }
 
 render(){
+    if(this.state.login){
+        return <Redirect to="/login"/>
+    }
 
   return(
     <div>
         <Navbar/>
-    <div className="container-fluid booking_container center" onClick={() => {
+    <div className="container-fluid booking_container" onClick={() => {
         let payload = {
             page: "booking"
         }
@@ -248,7 +254,7 @@ render(){
                 <div className="form-group">
                     <label htmlFor="exampleFormControlFile1">Enter Number Of Seats</label>
                     <input type="number" ref="number_of_seats" className="form-control" id="exampleFormControlFile1" min="1" max="50"required/>
-                    {this.state.error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.error}</small>:""}
+                    {this.state.error!=""?<small id="emailHelp" className="form-text text-muted error">{this.state.error}</small>:""}
                 </div>
                 <p>Tax: 0.5</p>
                 {/* <p>Amount Due: ${this.state.amountDue}</p> */}
@@ -263,19 +269,19 @@ render(){
                 <div className="form-group">
                     <label htmlFor="exampleFormControlInput1">Credit Card Number</label>
                     <input type="number" ref="credit_card_number" className="form-control" id="exampleFormControlInput1" defaultValue={this.credit_card_number}/>
-                    {this.state.cred_error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.cred_error}</small>:""}
+                    {this.state.cred_error!=""?<small id="emailHelp" className="form-text text-muted error">{this.state.cred_error}</small>:""}
                 </div>
                 <div className="row">
                 <div className="form-group col-sm-4">
                     <label htmlFor="exampleFormControlInput1">Expiration Date</label>
                     <input type="text" ref="date" className="form-control" id="exampleFormControlInput1" placeholder="mm/yy" defaultValue={this.expiration_date}/>
-                    {this.state.exp_error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.exp_error}</small>:""}
+                    {this.state.exp_error!=""?<small id="emailHelp" className="form-text text-muted error">{this.state.exp_error}</small>:""}
 
                 </div>
                 <div className="form-group col-sm-2">
                     <label htmlFor="exampleFormControlInput1">CVV</label>
                     <input type="number" ref="cvv" className="form-control" id="exampleFormControlInput1" min="1" max="3"/>
-                    {this.state.cvv_error!=""?<small id="emailHelp" className="form-text text-muted">{this.state.cvv_error}</small>:""}
+                    {this.state.cvv_error!=""?<small id="emailHelp" className="form-text text-muted error">{this.state.cvv_error}</small>:""}
                 </div>
                 </div>
                 <div className="row">
@@ -324,9 +330,9 @@ render(){
                 <h3 className="movie_name">{this.props.movie.movie.title}</h3>
                 <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
                 <span className="type">
-                    Type: 
+                    <b>Type:</b>
                     {this.props.movie.movie.type.map(type =>
-                    type+", ")} Length: {this.props.movie.movie.movie_length}
+                    type+", ")} <b>Length:</b> {this.props.movie.movie.movie_length} minutes
                 </span>
                 <p className="hall_name">{this.props.movie.moviehall.movie_hall.movie_hall_name}</p>
                 <p className="address">{this.props.movie.moviehall.movie_hall.city}</p>

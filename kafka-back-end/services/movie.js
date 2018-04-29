@@ -84,6 +84,7 @@ function handle_request(msg, callback){
       connection.query("select u.username, mr.comment, mr.star, mr.review_date  from movie_review mr join users u on u.user_id = mr.user_id and mr.movie_id = "+ msg.data+";",function(err,rows){
         connection.release();//release the connection
         if(err) {
+          throw err;
            res.code = "500";
            data = {success: false,message: "Cannot get Movie Reviewers. Some internal error occured!"};
            res.value = data;
