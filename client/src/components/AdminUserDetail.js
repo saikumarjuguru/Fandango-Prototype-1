@@ -87,7 +87,7 @@ render(){
         <NavAdmin></NavAdmin>
         <br/>
         <h2 class="nowshowing">Users:</h2><br/>
-        <table class="table table-dark">
+        <table class="table table-dark table-bordered">
             <thead>
                     <tr>
                         <th scope="col">User Name</th>

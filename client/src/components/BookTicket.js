@@ -234,16 +234,7 @@ render(){
   return(
     <div>
         <Navbar/>
-    <div className="container-fluid booking_container" onClick={() => {
-        let payload = {
-            page: "booking"
-        }
-        axios.post(config.API_URL+'/logs',payload);
-        let componentData = {
-            component: "booking"
-        }
-        axios.post(config.API_URL+'/logs/component_click',componentData);
-    }}>
+    <div className="container-fluid booking_container">
     <div className="row">
         <div className="col-sm-8">
             <div className="card">

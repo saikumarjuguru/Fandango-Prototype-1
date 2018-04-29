@@ -63,7 +63,7 @@ render(){
           <div class="row">
           <div className="col-md-6">
             <h2 class="nowshowing">Revenue By Movie:</h2><br/>
-            <table class="table table-dark">
+            <table class="table table-dark table-bordered">
             <thead>
                     <tr>
                         <th scope="col">Billing Id#</th>

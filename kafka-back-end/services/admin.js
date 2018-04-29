@@ -448,12 +448,13 @@ function handle_request(msg, callback){
             else {
                 let i;
                 let response_to_send = [];
-                let response_obj = {};
+                let response_obj;
                 for(i = 0; i < result.length; i++){
+                    response_obj = {};
                     response_obj.user_name = result[i].user.username;
-                    response_obj.city = result[i].user.username;
-                    response_obj.state = result[i].user.state;
-                    response_obj.zipcode = result[i].user.zipcode;
+                    response_obj.city = (result[i].user.city == null ? '' : result[i].user.city);
+                    response_obj.state = (result[i].user.state == null ? '' : result[i].user.state);
+                    response_obj.zipcode = (result[i].user.zipcode == null ? '' : result[i].user.zipcode);
                     response_obj.path = result[i].path.join("-->");
                     response_to_send.push(response_obj);
                 }

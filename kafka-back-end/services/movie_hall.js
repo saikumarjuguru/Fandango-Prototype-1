@@ -156,7 +156,8 @@ function handle_request(msg, callback){
     if(msg.type ==='getMovieHallsAndTimes'){
         var hallWithSlot=[];
         conn.getConnection(function(err, connection){
-          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" group by mh.movie_hall_id; " ,function(err,rows){
+          console.log("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" and s.date_of_movie = '"+msg.date +"' group by mh.movie_hall_id; " );
+          connection.query("select mh.* from screen s join movie_hall mh on mh.movie_hall_id = s.movie_hall_id where s.movie_id ="+msg.data+" and s.date_of_movie = '"+msg.date +"' group by mh.movie_hall_id; " ,function(err,rows){
             connection.release();//release the connection
             if(err) {
                res.code = "500";
@@ -170,9 +171,7 @@ function handle_request(msg, callback){
                res.value = data;
                callback(null, res);
              }else{
-
                var count = 0;
-
                rows.forEach((row)=> {
                    conn.getConnection(function(err, connection){
                    connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where  movie_id ="+msg.data+ " and movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){

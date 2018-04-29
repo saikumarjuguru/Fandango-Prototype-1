@@ -66,7 +66,7 @@ render(){
         <NavHallAdmin></NavHallAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>
-        <table class="table table-dark">
+        <table class="table table-dark table-bordered">
             <thead>
                     <tr>
                         <th scope="col">Billing Id#</th>

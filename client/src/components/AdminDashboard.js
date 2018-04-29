@@ -16,22 +16,19 @@ class AdminDashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
-      posts:[]
+      posts:[],
+      allposts:[]
     }
     
   }
 
 componentWillMount(){
-        let self = this;
-        axios.get(config.API_URL+'/admin/getlessseen')
-        .then(function (response) {
-          console.log(response.data.message);
-          self.setState({posts:response.data.message})
-          console.log(this.state.posts);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+  let self=this;
+  axios.get(config.API_URL+'/admin/getusertrace')
+  .then(function (response) {
+    console.log(response.data.message);
+    self.setState({posts:response.data.message,allposts:response.data.message})
+    console.log(self.state.posts);})
 
 }
 
@@ -39,6 +36,14 @@ componentWillMount(){
 
 render(){
   
+var postItem = this.state.posts.map(post=>
+  <tr>
+ 
+  <td>{post.user_name}</td>
+  <td>{post.path}</td>
+  </tr>  );
+
+
   
 if(localStorage.getItem('role')==='2'){
   return(
@@ -82,7 +87,29 @@ if(localStorage.getItem('role')==='2'){
         <div className="row">
           <div className="col-md-8">
             <h4 class="nowshowing">User Trace Diagram:</h4><br/>
-            <ChartTraceUser/>
+              <div className="input-group input-group-sm mb-3 center">
+                <input type="text" className="form-control" aria-label="Small" placeholder="Enter User Name/City" aria-describedby="inputGroup-sizing-sm" onChange={(event) => {
+                                               var val = event.target.value;
+                                               var posts = this.state.allposts.filter((post) => {
+                                                   return ((post.user_name.toLowerCase().indexOf(val.toLowerCase()) > -1)||(post.city.toLowerCase().indexOf(val.toLowerCase()) > -1)||(post.state.toLowerCase().indexOf(val.toLowerCase()) > -1));
+                                               })
+                                               this.setState({
+                                                   posts: posts
+                                               })
+                                            }}/>
+              </div>
+            <table class="table table-bordered">
+            <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Path</th>
+                        
+                    </tr>
+            </thead>
+            <tbody>
+            {postItem}
+            </tbody>
+        </table>
           </div>
           <div className="col-md-4">
             <h4 class="nowshowing">Area Less Seen:</h4><br/>
