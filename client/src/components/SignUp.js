@@ -39,12 +39,14 @@ class SignUp extends Component {
         this.setState({msg:true})
         if(nextProps.signupStatus == true)
         {
-            let userTrace = {
-                user_id: localStorage.getItem("userId"),
-                user : JSON.parse(localStorage.getItem("userDetails")),
-                path : "signup"
+            if(localStorage.getItem("userId")) {
+                let userTrace = {
+                    user_id: localStorage.getItem("userId"),
+                    user: JSON.parse(localStorage.getItem("userDetails")),
+                    path: "signup"
+                }
+                axios.post(config.API_URL + '/logs/user_journey', userTrace);
             }
-            axios.post(config.API_URL+'/logs/user_journey',userTrace);
             nextProps.history.push("/login");
         }
     }

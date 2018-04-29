@@ -7,6 +7,7 @@ import config from '../config.js';
 import axios from 'axios';
 import { stat } from 'fs';
 import Navbar from './Navbar';
+import {Redirect} from 'react-router-dom';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -55,25 +56,28 @@ class BookTicket extends Component {
         expiration_date:"",
         save:0,
         screen_number:"",
-        screen_id:""
+        screen_id:"",
+        login:false
     }
 
   }
 componentWillMount() {
-    if(!localStorage.getItem("userId")){
-        this.props.history.push("/login");
+      if(localStorage.getItem("userId")) {
+          let userTrace = {
+              user_id: localStorage.getItem("userId"),
+              user: JSON.parse(localStorage.getItem("userDetails")),
+              path: "booking"
+          }
+          axios.post(config.API_URL + '/logs/user_journey', userTrace);
+      } 
+      if(!localStorage.getItem("userId")){
+        this.setState({login:true});
     }
-    let userTrace = {
-        user_id: localStorage.getItem("userId"),
-        user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "booking"
-    }
-    axios.post(config.API_URL+'/logs/user_journey',userTrace);
-
 }
 
 
 componentDidMount(){
+    
     let self=this;
       axios.get(config.API_URL+"/users/"+localStorage.getItem("userId"))
           .then((response)=>{
@@ -223,6 +227,9 @@ check(){
 }
 
 render(){
+    if(this.state.login){
+        return <Redirect to="/login"/>
+    }
 
   return(
     <div>
