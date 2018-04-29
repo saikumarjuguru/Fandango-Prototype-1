@@ -172,18 +172,20 @@ function handle_request(msg, callback){
              }else{
 
                var count = 0;
-                  conn.getConnection(function(err, connection){
-               rows.forEach((row)=> {
 
+               rows.forEach((row)=> {
+                   conn.getConnection(function(err, connection){
                    connection.query("select sum(slot1) as availableSeatsForSlot1 ,sum(slot2) as availableSeatsForSlot2,sum(slot3) as availableSeatsForSlot3,sum(slot4) as availableSeatsForSlot4, sum(max_seats) from screen where  movie_id ="+msg.data+ " and movie_hall_id ="+ row.movie_hall_id +" and date_of_movie = '"+ msg.date + "';",function(err,rows1){
+                     connection.release();
                      if(err){
                        throw err;
                      }
                      if(rows1 !== undefined && rows1.length >0){
-                       var slot1Available = ( rows1[0].availableSeatsForSlot1 !== 0 ) ? true  : false;
-                       var slot2Available = ( rows1[0].availableSeatsForSlot2 !== 0 ) ? true  : false;
-                       var slot3Available = ( rows1[0].availableSeatsForSlot3 !== 0 ) ? true  : false;
-                       var slot4Available = ( rows1[0].availableSeatsForSlot4 !== 0 ) ? true  : false;
+                       console.log("77777777 + " + rows1[0].availableSeatsForSlot4 );
+                       var slot1Available = ( rows1[0].availableSeatsForSlot1 == null ) ? undefined  :  ( rows1[0].availableSeatsForSlot1 == 0 ? false :true);
+                       var slot2Available = ( rows1[0].availableSeatsForSlot2 == null ) ? undefined  :  ( rows1[0].availableSeatsForSlot2 == 0 ? false :true);
+                       var slot3Available = ( rows1[0].availableSeatsForSlot3 == null ) ? undefined  :  ( rows1[0].availableSeatsForSlot3 == 0 ? false :true);
+                       var slot4Available = ( rows1[0].availableSeatsForSlot4 == null ) ? undefined  :  ( rows1[0].availableSeatsForSlot4 == 0 ? false :true);
 
                         var data1 = {
                             movie_hall : row,
