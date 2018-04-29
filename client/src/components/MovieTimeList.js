@@ -198,7 +198,7 @@ class MovieTimeList extends Component{
                           </div>
                           <div className="theater__name-wrap">
                             <h3 className="theater__name font-sans-serif font-lg font-300 uppercase">
-                                <a className="color-light" href="#">{hall.movie_hall.movie_hall_name} Lounge</a>
+                                <a className="color-light" href="#">{hall.movie_hall.movie_hall_name}</a>
                                 <span  className="color-light pull-right" >$ {hall.movie_hall.ticket_price}</span>
                             </h3>
                           </div>
