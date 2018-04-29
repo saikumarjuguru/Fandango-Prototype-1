@@ -37,16 +37,7 @@ class SignUp extends Component {
     componentWillReceiveProps(nextProps)
     {
         this.setState({msg:true})
-        if(nextProps.signupStatus == true)
-        {
-            if(localStorage.getItem("userId")) {
-                let userTrace = {
-                    user_id: localStorage.getItem("userId"),
-                    user: JSON.parse(localStorage.getItem("userDetails")),
-                    path: "signup"
-                }
-                axios.post(config.API_URL + '/logs/user_journey', userTrace);
-            }
+        if(nextProps.signupStatus == true) {
             nextProps.history.push("/login");
         }
     }
@@ -91,7 +82,7 @@ class SignUp extends Component {
     }
     validateUsername() {
         var username = this.state.userdata.username;
-        if (username != '')
+        if (username.trim() != '')
         {
             return (true)
         }
@@ -99,7 +90,7 @@ class SignUp extends Component {
     }
     validatePassword(){
         var password = this.state.userdata.password;
-        if (password != '' && password.length >= 6 && /\d/.test(password))
+        if (password.trim() != '' && password.trim().length >= 6 && /\d/.test(password))
         {
             return (true)
         }

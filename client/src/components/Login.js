@@ -40,8 +40,8 @@ class Login extends Component {
 
     componentWillMount(){
 
-        this.props.dispatch(this.props.requestAuth(this.state.userdata))
-            .then(() => this.props.isAuthentic ? this.props.history.push('/home') : this.props.history.push('/login'));
+        // this.props.dispatch(this.props.requestAuth(this.state.userdata))
+        //     .then(() => this.props.isAuthentic ? this.props.history.push('/home') : this.props.history.push('/login'));
     }
 
     componentDidUpdate()
