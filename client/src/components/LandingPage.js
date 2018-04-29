@@ -246,7 +246,7 @@ class LandingPage extends Component {
                               <Link to={movieDetailURL}>{movie.movie_name}</Link>                            
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted">Duration - {movie.movie_length} min</h6>
-                            <h5>$24.99</h5>
+                            <p><span class="badge badge-info">{movie.rating}</span></p>
                           </div>
                           <Link className="btn btn-secondary btn-block btn-lg" style={buttonStyle} to={movieDetailURL}>BOOK NOW</Link>
                         </div>
