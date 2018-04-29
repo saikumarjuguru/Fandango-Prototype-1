@@ -53,14 +53,14 @@ render(){
         
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-           <strong> Screen {post.screen_id}</strong>
+          <h6> <strong> Screen {post.screen_id}</strong></h6>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Movie: {post.movie_name}</h5>
-            <h5 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h5>
-            <h5 class="card-title">See it in: {post.see_it_in}</h5>
-            <h5 class="card-title">Ticket Price: ${post.ticket_price}</h5>
-            <h5 class="card-title">Number Of Seats: {post.max_seats}</h5>
+            <h6 class="card-title">Movie: {post.movie_name}</h6>
+            <h6 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h6>
+            <h6 class="card-title">See it in: {post.see_it_in}</h6>
+            <h6 class="card-title">Ticket Price: ${post.ticket_price}</h6>
+            <h6 class="card-title">Number Of Seats: {post.max_seats}</h6>
             <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>

@@ -7,7 +7,8 @@ import ChartMovies from './Charts/ChartMovies'
 import ChartCity from './Charts/ChartCity'
 import ChartHall from './Charts/ChartHall'
 import ChartCPP from './Charts/ChartCPP'
-
+import ChartMovieClick  from "./Charts/ChartMovieClick";
+import ChartReviews from './Charts/ChartReviews';
 class AdminDashboard extends Component {
 
   
@@ -43,15 +44,25 @@ render(){
           </div>
         </div>
         <br/>
+        </div>
+        <div class="card text-white bg-dark mb-3">
         <div className="row">
           <div className="col-md-4">
             <h4 class="nowshowing">Number of Clicks per page:</h4><br/>
             <ChartCPP/>
           </div>
+          <div className="col-md-4">
+            <h4 class="nowshowing">Number of Clicks/Movie:</h4><br/>
+            <ChartMovieClick/>
+          </div>
+          <div className="col-md-4">
+            <h4 class="nowshowing">Number of Reviews/Movie:</h4><br/>
+            <ChartReviews/>
+          </div>
         </div>
-        </div>
-        <br/>
         
+        <br/>
+        </div>
       </div>
        
   )

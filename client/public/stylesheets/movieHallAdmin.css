@@ -30,11 +30,11 @@
 .halladmindiv{
     margin-left: 12px;
     margin-right: 12px;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .halladminBookingdiv{
-    font-size: 10px;
+    font-size: 12x;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -47,4 +47,11 @@
 .searchBar input{
 
     width: 20px;
+}
+
+.halladmindashboard{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 12px;
+    text-align: center;
 }
