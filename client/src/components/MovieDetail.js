@@ -42,9 +42,9 @@ class MovieDetail extends Component{
     }
   }
 
-  componentWillMount(){
-      let movieID  = "1";
-      this.props.dispatch(this.props.getMovieDetail(movieID));
+  componentDidMount(){
+    let {match} = this.props;
+    this.props.dispatch(this.props.getMovieDetail(match.params.id));
   }
 
   showMovieReviews(){

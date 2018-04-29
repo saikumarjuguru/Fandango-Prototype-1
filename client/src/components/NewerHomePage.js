@@ -37,7 +37,7 @@ class NewerHomePage extends Component{
           <Route exact path="/signup" component={SignUp}/>
           <Route exact path="/book" component={BookTicket}/>
           <Route exact path='/moviehalladminhome' component={MovieHallAdminHome}/>
-          <Route exact path="/movieDetails" component={MovieDetail}/>
+          <Route exact path="/movieDetails/:id" component={MovieDetail}/>
           <Route exact path="/halladmindashboard" component={MovieHallAdminDashboard}/>
           <Route exact path="/halladminbooking" component={MovieHallAdminBooking}/>
           <Route exact path="/halladminsearch" component={MovieHallAdminSearch}/>
