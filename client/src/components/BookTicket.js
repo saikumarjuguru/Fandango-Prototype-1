@@ -39,7 +39,7 @@ class BookTicket extends Component {
     let save = 0;
     let date="";
     let time="";
-   
+
 
     this.state = {
         user:"",
@@ -66,15 +66,10 @@ componentWillMount() {
         path : "login"
     }
     axios.post(config.API_URL+'/logs/user_journey',userTrace);
-    this.props.history.push("/");
+
 }
 
-componentWillReceiveProps(){
-  console.log("componentWillReceiveProps");
-  if(localStorage.getItem('jwtToken')){
-    this.props.history.push('/home');
-  }
-}
+
 componentDidMount(){
     let self=this;
       axios.get(config.API_URL+"/users/"+this.props.movie.movie.user_id)
@@ -110,7 +105,7 @@ incrementStep(){
         this.date = this.props.movie.date;
         this.date = this.date.getUTCFullYear() + '-' +
                 ('00' + (this.date.getUTCMonth() + 1)).slice(-2) + '-' +
-                ('00' + this.date.getUTCDate()).slice(-2);   
+                ('00' + this.date.getUTCDate()).slice(-2);
         console.log("price",this.state.price);
         console.log("date",this.date);
         console.log("slot",this.props.movie.slot);
@@ -145,7 +140,7 @@ incrementStep(){
             }
           });
     }
-  
+
 }
 gotoPayment(){
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");
@@ -325,7 +320,7 @@ render(){
                 <h3 className="movie_name">{this.props.movie.movie.title}</h3>
                 <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
                 <span className="type">
-                    Type: 
+                    Type:
                     {this.props.movie.movie.type.map(type =>
                     type+", ")} Length: {this.props.movie.movie.movie_length}
                 </span>

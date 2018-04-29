@@ -49,9 +49,11 @@ class MovieDetail extends Component{
     if(localStorage.getItem("userId")){
       let {match} = this.props;
       this.props.dispatch(this.props.getMovieDetail(match.params.id));
+     this.props.dispatch(this.props.getMovieDetail(2));
     }else{
       this.props.history.push("/login");
     }
+
   }
 
   componentWillReceiveProps(nextProps){
@@ -59,6 +61,7 @@ class MovieDetail extends Component{
         let {match} = this.props;
         if(this.props.match!== nextProps.match){
           this.props.dispatch(this.props.getMovieDetail(nextProps.match.params.id));
+    
         }
     }else{
         this.props.history.push("/login");
@@ -66,12 +69,12 @@ class MovieDetail extends Component{
   }
 
   componentWillMount() {
-    let userTrace = {
-        user_id: localStorage.getItem("userId"),
-        user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "moviedetail"
-    }
-    axios.post(config.API_URL+'/logs/user_journey',userTrace);
+    // let userTrace = {
+    //     user_id: localStorage.getItem("userId"),
+    //     user : JSON.parse(localStorage.getItem("userDetails")),
+    //     path : "moviedetail"
+    // }
+    // axios.post(config.API_URL+'/logs/user_journey',userTrace);
 }
 
 
