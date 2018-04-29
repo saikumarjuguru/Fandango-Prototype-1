@@ -6,6 +6,7 @@ import axios from "axios/index";
 import config from "../config";
 import Collapsible from 'react-collapsible';
 import Rating from "./Rating";
+import Navbar from './Navbar';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -86,7 +87,8 @@ class EditProfile extends Component {
             }
         }
         else {
-            this.setState({stateValid: true})
+            this.setState({stateValid: false})
+            return;
         }
 
         var phoneno = /^\d{10}$/;
@@ -121,18 +123,39 @@ class EditProfile extends Component {
         formData.append('profile_image', this.state.profile_image);
 
 
-        var url = config.API_URL + "/users/" + 1;
+        var url = config.API_URL + "/users/" + localStorage.getItem("userId");
         axios.post(url, formData, {contentType: 'multipart/form-data'})
             .then((response) => {
                 if (response.data.statusCode === 200) {
                     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     console.log(response.data);
-                    //window.location="/login";
                     self.setState({
-                        userdata: response.data.message,
-                        collapsible1Open: false,
-                        ProfileUpdateMsg: true
+                        // collapsible1Open: false,
+                        // ProfileUpdateMsg: true
                     })
+                    axios.get(config.API_URL + "/users/" + 1)
+                        .then((response) => {
+                            console.log(response);
+                            if(response.data.message) {
+                                console.log(response.data.message.encodeImage);
+                                var arrayBufferView = new Uint8Array(response.data.message.encodeImage.data);
+                                var blob = new Blob([arrayBufferView], {type: "image/jpg"});
+                                var urlCreator = window.URL || window.webkitURL;
+                                var imageUrl = urlCreator.createObjectURL(blob);
+                                response.data.message.bloburl = imageUrl;
+                                console.log(imageUrl);
+                                console.log("*******************************************************************");
+                                console.log(response.data);
+                                console.log("*******************************************************************");
+                            }
+
+
+                            self.setState({userdata: response.data.message,
+                                collapsible1Open: false,
+                                ProfileUpdateMsg: true
+                            })
+                            this.userdata = response.data.message
+                        });
                 } else {
                     self.setState({logout: true});
 
@@ -155,7 +178,7 @@ class EditProfile extends Component {
 
 
         let self = this;
-        axios.get(config.API_URL + "/users/" + 1)
+        axios.get(config.API_URL + "/users/" + localStorage.getItem("userId"))
             .then((response) => {
                 console.log(response);
                 if(response.data.message) {
@@ -176,7 +199,7 @@ class EditProfile extends Component {
                 this.userdata = response.data.message
             });
 
-        axios.get(config.API_URL + "/users/get_history/" + 1)
+        axios.get(config.API_URL + "/users/get_history/" + localStorage.getItem("userId"))
             .then((response) => {
                 console.log(response);
                 self.setState({reviews: response.data.myRevies, tickets: response.data.tickets_booked})
@@ -207,13 +230,25 @@ class EditProfile extends Component {
         <div className="card bg-dark text-white cardProfilePage">
             <div className="card-body ">
                 <div className="row">
-                    <div className="col-sm">
-                        <h6 className="font-weight-bold">{ticket.title}</h6>
+                    <div className="col-sm-10">
+                        <h4 className="font-weight-bold">{ticket.title}</h4>
+                    </div>
+                    <div className="col-sm-2">
+                        {ticket.is_cancelled == 1 ? <div><span className="label label-danger font-weight-bold cusFontCancel">Canceled</span></div> : null}
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-sm">
-                        <div className="font-weight-bold h6">Place: {ticket.movie_hall_name}</div>
+                        <div className="font-weight-bold h6">Screen: {ticket.screen_number}</div>
+                    </div>
+                    <div className="col-sm">
+                        <div className="font-weight-bold h6">Movie Hall: {ticket.movie_hall_name}</div>
+                    </div>
+                    <div className="col-sm">
+                        <div className="font-weight-bold h6">City: {ticket.city}</div>
+                    </div>
+                    <div className="col-sm">
+                        <div className="font-weight-bold h6">Place: {ticket.amount}</div>
                     </div>
                 </div>
             </div>
@@ -224,7 +259,6 @@ class EditProfile extends Component {
 
     return(
         <div>
-            <br/>
             {item}
         </div>
     )}
@@ -257,25 +291,29 @@ class EditProfile extends Component {
         {
             console.log("render");
             return (
+<div>
 
-
+                <Navbar />
+    <br/>
+    <br/>
                 <div className="container" onClick={() => {
                     let payload = {
                         page: "profile"
                     }
                     axios.post(config.API_URL+'/logs',payload);
                 }}>
+
                     <div className="row align-content-md-center justify-content-center">
                         <div className="align-content-md-center justify-content-center"><img className="img-circle" src = {this.state.userdata.bloburl} height="130"></img></div>
                     </div>
                     <div>
                         <br/>
                         <br/>
+                        <div>
                         <Collapsible trigger="Update Profile"
                                      triggerOpenedClassName="btn btn-warning form-control collapsibleFont customCollapse"
                                      triggerClassName="btn btn-warning form-control collapsibleFont customCollapse"
                                      open={this.state.collapsible1Open}>
-                            <br/>
                             {this.state.ProfileUpdateMsg ? <div className="alert alert-info">
                                 Profile has been updated successfully.
                             </div> : null}
@@ -284,8 +322,8 @@ class EditProfile extends Component {
                                     <br/>
                                     <div className="row">
                                         <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <label className="col-lg-3 control-label">Profile Pic</label>
-                                            <div className="col-lg-8">
+                                            <label className="col-md-3 control-label">Profile Pic</label>
+                                            <div className="col-md-8">
                                                 <div className="form-group">
                                                     <label htmlFor="cover_photo" className="upload_btn">
                                                         <input type="file" id="cover_photo"
@@ -473,19 +511,26 @@ class EditProfile extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <br/>
                         </Collapsible>
+                        </div>
                         <br/>
+                        <div>
                         <Collapsible trigger="See My Bookings" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
                             {this.display_tickets()}
                         </Collapsible>
+                        </div>
                         <br/>
+                        <div>
                         <Collapsible trigger="My Reviews" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
                             {this.display_reviews()}
                         </Collapsible>
+                        </div>
                     </div>
                 </div>
+</div>
 
             )
         };

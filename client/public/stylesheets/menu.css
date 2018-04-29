@@ -176,3 +176,7 @@ collapsibleFont{
 .error{
   color:red !important;
 }
+
+.cusFontCancel{
+    background-color: red;
+}
