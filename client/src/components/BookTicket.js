@@ -39,7 +39,7 @@ class BookTicket extends Component {
     let save = 0;
     let date="";
     let time="";
-
+   
 
     this.state = {
         user:"",
@@ -63,7 +63,7 @@ componentWillMount() {
     let userTrace = {
         user_id: localStorage.getItem("userId"),
         user : JSON.parse(localStorage.getItem("userDetails")),
-        path : "login"
+        path : "booking"
     }
     axios.post(config.API_URL+'/logs/user_journey',userTrace);
 
@@ -140,7 +140,7 @@ incrementStep(){
             }
           });
     }
-
+  
 }
 gotoPayment(){
     var pattern = new RegExp("^((0[1-9])|(1[0-2]))\/(\d{4})$");

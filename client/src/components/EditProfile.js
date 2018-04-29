@@ -145,15 +145,12 @@ class EditProfile extends Component {
 
     componentWillMount() {
 
-        if(localStorage.getItem("userId")) {
-            let userTrace = {
-                user_id: localStorage.getItem("userId"),
-                user: JSON.parse(localStorage.getItem("userDetails")),
-                path: "editprofile"
-            }
-            console.log("22222222222" , userTrace);
-            axios.post(config.API_URL + '/logs/user_journey', userTrace);
+        let userTrace = {
+            user_id: localStorage.getItem("userId"),
+            user : JSON.parse(localStorage.getItem("userDetails")),
+            path : "profile"
         }
+        axios.post(config.API_URL+'/logs/user_journey',userTrace);
 
 
 
@@ -264,7 +261,7 @@ class EditProfile extends Component {
 
                 <div className="container" onClick={() => {
                     let payload = {
-                        page: "editprofile"
+                        page: "profile"
                     }
                     axios.post(config.API_URL+'/logs',payload);
                 }}>
