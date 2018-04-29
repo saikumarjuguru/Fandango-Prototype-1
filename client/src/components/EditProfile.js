@@ -74,7 +74,7 @@ class EditProfile extends Component {
         }
 
         let valid = false
-        if (this.state.userdata.state != "") {
+        if (this.state.userdata.state != "" && this.state.userdata.state) {
             for (var i = 0; i < this.state.stateAB.length; i++) {
                 if (this.state.stateAB[i].toLowerCase() == this.state.userdata.state.toLowerCase() || this.state.stateFN[i].toLowerCase() == this.state.userdata.state.toLowerCase()) {
                     valid = true;
@@ -135,7 +135,7 @@ class EditProfile extends Component {
                         // collapsible1Open: false,
                         // ProfileUpdateMsg: true
                     })
-                    axios.get(config.API_URL + "/users/" + 1)
+                    axios.get(config.API_URL + "/users/" + localStorage.getItem("userId"))
                         .then((response) => {
                             console.log(response);
                             if(response.data.message) {
@@ -397,6 +397,9 @@ class EditProfile extends Component {
                                                                }
                                                            });
                                                        }}
+                                                       onFocus={(event)=> {
+                                                           this.setState({phoneValid:true})
+                                                       }}
                                                 />
                                             </div>
                                         </div>
@@ -416,6 +419,9 @@ class EditProfile extends Component {
                                                                    email: event.target.value
                                                                }
                                                            });
+                                                       }}
+                                                       onFocus={(event)=> {
+                                                           this.setState({emailValid:true})
                                                        }}
                                                 />
                                             </div>
@@ -476,6 +482,9 @@ class EditProfile extends Component {
                                                                }
                                                            });
                                                        }}
+                                                       onFocus={(event)=> {
+                                                           this.setState({stateValid:true})
+                                                       }}
                                                 />
                                             </div>
                                         </div>
@@ -495,6 +504,9 @@ class EditProfile extends Component {
                                                                    zipcode: event.target.value
                                                                }
                                                            });
+                                                       }}
+                                                       onFocus={(event)=> {
+                                                           this.setState({zipCodeValid:true})
                                                        }}
                                                 />
                                             </div>
@@ -531,7 +543,7 @@ class EditProfile extends Component {
                         <Collapsible trigger="See My Bookings" triggerOpenedClassName="btn btn-secondary form-control customCollapse"
                                      triggerClassName="btn btn-warning form-control customCollapse">
                             {this.state.tickets.length > 0 ? this.display_tickets() : <div className="alert alert-info">
-                                No reviews yet.
+                                No bookings yet.
                             </div>}
                         </Collapsible>
                         </div>
