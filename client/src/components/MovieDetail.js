@@ -4,9 +4,7 @@ import { getMovieDetail } from '../actions';
 import Rating from './Rating';
 import MovieReview from './MovieReview';
 import MovieTimeList from './MovieTimeList'
-
 import Navbar from './Navbar';
-
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -77,67 +75,64 @@ class MovieDetail extends Component{
   render(){
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return(
-      <div>
-          <Navbar></Navbar>
-            <div className ="container">
-          { this.props.moviefetcherror === undefined ?
-            <div>
-                      <section class="subnav">
-                <div class="row">
-                  <div class="width-100">
-                    <h1 class="subnav__title heading-style-1 heading-size-xl">
-                          {this.props.moviedetail.title}
-                    </h1>
-                      <ul class="subnav__link-list">
-                          <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showOverview}>Overview</a></li>
-                          <li class="subnav__link-item"><a class="subnav__link" onClick = {this.showMovieTimes}>Movie Times + Tickets</a></li>
-                          <li class="subnav__link-item"><a class="subnav__link"  onClick = {this.showMovieReviews}>Movie Reviews</a></li>
 
-                    </ul>
+        <div className ="container">
+            <Navbar />
+      { this.props.moviefetcherror === undefined ?
+        <div>
+                  <section className="subnav">
+            <div className="row">
+              <div className="width-100">
+                <h1 className="subnav__title heading-style-1 heading-size-xl">
+                      {this.props.moviedetail.title}
+                </h1>
+                  <ul className="subnav__link-list">
+                      <li className="subnav__link-item"><a class="subnav__link cursor-a"  onClick = {this.showOverview}>Overview</a></li>
+                      <li className="subnav__link-item"><a class="subnav__link cursor-a" onClick = {this.showMovieTimes}>Movie Times + Tickets</a></li>
+                      <li className="subnav__link-item"><a class="subnav__link cursor-a"  onClick = {this.showMovieReviews}>Movie Reviews</a></li>
 
-                                </div>
+                </ul>
+
                             </div>
-                          </section>
-            <div class="mop__layout row">
-                    <section class="movie-details col-md-4">
-                    <a class="movie-details__mop-link" href="#">
-                        <img class="movie-details__movie-img visual-thumb" src={this.props.moviedetail.photos} alt="Avengers: Infinity War Movie Poster"/>
-                    </a>
-                    <ul class="movie-details__detail">
-                      <li>Release Date</li>
-                      <li class="movie-details__release-date">{new Date(this.props.moviedetail.release_date).getDate()} {months[new Date(this.props.moviedetail.release_date).getMonth()]} {new Date(this.props.moviedetail.release_date).getFullYear()}</li>
-                      <li>{this.props.moviedetail.rating},  {this.props.moviedetail.movie_length}</li>
-                      { this.props.moviedetail.type.map( movietype =>
-                        <li>{movietype}</li>
-                      )}
-                        Average Rating <Rating rating = {this.props.moviedetail.avg_rating} disable = "true"/>
-                      <li class="js-rotten-tomatoes"></li>
-                    </ul>
-                    <ul class="movie-details__film-formats">
-                        <h3 class="movie-details__film-formats-header">SEE IT IN</h3>
-                        <li class="movie-details__format"><span class="movie-details__format-logo">35MM</span></li>
-                        <li class="movie-details__format"><span class="movie-details__format-logo">Digital 3D</span></li>
-                        <li class="movie-details__format"><span class="movie-details__format-logo">IMAX</span></li>
-                        <li class="movie-details__format"><span class="movie-details__format-logo">IMAX 3D</span></li>
-                     </ul>
+                        </div>
+                      </section>
+        <div className="mop__layout row">
+                <section className="movie-details col-md-4">
+                <a className="movie-details__mop-link" href="#">
+                    <img className="movie-details__movie-img visual-thumb" src={this.props.moviedetail.photos} alt="Avengers: Infinity War Movie Poster"/>
+                </a>
+                <ul className="movie-details__detail">
+                  <li>Release Date</li>
+                  <li className="movie-details__release-date">{new Date(this.props.moviedetail.release_date).getDate()} {months[new Date(this.props.moviedetail.release_date).getMonth()]} {new Date(this.props.moviedetail.release_date).getFullYear()}</li>
+                  <li>{this.props.moviedetail.rating},  {this.props.moviedetail.movie_length}</li>
+                  { this.props.moviedetail.type.map( movietype =>
+                    <li>{movietype}</li>
+                  )}
+                    Average Rating <Rating rating = {this.props.moviedetail.avg_rating} disable = "true"/>
+                  <li className="js-rotten-tomatoes"></li>
+                </ul>
+                <ul className="movie-details__film-formats">
+                    <h3 className="movie-details__film-formats-header">SEE IT IN</h3>
+                    <li className="movie-details__format"><span class="movie-details__format-logo">35MM</span></li>
+                    <li className="movie-details__format"><span class="movie-details__format-logo">Digital 3D</span></li>
+                    <li className="movie-details__format"><span class="movie-details__format-logo">IMAX</span></li>
+                    <li className="movie-details__format"><span class="movie-details__format-logo">IMAX 3D</span></li>
+                 </ul>
 
 
-                    </section>
+                </section>
 
-        {this.state.showOverview ?
-              <div className="col-md-8">
-                <iframe width="700" height="450"  src={this.props.moviedetail.trailer_link+'?autoplay=1'}></iframe>
+    {this.state.showOverview ?
+          <div className="col-md-8">
+            <iframe width="700" height="450"  src={this.props.moviedetail.trailer_link+'?autoplay=1'}></iframe>
 
-            </div> :  null }
-            {this.state.showReview ? <MovieReview  movieid = {this.props.moviedetail.movie_id}/> :  null }
-            {this.state.showMovieTimes ? <MovieTimeList movie = {this.props.moviedetail} /> : null}
-              </div>
-          </div> : <div>{this.props.moviefetcherror}</div>}
+        </div> :  null }
+        {this.state.showReview ? <MovieReview  movieid = {this.props.moviedetail.movie_id}/> :  null }
+        {this.state.showMovieTimes ? <MovieTimeList movie = {this.props.moviedetail} /> : null}
+          </div>
+      </div> : <div>{this.props.moviefetcherror}</div>}
 
-            </div>
-
-      </div>
-
+        </div>
     );
   }
 

@@ -48,18 +48,18 @@ class MovieReviewList extends Component{
   render(){
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return(
-      <div class="tab-pane active" id="comments-logout">
-        <ul class="media-list">
+      <div className="tab-pane active" id="comments-logout">
+        <ul className="media-list">
         {this.props.movieReviewers.map(reviewers =>
 
-          <li class="media">
-            <div class="media-body">
+          <li className="media">
+            <div className="media-body">
 
               <div className="card text-white bg-dark mb-3">
-                <div class="card-header reviews">
+                <div className="card-header reviews">
                   {reviewers.comment} <div className = "offset-9">{reviewers.star!== null ? <Rating rating = {reviewers.star} disable = "true"/> : null }</div>
 
-                    <ul class="media-date  reviews list-inline pull-right">
+                    <ul className="media-date  reviews list-inline pull-right">
                       written by {reviewers.username} on &nbsp;
                       {new Date(reviewers.review_date).getDate()}-
                       {months[new Date(reviewers.review_date).getMonth()]}-
