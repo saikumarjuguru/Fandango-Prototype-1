@@ -141,6 +141,10 @@ class LandingPage extends Component {
           }
         }
         axios.post(config.API_URL+'/logs',payload);
+          let componentData = {
+              component: "home"
+          }
+          axios.post(config.API_URL+'/logs/component_click',componentData);
       }}>
 
         <Navbar movies={this.state.movies}></Navbar>
