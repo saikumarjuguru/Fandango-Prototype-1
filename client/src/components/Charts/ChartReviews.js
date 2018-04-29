@@ -14,7 +14,7 @@ class ChartReviews extends Component {
         labels: [],
         datasets:[
           {
-            label:'Revenue',
+            label:'Reviews',
             data:[],
             backgroundColor:[
               'rgba(255, 99, 132, 0.6)',
@@ -57,7 +57,7 @@ class ChartReviews extends Component {
               labels:labels_temp,
               datasets:[
                 {
-                  label:'Revenue',
+                  label:'Reviews',
                   data:data_temp,
                   backgroundColor:[
                     'rgba(255, 99, 132, 0.6)',

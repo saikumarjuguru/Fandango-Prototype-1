@@ -65,7 +65,7 @@ render(){
             <h6 class="card-title">Rating: {post.rating}</h6>
             <h6 class="card-title">Duration: {post.movie_length}</h6>
             <h6 class="card-title">See it in: {post.see_it_in}</h6> 
-            <button class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
+            <button class="btn btn-warning btn-sm" onClick={this.editMovieDetailAdmin.bind(this,post)}>Edit Detail</button>
             </div>
             <div class="col-md-3">
             <img class="card-img-right imagesearch" src={post.photos} alt="Card image cap" />

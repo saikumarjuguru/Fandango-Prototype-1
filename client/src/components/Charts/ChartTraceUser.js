@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import NavAdmin from '../NavAdmin';
 import config from '../../config'
-import {Bar,Pie} from 'react-chartjs-2'
+import {Bar,Pie,Doughnut,Line} from 'react-chartjs-2'
 
-class ChartMovieClick extends Component {
+class ChartTraceUser extends Component {
 
   constructor(props){
     super(props);
@@ -14,7 +14,7 @@ class ChartMovieClick extends Component {
         labels: [],
         datasets:[
           {
-            label:'Area Less Seen',
+            label:'Page Clicks',
             data:[],
             backgroundColor:[
               'rgba(255, 99, 132, 0.6)',
@@ -37,7 +37,7 @@ class ChartMovieClick extends Component {
 
   componentWillMount(){
     let self = this;
-    axios.get(config.API_URL+'/admin/getlessseen')
+    axios.get(config.API_URL+'/admin/getpageclicks')
     .then(function (response) {
       console.log(response.data.message);
       self.setState({posts:response.data.message})
@@ -45,7 +45,7 @@ class ChartMovieClick extends Component {
       var labels_temp=[];
       var data_temp = [];
       self.state.posts.map((post)=>{
-        labels_temp.push(post.component);
+        labels_temp.push(post.page);
         data_temp.push(post.clicks);
       })
       console.log(labels_temp);
@@ -57,7 +57,7 @@ class ChartMovieClick extends Component {
               labels:labels_temp,
               datasets:[
                 {
-                  label:'Area Less Seen',
+                  label:'Page Clicks',
                   data:data_temp,
                   backgroundColor:[
                     'rgba(255, 99, 132, 0.6)',
@@ -92,7 +92,7 @@ render(){
   
 
   return(
-          <Pie
+          <Line
           data={this.state.chartData}
           
          
@@ -103,4 +103,4 @@ render(){
 }
 }
 
-export default ChartMovieClick;
+export default ChartTraceUser;

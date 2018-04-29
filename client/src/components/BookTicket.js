@@ -239,6 +239,10 @@ render(){
             page: "booking"
         }
         axios.post(config.API_URL+'/logs',payload);
+        let componentData = {
+            component: "booking"
+        }
+        axios.post(config.API_URL+'/logs/component_click',componentData);
     }}>
     <div className="row">
         <div className="col-sm-8">

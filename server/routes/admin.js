@@ -410,4 +410,21 @@ router.get('/getlessseen', (req, res) => {
     });
 });
 
+router.get('/getusertrace', (req, res) => {
+    payload = {
+        action: "admin",
+        type: "get_user_trace"
+    };
+    kafka.make_request('requestTopic',payload, function(err,results){
+        if(err){
+            throw err;
+        }
+        else
+        {
+            console.log(results);
+            res.send(results);
+        }
+    });
+});
+
 module.exports = router;

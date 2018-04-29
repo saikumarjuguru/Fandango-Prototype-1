@@ -125,7 +125,7 @@ class AdminMovieSearchEdit extends Component {
                             <option>Drama</option>    
                         </select>
                         </div>
-                        <button class="btn btn-warning" onClick={()=>this.addMovieAdmin(this.refs)} >Save</button>
+                        <button class="btn btn-warning " onClick={()=>this.addMovieAdmin(this.refs)} >Save</button>
                     </form>
                 </div>
                 </div>

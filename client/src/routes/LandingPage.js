@@ -29,7 +29,10 @@ class LandingPage extends Component {
     super();
     this.state = {
       movies: [],
-      activeFilter: ""
+      activeFilters: {
+        type: null,
+        genre: []
+      }
     }
   }
 
@@ -52,49 +55,143 @@ class LandingPage extends Component {
     if(localStorage.getItem("userId")) {
         let userTrace = {
             user_id: localStorage.getItem("userId"),
-            user: localStorage.getItem("userDetails"),
+            user : JSON.parse(localStorage.getItem("userDetails")),
             path: "home"
         }
         axios.post(config.API_URL + '/logs/user_journey', userTrace);
     }
   }
 
-handleFilterButton(type, e) {
-    e.preventDefault();
-    let nowShowing = [];
-    let comingSoon = [];
+  handleFilters() {
+    let { activeFilters } = this.state;
+    let { type, genre } = activeFilters;
+    let filteredMovies;
+    debugger
+    // this.getMovies().then((response) => {
+    //   let movies = response.data.message;
+    //   filteredMovies = movies.filter((movie) => {
+    //     debugger
+    //     if(type && genre) {
+    //       if(type === 'now-showing') {
+    //         return Date.parse(movie.release_date) < Date.parse(new Date()) && movie.genre.toLowerCase() === genre;
+    //       } else {
+    //         return Date.parse(movie.release_date) > Date.parse(new Date()) && movie.genre.toLowerCase() === genre;
+    //       } 
+    //     } else if(!type && genre) {
+    //       return  movie.genre.toLowerCase() === genre;
+    //     } else if(type && !genre) {
+    //       if(type === 'now-showing') {
+    //         return Date.parse(movie.release_date) < Date.parse(new Date());
+    //       } else {
+    //         return Date.parse(movie.release_date) > Date.parse(new Date());
+    //       } 
+    //     }
 
-    this.getMovies().then((response) => {
-      response.data.message.forEach((movie) => {
-        if(new Date(movie.release_date) < new Date) {
-          nowShowing.push(movie);
-        } else {
-          comingSoon.push(movie);
-        }
-      });
-      if(type === 'now-showing') {
-        this.setState({
-          movies: nowShowing,
-          activeFilter: 'now-showing'
-        })
-      } else if(type === 'coming-soon') {
-        this.setState({
-          movies: comingSoon,
-          activeFilter: 'coming-soon'
-        })
+
+        // if(!this.state.activeFilters.genre && this.state.activeFilters.type) {
+
+        //   if(this.state.activeFilters.type === 'now-showing') {
+        //     return 
+        //     if(new Date(movie.release_date) < new Date) {
+        //       return movie;
+        //     }
+        //   } else {
+
+        //   }
+
+        // } else if(this.state.activeFilters.genre && !this.state.activeFilters.type) {
+
+        //     return movie.genre.toLowerCase() === this.state.activeFilters.type;
+
+        // } else if(this.state.activeFilters.genre && this.state.activeFilters.type) {
+
+        //   return
+
+        // } else {
+        //   return null;
+        // }
+    //   });
+    //   debugger
+    //   this.setState({
+    //     movies: filteredMovies
+    //   });
+    // });
+  }
+
+  handleFilterButton(type, e) {
+    e.preventDefault();
+    this.setState({
+      activeFilters: {
+        type: type
+      }
+    });
+    this.handleFilters();
+    // let nowShowing = [];
+    // let comingSoon = [];
+
+    // this.getMovies().then((response) => {
+    //   response.data.message.forEach((movie) => {
+    //     if(new Date(movie.release_date) < new Date) {
+    //       nowShowing.push(movie);
+    //     } else {
+    //       comingSoon.push(movie);
+    //     }
+    //   });
+    //   if(type === 'now-showing') {
+    //     this.setState({
+    //       movies: nowShowing,
+    //       activeFilter: 'now-showing'
+    //     })
+    //   } else if(type === 'coming-soon') {
+    //     this.setState({
+    //       movies: comingSoon,
+    //       activeFilter: 'coming-soon'
+    //     })
+    //   }
+    // });
+  }
+
+  handleGenre(e) {
+    // e.preventDefault();
+    let { genre } = this.state.activeFilters;
+
+    if(e.target.checked && !genre.includes(e.target.value)) {
+      genre.push(e.target.value);
+    } else if(!e.target.checked && genre.includes(e.target.value)) {
+      genre.splice(genre.indexOf(e.target.value), 1);
+    }
+    debugger
+    this.setState({
+      activeFilters: {
+        genre: genre
       }
     });
   }
 
   render(){
-    let {movies, activeFilter} = this.state;
+    let {movies, activeFilters} = this.state;
+    let {genre} = activeFilters;
+    debugger
     let buttonStyle = {
       fontSize: 12,
       borderRadius: 0
     }
     
     return(
-      <div className="container-fluid landingpage">
+      <div className="container-fluid" onClick={() => {
+        let payload;
+        if(localStorage.getItem('userId')) {
+          payload = {
+              page: "home"
+          }
+        } else {
+          payload = {
+              page: "landingpage"
+          }
+        }
+        axios.post(config.API_URL+'/logs',payload);
+      }}>
+
         <Navbar movies={this.state.movies}></Navbar>
 
         <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
@@ -128,8 +225,8 @@ handleFilterButton(type, e) {
 
         <div className="container-fluid text-center">
           <div className="btn-group" role="group">
-            <button type="button" className={(activeFilter === 'now-showing') ? "active btn btn-outline-danger" : "btn btn-outline-danger" } onClick={this.handleFilterButton.bind(this, 'now-showing')}>NOW SHOWING</button>
-            <button type="button" className={(activeFilter === 'coming-soon') ? "active btn btn-outline-danger" : "btn btn-outline-danger" }  onClick={this.handleFilterButton.bind(this, 'coming-soon')}>COMING SOON</button>
+            <button type="button" className={(activeFilters.type === 'now-showing') ? "active btn btn-outline-danger" : "btn btn-outline-danger" } onClick={this.handleFilterButton.bind(this, 'now-showing')}>NOW SHOWING</button>
+            <button type="button" className={(activeFilters.type === 'coming-soon') ? "active btn btn-outline-danger" : "btn btn-outline-danger" }  onClick={this.handleFilterButton.bind(this, 'coming-soon')}>COMING SOON</button>
           </div>
         </div>
 
@@ -138,11 +235,48 @@ handleFilterButton(type, e) {
         <div className="container">
           <div className="row">
             <div className="col-lg-3">
-              <h4 className="my-4">Filters</h4>
+              <h4>Genre</h4>
               <div className="list-group">
-                <a href="#" className="list-group-item">Category 1</a>
-                <a href="#" className="list-group-item">Category 2</a>
-                <a href="#" className="list-group-item">Category 3</a>
+                <a className="list-group-item">
+                  <div className="form-check">
+                    <label className="form-check-label">
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre.includes("drama")) ? true : false} value="drama" onClick={this.handleGenre.bind(this)} />
+                      Drama
+                    </label>
+                  </div>
+                </a>
+                <a className="list-group-item">
+                  <div className="form-check">
+                    <label className="form-check-label">
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("comedy") : false} value="comedy" onClick={this.handleGenre.bind(this)} />
+                      Comedy
+                    </label>
+                  </div>
+                </a>
+                <a className="list-group-item">
+                  <div className="form-check">
+                    <label className="form-check-label">
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("action") : false} value="action" onClick={this.handleGenre.bind(this)} />
+                      Action
+                    </label>
+                  </div>
+                </a>
+                <a className="list-group-item">
+                  <div className="form-check">
+                    <label className="form-check-label">
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("romance") : false} value="romance" onClick={this.handleGenre.bind(this)} />
+                      Romance
+                    </label>
+                  </div>
+                </a>
+                 <a className="list-group-item">
+                  <div className="form-check">
+                    <label className="form-check-label">
+                      <input className="form-check-input" type="checkbox" name="genre[]" checked={(genre) ? genre.includes("horror") : false} value="horror" onClick={this.handleGenre.bind(this)} />
+                      Horror
+                    </label>
+                  </div>
+                </a>
               </div>
             </div>
 
@@ -169,23 +303,6 @@ handleFilterButton(type, e) {
                     )
                   }})
                 }
-
-
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt /></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">Item Two</a>
-                      </h4>
-                      <h5>$24.99</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">★ ★ ★ ★ ☆</small>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

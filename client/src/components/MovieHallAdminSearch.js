@@ -16,10 +16,10 @@ class MovieHallAdminSearch extends Component {
   componentWillMount(){
           var searchtext=localStorage.getItem('searchTextHallAdmin');
           let self = this;
-          var UserId = 1;
+          var UserId = localStorage.getItem('userId');
           
           let req ={
-                    "user_id":"1",
+                    "user_id":UserId,
                     "searchtext":searchtext
                     }
            axios.post(config.API_URL+'/movie_hall/searchmoviehalladmin',req)
@@ -53,15 +53,15 @@ render(){
         
         <div class="card text-white bg-dark mb-3">
         <div class="card-header">
-          <h6> <strong> Screen {post.screen_id}</strong></h6>
+          <h6> <strong> Screen {post.screen_number}</strong></h6>
         </div>
         <div class="card-body">
             <h6 class="card-title">Movie: {post.movie_name}</h6>
-            <h6 class="card-title">Show Times: {post.slot1} {post.slot2} {post.slot3} {post.slot4}</h6>
+            <h6 class="card-title">Show Times: {post.slot1>0 ?'12:00PM':null} {post.slot2>0 ?'03:00PM':null} {post.slot3>0 ?'06:00PM':null} {post.slot4>0 ?'09:00PM':null}</h6>
             <h6 class="card-title">See it in: {post.see_it_in}</h6>
             <h6 class="card-title">Ticket Price: ${post.ticket_price}</h6>
             <h6 class="card-title">Number Of Seats: {post.max_seats}</h6>
-            <a href="/editMovieDetailAdmin" class="btn btn-warning" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
+            <a href="/editMovieDetailAdmin" class="btn btn-warning btn-sm" onClick={this.editMovieDetailAdmin.bind()}>Edit Detail</a>
           </div>
         </div>
   );

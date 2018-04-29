@@ -15,7 +15,7 @@ class AdminBilling extends Component {
 
   componentWillMount(){
           let self = this;
-          var UserId = 1;
+         
           axios.get(config.API_URL+'/admin/getuserbilldetails')
           .then(function (response) {
             console.log(response.data.message);
@@ -59,7 +59,7 @@ render(){
 
 
   return(
-        <div className="halladminBillingdiv">
+        <div className="halladmindiv">
         <NavAdmin></NavAdmin>
         <br/>
         <h2 class="nowshowing">Booked Seats:</h2><br/>

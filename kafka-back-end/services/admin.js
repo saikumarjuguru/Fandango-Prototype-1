@@ -1,6 +1,8 @@
 var conn = require('../pool');
 var pageclicks = require('../schemas/pageclickslog');
 var movieclicks = require('../schemas/movieclickslog');
+var componentclicks = require('../schemas/componentclicklog');
+var usertrace = require('../schemas/usertrace');
 
 function handle_request(msg, callback){
 
@@ -13,7 +15,7 @@ function handle_request(msg, callback){
         let query = "select movie_id, movie_name, ifnull(revenue, 0) as revenue from\n" +
             "(select movie_id, title as movie_name from movies) a\n" +
             "left outer join\n" +
-            "(select movie_id, sum(amount) as revenue from billing group by movie_id) b using (movie_id) order by revenue desc";
+            "(select movie_id, sum(amount) as revenue from billing where is_cancelled <> 1 group by movie_id) b using (movie_id) order by revenue desc";
         conn.query(query, function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -31,7 +33,7 @@ function handle_request(msg, callback){
         let query = "select movie_hall_id, movie_hall_name, ifnull(revenue, 0) as revenue from\n" +
             "(select movie_hall_id, movie_hall_name from movie_hall) a\n" +
             "left outer join\n" +
-            "(select movie_hall_id, sum(amount) as revenue from billing group by movie_hall_id) b using (movie_hall_id) order by revenue desc";
+            "(select movie_hall_id, sum(amount) as revenue from billing where is_cancelled <> 1 group by movie_hall_id) b using (movie_hall_id) order by revenue desc";
         conn.query(query, function (err, result) {
             if (err){
                 res.statusCode = 401;
@@ -327,7 +329,7 @@ function handle_request(msg, callback){
 
     if (msg.type === "get_movies_graph_data"){
         let query = "select title as movie_name, year(billing.date) as movie_year, sum(amount) as revenue \n" +
-            "from billing inner join movies using (movie_id)\n" +
+            "from billing inner join movies using (movie_id) where is_cancelled <> 1\n" +
             "group by movie_id,movie_year order by revenue desc limit 10";
         conn.query(query, function (err, result) {
             if (err){
@@ -344,7 +346,7 @@ function handle_request(msg, callback){
 
     if (msg.type === "get_cities_graph_data"){
         let query = "select city as city_name, year(billing.date) as city_year, sum(amount) as revenue \n" +
-            "from billing inner join movie_hall using (movie_hall_id)\n" +
+            "from billing inner join movie_hall using (movie_hall_id) where is_cancelled <> 1\n" +
             "group by city_name,city_year order by revenue desc limit 10";
         conn.query(query, function (err, result) {
             if (err){
@@ -362,7 +364,7 @@ function handle_request(msg, callback){
     if (msg.type === "get_movie_halls_graph_data"){
         let query = "select movie_hall_name, sum(amount) as revenue \n" +
             "from billing inner join movie_hall using (movie_hall_id)\n" +
-            "where month(billing.date) = month(current_date() - interval 1 month)\n" +
+            "where month(billing.date) = month(current_date() - interval 1 month) and is_cancelled <> 1\n" +
             "group by movie_hall_id order by revenue desc limit 10";
         conn.query(query, function (err, result) {
             if (err){
@@ -422,18 +424,43 @@ function handle_request(msg, callback){
     }
 
     if (msg.type === "get_less_seen"){
-        //dummy service
-        pageclicks.find((err, result) => {
+        componentclicks.find((err, result) => {
             if (err){
                 res.statusCode = 401;
                 res.message = err;
                 callback(err, res);
             }
             else {
-                res.message = result[0];
+                less_seen = [result[0]];
+                res.message = less_seen;
                 callback(null, res);
             }
         }).sort("clicks");
+    }
+
+    if (msg.type === "get_user_trace"){
+        usertrace.find((err, result) => {
+            if (err){
+                res.statusCode = 401;
+                res.message = err;
+                callback(err, res);
+            }
+            else {
+                let i;
+                let response_to_send = [];
+                let response_obj = {};
+                for(i = 0; i < result.length; i++){
+                    response_obj.user_name = result[i].user.username;
+                    response_obj.city = result[i].user.username;
+                    response_obj.state = result[i].user.state;
+                    response_obj.zipcode = result[i].user.zipcode;
+                    response_obj.path = result[i].path.join("-->");
+                    response_to_send.push(response_obj);
+                }
+                res.message = response_to_send;
+                callback(null, res);
+            }
+        }).select({"_id":0, "path":1, "user":1});
     }
 
 }
