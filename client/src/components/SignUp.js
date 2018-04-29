@@ -46,10 +46,10 @@ class SignUp extends Component {
     componentWillMount() {
         let userTrace = {
             user_id: localStorage.getItem("userId"),
-            user: localStorage.getItem("userDetails"),
-            path: "signup"
+            user : JSON.parse(localStorage.getItem("userDetails")),
+            path : "signup"
         }
-        axios.post(config.API_URL + '/logs/user_journey', userTrace);
+        axios.post(config.API_URL+'/logs/user_journey',userTrace);
     }
 
     handleSubmit(e){
