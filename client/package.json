@@ -15,6 +15,7 @@
     "react-bootstrap-typeahead": "^3.1.2",
     "react-chartjs": "^1.2.0",
     "react-chartjs-2": "^2.7.0",
+    "react-checkbox-group": "^4.0.1",
     "react-collapsible": "^2.2.0",
     "react-dom": "^16.3.2",
     "react-file-download": "*",
