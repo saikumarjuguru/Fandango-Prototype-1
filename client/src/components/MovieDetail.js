@@ -75,9 +75,9 @@ class MovieDetail extends Component{
   render(){
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return(
-
+<div>    <Navbar />
         <div className ="container">
-            <Navbar />
+
       { this.props.moviefetcherror === undefined ?
         <div>
                   <section className="subnav">
@@ -132,6 +132,7 @@ class MovieDetail extends Component{
           </div>
       </div> : <div>{this.props.moviefetcherror}</div>}
 
+        </div>
         </div>
     );
   }

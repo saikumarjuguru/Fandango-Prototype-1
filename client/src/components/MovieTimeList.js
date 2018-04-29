@@ -156,7 +156,7 @@ class MovieTimeList extends Component{
     return(
       <div className = "col-md-8">
 
-        <DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>
+        {/*<DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>*/}
         <div className = "pull-right"><strong>Price Range </strong>Min:
           <span className = "display-inline"><select   onChange={this.filter1Change} >
                   <option> 8$</option>
