@@ -40,6 +40,7 @@ class BookTicket extends Component {
     let save = 0;
     let date="";
     let time="";
+    
    
 
     this.state = {
@@ -57,7 +58,8 @@ class BookTicket extends Component {
         save:0,
         screen_number:"",
         screen_id:"",
-        login:false
+        login:false,
+        availability:""
     }
 
   }
@@ -73,6 +75,19 @@ componentWillMount() {
       if(!localStorage.getItem("userId")){
         this.setState({login:true});
     }
+    let temp = this.props.movie.date;
+      temp = temp.getUTCFullYear() + '-' +
+                ('00' + (temp.getUTCMonth() + 1)).slice(-2) + '-' +
+                ('00' + temp.getUTCDate()).slice(-2);
+    axios.get(config.API_URL+"/movie_hall/get-screen-capacities/"+this.props.movie.movie.movie_id+"/"+this.props.movie.moviehall.movie_hall.movie_hall_id+"/"+this.props.movie.slot+'/'+temp).then((response)=>{
+        this.setState({
+            availability:response.data.message
+        });
+        
+    }).catch((err)=>{
+        console.log(err);
+    });
+
 }
 
 
@@ -87,7 +102,7 @@ componentDidMount(){
             //this.cvv = data.cvv;
             this.expiration_date = data.expiration_date;
           });
-
+   
 
 }
 componentWillRec(nextProps, nextState) {
@@ -245,7 +260,7 @@ render(){
             {this.state.activeStep==0?
             <div className="card-body">
                 <h5 className="card-title">SELECT NUMBER OF SEATS</h5>
-                {/* <p className="card-text">Number Of Seats Left: {this.state.total_seats}</p> */}
+                <p className="card-text"><b>Availability:</b> {this.state.availability}</p>
                 <div className="form-group">
                     <label htmlFor="exampleFormControlFile1">Enter Number Of Seats</label>
                     <input type="number" ref="number_of_seats" className="form-control" id="exampleFormControlFile1" min="1" max="50"required/>
@@ -284,7 +299,7 @@ render(){
                         <div className="form-group">
                             <div className="custom-control custom-checkbox">
                             <input type="checkbox" onChange={this.check.bind(this)} className="custom-control-input" id="customCheck1"/>
-                            <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
+                            <label className="custom-control-label" htmlFor="customCheck1">Check to save credit card details</label>
                         </div>
                     </div>
                     </div>
@@ -320,7 +335,7 @@ render(){
         </div>
         <div className="col-sm-4 img_card">
             <div className="card">
-            <img className="card-img-top"  src={this.props.movie.movie.photos} alt="Card image cap"/>
+            <img className="card-img-top" src={this.props.movie.movie.photos} alt="Card image cap"/>
             <div className="card-body">
                 <h3 className="movie_name">{this.props.movie.movie.title}</h3>
                 <p className="movie_description">{this.props.movie.movie.movie_characters}</p>
