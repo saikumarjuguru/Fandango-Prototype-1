@@ -66,7 +66,7 @@ class MovieTimeList extends Component{
   }
 
   onDateSelect(date){
-    let formatDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' +  date.getFullYear()
+    let formatDate = date.getFullYear() + '-' +(date.getMonth() + 1)+ '-' + date.getDate()
     this.setState({
       date : date
     })
