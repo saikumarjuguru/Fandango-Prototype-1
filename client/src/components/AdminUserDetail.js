@@ -83,7 +83,7 @@ render(){
 
 
   return(
-        <div className="halladminBookingdiv">
+        <div className="halladmindiv">
         <NavAdmin></NavAdmin>
         <br/>
         <h2 class="nowshowing">Users:</h2><br/>
