@@ -6,8 +6,13 @@ class NavHallAdmin extends Component {
   constructor(props){
     super(props);
     this.searchMovies = this.searchMovies.bind(this);
+    this.logOut=this.logOut.bind(this);
   } 
     
+  logOut(){
+    localStorage.clear();
+    this.props.history.push('/login');
+  }
   searchMovies(searchText){
    
     localStorage.setItem('searchTextHallAdmin',searchText);
@@ -36,11 +41,13 @@ class NavHallAdmin extends Component {
               <a class="nav-link text-warning" href="./halladminbooking"><h6>Bookings</h6></a>
             </li>
             
+            
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" ref="serachText" type="search" placeholder="Search Movies..." aria-label="Search"/>
             <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" onClick={()=>this.searchMovies(this.refs.serachText.value)}>Search</button>
-          </form>
+          </form>&nbsp;
+          <button class="btn btn btn-warning navbar-btn" onClick={()=>this.logOut()}>LogOut</button>
         </div>
       </nav>
     )

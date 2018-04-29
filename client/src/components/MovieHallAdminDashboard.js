@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import NavHallAdmin from './NavHallAdmin';
 import config from '../config'
-
+import ChartMovieHallAdmin from './Charts/ChartMovieHallAdmin'
 
 class MovieHallAdminDashboard extends Component {
 
@@ -15,10 +15,10 @@ class MovieHallAdminDashboard extends Component {
 
   componentWillMount(){
           let self = this;
-          var UserId = 1;
+          var UserId = localStorage.getItem('userId');
           axios.get(config.API_URL+'/movie_hall/getrevenuebymovie', {
             params: {
-              user_id: 1
+              user_id: UserId
             }
           })
           .then(function (response) {
@@ -52,12 +52,15 @@ render(){
 
   if(localStorage.getItem('role')==='1'){
   return(
-        <div className="halladminBookingdiv">
+        <div className="halladmindiv">
         <NavHallAdmin></NavHallAdmin>
-          <div className="hallBookinginnerdiv">
-            <h2 class="nowshowing">Movies Earning:</h2><br/>
+          <div className="">
+            <br/>
+            <h3 class="nowshowing">Movies Earning:</h3><br/>
+            
             {postItem}
           </div>
+          
       </div>
        
   )}

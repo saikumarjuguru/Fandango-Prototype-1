@@ -16,10 +16,10 @@ class MovieHallAdminHome extends Component {
 
   componentWillMount(){
           let self = this;
-          var UserId = 3;
+          var UserId = localStorage.getItem('userId');
           axios.get(config.API_URL+'/movie_hall/getmoviehallinfo?', {
             params: {
-              user_id: 3
+              user_id: UserId
             }
           })
           .then(function (response) {

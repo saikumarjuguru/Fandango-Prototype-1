@@ -15,10 +15,10 @@ class MovieHallAdminBooking extends Component {
 
   componentWillMount(){
           let self = this;
-          var UserId = 1;
+          var UserId = localStorage.getItem('userId');
           axios.get(config.API_URL+'/movie_hall/getuserbilldetails', {
             params: {
-              user_id: 1
+              user_id: UserId
             }
           })
           .then(function (response) {
