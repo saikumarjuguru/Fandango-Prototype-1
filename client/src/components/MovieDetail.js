@@ -65,15 +65,14 @@ class MovieDetail extends Component{
     }
   }
 
-componentWillMount(){
-
-      let userTrace = {
-          user_id: localStorage.getItem("userId"),
-          user : localStorage.getItem("userDetails"),
-          path : "moviedetails"
-      }
-      axios.post(config.API_URL+'/logs/user_journey',userTrace);
-  }
+  componentWillMount() {
+    let userTrace = {
+        user_id: localStorage.getItem("userId"),
+        user : JSON.parse(localStorage.getItem("userDetails")),
+        path : "moviedetail"
+    }
+    axios.post(config.API_URL+'/logs/user_journey',userTrace);
+}
 
 
   showMovieReviews(){
