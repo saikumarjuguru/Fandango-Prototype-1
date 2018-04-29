@@ -55,3 +55,14 @@
     font-size: 12px;
     text-align: center;
 }
+
+.halladminBillingdiv{
+    font-size: 12x;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.imagesearch{
+    max-width: 200px;
+    max-height: 230px;
+}

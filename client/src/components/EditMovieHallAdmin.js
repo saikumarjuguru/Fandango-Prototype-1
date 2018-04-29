@@ -72,12 +72,12 @@ class EditMovieHallAdmin extends Component {
                     "ticket_price": userInput.ticket_price.value
         }
         console.log(req);
-        axios.post(config.API_URL+'/movie_hall/editmovieinfo',req,
-        {withCredential: true}
+        axios.post(config.API_URL+'/movie_hall/editmovieinfo',req
+      
         )
         .then(function (response) {
             console.log(response.data.message);
-            window.location.replace('http://localhost:3000/moviehalladminhome');
+            this.props.history.push('/moviehalladminhome')
           })
          
 

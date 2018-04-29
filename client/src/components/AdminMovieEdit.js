@@ -98,7 +98,7 @@ class AdminMovieEdit extends Component {
             console.log('test'+data.slot1);
             
     
-
+    if(localStorage.getItem('role')==='2'){
     return(
         
             <div className="halladmindiv">
@@ -150,7 +150,10 @@ class AdminMovieEdit extends Component {
             </div>
         </div>
         
-    )
+    )}
+    else{
+        window.location.replace("http://localhost:3000/login");
+    }
     }
     }
 
