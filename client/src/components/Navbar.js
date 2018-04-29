@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config';
 import {Typeahead} from 'react-bootstrap-typeahead';
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
 
@@ -41,7 +42,7 @@ class Navbar extends Component {
 
     let { options } = this.state;
     let { historyReact } = this.props;
-    let {isAuthenticated} = localStorage.getItem('userId') ? true : false;
+    let isAuthenticated = localStorage.getItem('userId') ? true : false;
 
 		return(
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={borderRadiusZero}>
@@ -102,8 +103,8 @@ class Navbar extends Component {
               </div>
             </div>
           </form>
-          { isAuthenticated &&  <button className="btn btn-outline-primary bg-white">SIGN IN</button>}
-          { !isAuthenticated && <button className="btn btn-outline-danger bg-white">LOGOUT</button>}
+          { !isAuthenticated &&  <Link className="btn btn-outline-primary bg-white" to="/login">SIGN IN</Link>}
+          { isAuthenticated && <button className="btn btn-outline-danger bg-white">LOGOUT</button>}
         </div>
       </nav>
 
