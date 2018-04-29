@@ -58,7 +58,7 @@ class NewerHomePage extends Component{
           <Route exact path="/adminuserdetail" component={AdminUserDetail}/>
           <Route exact path="/adminedituserdetail" component={AdminUserEditDetail}/>
           <Route exact path="/admindashboard" component={AdminDashboard}/>
-        
+
         </div>
 
     );

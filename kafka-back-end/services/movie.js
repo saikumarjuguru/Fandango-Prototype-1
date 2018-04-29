@@ -10,7 +10,7 @@ function handle_request(msg, callback){
 
     if(msg.type =='getMovieDetail'){
 
-    var redisKey= "select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data;
+    var redisKey= "select m.*, mt.type , avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id left outer join movie_review mr on mr.movie_id = m.movie_id where m.movie_id="+msg.data;
      redis.get( JSON.stringify(redisKey)  , function(err , reply){
         if(!err && reply != null){
                 res.code = 200  ;
@@ -18,7 +18,7 @@ function handle_request(msg, callback){
                 callback(null , res) ;
         }else{
             pool.getConnection(function(err, connection){
-                connection.query("select *, avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id  join movie_review mr on mr.movie_id = m.movie_id where m.movie_id = "+msg.data ,function(err,rows){
+                connection.query("select m.*, mt.type , avg(star) as avg_rating from movies m join movie_type mt on m.movie_id = mt.movie_id left outer join movie_review mr on mr.movie_id = m.movie_id where m.movie_id= "+msg.data ,function(err,rows){
                    connection.release();//release the connection
                    if(err) {
                       res.code = "500";
