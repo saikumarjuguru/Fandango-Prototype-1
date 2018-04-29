@@ -34,6 +34,7 @@ class MovieDetail extends Component{
     this.showMovieReviews = this.showMovieReviews.bind(this);
     this.showOverview =  this.showOverview.bind(this);
     this.showMovieTimes = this.showMovieTimes.bind(this);
+    this.handleClickData = this.handleClickData.bind(this);
   }
 
   static defaultProps = {
@@ -75,7 +76,14 @@ class MovieDetail extends Component{
         path : "moviedetail"
     }
     axios.post(config.API_URL+'/logs/user_journey',userTrace);
-}
+  }
+
+  handleClickData(){
+    let componentData = {
+                          component: "editprofile"
+                        }
+    axios.post(config.API_URL+'/logs/component_click',componentData);
+  }
 
 
   showMovieReviews(){
@@ -126,7 +134,7 @@ class MovieDetail extends Component{
                             </div>
                         </div>
                       </section>
-        <div className="mop__layout row">
+        <div className="mop__layout row" onCLick = {this.handleClickData}>
                 <section className="movie-details col-md-4">
                 <a className="movie-details__mop-link" href="#">
                     <img className="movie-details__movie-img visual-thumb" src={this.props.moviedetail.photos} alt="Avengers: Infinity War Movie Poster"/>

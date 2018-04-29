@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import DateCarousel from './DateCarousel';
 import { getMovieHallsAndTimes,getHallAndTimeDetailsForBooking } from '../actions';
 import { withRouter } from 'react-router-dom';
+import config from "../config";
+import axios from "axios/index";
 
   const mapDispatchToProps = (dispatch) => {
     let actions = {getMovieHallsAndTimes,getHallAndTimeDetailsForBooking};
@@ -38,11 +40,19 @@ class MovieTimeList extends Component{
     this.handleSlot4 = this.handleSlot4.bind(this);
     this.filter1Change =this.filter1Change.bind(this);
     this.filter2Change = this.filter2Change.bind(this);
+    this.handleClickData = this.handleClickData.bind(this);
   }
 
 
   static defaultProps ={
     hallsWithSlot :[]
+  }
+
+  handleClickData(){
+    let componentData = {
+                          component: "editprofile"
+                        }
+    axios.post(config.API_URL+'/logs/component_click',componentData);
   }
 
   componentWillMount(){
@@ -161,7 +171,7 @@ class MovieTimeList extends Component{
 
   render(){
     return(
-      <div className = "col-md-8">
+      <div className = "col-md-8" onCLick = {this.handleClickData}>
 
         <DateCarousel  onDateSelect = {this.onDateSelect} movie = {this.props.movie}/>
         <div className = "m-5 mt-lg-4 pull-right"><strong>Price Range </strong>Min:
