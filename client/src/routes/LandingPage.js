@@ -4,14 +4,14 @@ import { withRouter } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
 import config from '../config';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+
 
 import Navbar from '../components/Navbar';
 
 const mapDispatchToProps = (dispatch) => {
-
-    let actions = {};
-    return { ...actions, dispatch };
-
+  let actions = {};
+  return { ...actions, dispatch };
 }
 
 const mapStateToProps = (state) => {
@@ -75,21 +75,20 @@ class LandingPage extends Component {
   }
 
   render(){
-
     let {movies, activeFilter} = this.state;
+
     let buttonStyle = {
       fontSize: 12,
       borderRadius: 0
     }
-
     let padding20 = {
       paddingTop: 20
     }
 
-
     return(
       <div className="container-fluid">
-        <Navbar></Navbar>        
+        <Navbar movies={this.state.movies}></Navbar>
+
         <main>
           <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
             <ol className="carousel-indicators">

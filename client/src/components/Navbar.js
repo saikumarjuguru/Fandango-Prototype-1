@@ -1,16 +1,46 @@
 import React , {Component} from 'react';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import config from '../config';
+import {Typeahead} from 'react-bootstrap-typeahead';
 
 class Navbar extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      options: []
+    }
+  }
+
+  getMovies() {
+    return axios.post(config.API_URL+'/admin/searchmovie', {
+      searchtext: ""
+    });
+  }
+
+  componentDidMount() {
+    this.getMovies().then((response) => {
+      this.setState({
+        options: response.data.message
+      })
+    })
+  }
+
+  handleSelected(selected) {
+    this.props.history.push(`/movieDetails/${selected[0].movie_id}`)
+  }
 
 	render() {
 		let borderRadiusZero = {
 			borderRadius: 0
 		}
-
     let marginR50 = {
       marginRight: 50
     }
 
+    let { options } = this.state;
+    let { historyReact } = this.props;
     let {isAuthenticated} = localStorage.getItem('userId') ? true : false;
 
 		return(
@@ -59,9 +89,14 @@ class Navbar extends Component {
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <div className="input-group" style={marginR50}>
-              <input type="text" className="form-control typeahead border-success" placeholder="Search for Movie" data-provide="typeahead" autoComplete="off" />
+              <Typeahead
+                labelKey="movie_name"
+                onChange={this.handleSelected.bind(this)}
+                options={options}
+                placeholder="Search for Movie"
+              />
               <div className="input-group-append">
-                <button type="submit" className="btn btn-outline-success bg-white">
+                <button type="submit" className="btn btn-outline-primary bg-white">
                   <i className="fa fa-search" />
                 </button>
               </div>
@@ -76,4 +111,5 @@ class Navbar extends Component {
 	}
 }
 
-export default Navbar;
+export default withRouter(Navbar);
+
