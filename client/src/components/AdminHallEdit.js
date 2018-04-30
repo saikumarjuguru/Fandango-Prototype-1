@@ -49,7 +49,8 @@ class AdminHallEdit extends Component {
                 console.log(response.data.message);
                 this.props.history.push('/adminhome');
             })}}
-            
+            alert("Hall Info Updated!!");
+            this.props.history.push('/adminhome');
     }
 
     render(){

@@ -89,11 +89,12 @@ class EditMovieHallAdmin extends Component {
             axios.post(config.API_URL+'/movie_hall/editmovieinfo',req)
             .then( (response)=> {
                 console.log(response.data.message);
-                this.props.history.push('/moviehalladminhome')
+                this.props.history.push('/moviehalladminhome');
               }).catch((err)=>{console.log("error"+err)})
                  }
            }}
-           
+           alert("Movie Details Updated!!!");
+           this.props.history.push('/moviehalladminhome');
            
          
 

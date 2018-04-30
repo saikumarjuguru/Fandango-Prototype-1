@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Login from './Login';
 import LandingPage from './LandingPage';
-import { Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router,Route, withRouter, Switch } from 'react-router-dom';
 import SignUp from "./SignUp";
 import BookTicket from "./BookTicket";
 import MovieHallAdminHome from "./MovieHallAdminHome";
@@ -26,12 +26,14 @@ import AdminMovieSearchEdit from './AdminMovieSearchEdit'
 import AdminUserDetail from './AdminUserDetail'
 import AdminUserEditDetail from './AdminUserEditDetail'
 import AdminDashboard from './AdminDashboard';
+import Error from './Error';
 
 class NewerHomePage extends Component{
 
   render() {
       return (
-        <div>
+        <Router>
+          <Switch>
           <Route exact path="/" render={LandingPage}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/signup" component={SignUp}/>
@@ -58,8 +60,11 @@ class NewerHomePage extends Component{
           <Route exact path="/adminuserdetail" component={AdminUserDetail}/>
           <Route exact path="/adminedituserdetail" component={AdminUserEditDetail}/>
           <Route exact path="/admindashboard" component={AdminDashboard}/>
+          <Route path="*" component={Error}/>
+          </Switch>
+      </Router>
 
-        </div>
+     
 
     );
 }

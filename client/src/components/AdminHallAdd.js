@@ -54,6 +54,8 @@ class AdminHallAdd extends Component {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
                 })}}
+                alert("Movie Hall Added Successfully!!!!");
+                window.location.replace('http://localhost:3000/adminhome');
 
     }
 

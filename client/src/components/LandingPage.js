@@ -7,7 +7,8 @@ import config from '../config';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 
-import Navbar from '../components/Navbar';
+import Navbar from './Navbar';
+import Footer from './Footer'
 
 const mapDispatchToProps = (dispatch) => {
   let actions = {};
@@ -285,6 +286,8 @@ class LandingPage extends Component {
             </div>
           </div>
         </div>
+
+        <Footer></Footer>
       </div>
     )
   }

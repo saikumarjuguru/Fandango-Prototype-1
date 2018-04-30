@@ -39,6 +39,7 @@ deleteBooking(bookingId){
         axios.post(config.API_URL+'/movie_hall/canceluserbooking',req)
         .then(function (response) {
             console.log(response.data.message);
+            alert("Booking Deleted!!");
             window.location.reload(true);
           })
 }

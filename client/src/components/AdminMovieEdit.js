@@ -85,6 +85,8 @@ class AdminMovieEdit extends Component {
             console.log(response.data.message);
             window.location.replace('http://localhost:3000/moviehalladminhome');
           })}
+          alert("Movie Detail Updated!!!");
+          window.location.replace('http://localhost:3000/moviehalladminhome');
          
 
     }
