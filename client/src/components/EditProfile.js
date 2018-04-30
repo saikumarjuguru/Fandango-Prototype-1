@@ -129,7 +129,6 @@ class EditProfile extends Component {
         axios.post(url, formData, {contentType: 'multipart/form-data'})
             .then((response) => {
                 if (response.data.statusCode === 200) {
-                    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     console.log(response.data);
                     self.setState({
                         // collapsible1Open: false,
@@ -527,7 +526,7 @@ class EditProfile extends Component {
                                     <div className="col-md-1 col-md-offset-6">
                                         <br/>
                                         <button
-                                            className="btn btn-primary btn-lg font-weight-bold"
+                                            className="btn btn-warning btn-lg"
                                             type="button"
                                             onClick={() => {
                                                 this.gotoUpdate()
@@ -535,9 +534,9 @@ class EditProfile extends Component {
                                             Set My Profile
                                         </button>
                                     </div>
+                                    <br />
                                 </div>
                             </div>
-                            <br/>
                         </Collapsible>
                         </div>
                         <br/>
@@ -570,15 +569,22 @@ class EditProfile extends Component {
                         </div>
                         <br/>
                         <button className="btn btn-secondary form-control customCollapse btn-danger" onClick={() => {
-                            let req ={
-                                'user_id': localStorage.getItem("userId")
+
+                            if (window.confirm('Are you sure you want to save this thing into the database?')) {
+                                let req ={
+                                    'user_id': localStorage.getItem("userId")
+                                }
+                                axios.post(config.API_URL+'/admin/deleteuser',req)
+                                    .then(function (response) {
+                                        console.log(response.data.message);
+                                        localStorage.clear();
+                                        window.location.reload(true);
+                                    });
+                            } else {
+
                             }
-                            axios.post(config.API_URL+'/admin/deleteuser',req)
-                                .then(function (response) {
-                                    console.log(response.data.message);
-                                    localStorage.clear();
-                                    window.location.reload(true);
-                                });
+
+
 
                         }}>Delete My Account</button>
 
