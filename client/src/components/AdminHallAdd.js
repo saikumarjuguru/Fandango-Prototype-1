@@ -39,6 +39,7 @@ class AdminHallAdd extends Component {
                  alert("Enter valid value");
               }
             else{ 
+
             let req ={
                 "movie_hall_name": userInput.movie_hall_name.value,
                 "ticket_price": userInput.ticket_price.value,

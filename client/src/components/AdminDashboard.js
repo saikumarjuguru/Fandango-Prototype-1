@@ -88,7 +88,7 @@ if(localStorage.getItem('role')==='2'){
           <div className="col-md-8">
             <h4 class="nowshowing">User Trace Diagram:</h4><br/>
               <div className="input-group input-group-sm mb-3 center">
-                <input type="text" className="form-control" aria-label="Small" placeholder="Enter User Name/City" aria-describedby="inputGroup-sizing-sm" onChange={(event) => {
+                <input type="text" className="form-control" aria-label="Small" placeholder="Enter User Name/City/State" aria-describedby="inputGroup-sizing-sm" onChange={(event) => {
                                                var val = event.target.value;
                                                var posts = this.state.allposts.filter((post) => {
                                                    return ((post.user_name.toLowerCase().indexOf(val.toLowerCase()) > -1)||(post.city.toLowerCase().indexOf(val.toLowerCase()) > -1)||(post.state.toLowerCase().indexOf(val.toLowerCase()) > -1));
