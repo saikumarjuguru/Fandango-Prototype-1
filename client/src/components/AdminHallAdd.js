@@ -39,6 +39,7 @@ class AdminHallAdd extends Component {
                  alert("Enter valid value");
               }
             else{ 
+
             let req ={
                 "movie_hall_name": userInput.movie_hall_name.value,
                 "ticket_price": userInput.ticket_price.value,
@@ -53,6 +54,8 @@ class AdminHallAdd extends Component {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
                 })}}
+                alert("Movie Added Successfully!!!!");
+                window.location.replace('http://localhost:3000/adminhome');
 
     }
 

@@ -61,7 +61,7 @@ router.post('/:userID',upload.single('profile_image'),function(req,res){
                     "profile_path":profile_image_path
                 }
              }
-             console.log(payload);
+             console.log("******************" + payload);
             kafka.make_request('requestTopic',payload, function(err,results){
                 console.log('in result');
                 console.log(results);

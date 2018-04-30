@@ -52,6 +52,7 @@ deleteUser(user_id){
       axios.post(config.API_URL+'/admin/deleteuser',req)
       .then(function (response) {
           console.log(response.data.message);
+          alert("User Deleted Successfully!!");
           window.location.reload(true);
         })
 
