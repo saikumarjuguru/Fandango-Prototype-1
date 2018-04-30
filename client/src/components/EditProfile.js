@@ -102,7 +102,7 @@ class EditProfile extends Component {
             this.setState({phoneValid: true})
         }
 
-        var zip = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+        var zip =/^\b\d{5}(-\d{4})?\b$/;
         if (!(zip.test(this.state.userdata.zipcode))) {
             this.setState({zipCodeValid: false})
             return;
@@ -121,7 +121,7 @@ class EditProfile extends Component {
         formData.append('address', this.state.userdata.address);
         formData.append('city', this.state.userdata.city);
         formData.append('state', this.state.userdata.state);
-        formData.append('zipcode', this.state.userdata.zipcode);
+        formData.append('zipcode', this.state.userdata.zipcode.toString());
         formData.append('profile_image', this.state.profile_image);
 
 
@@ -502,7 +502,7 @@ class EditProfile extends Component {
                                                         Valid Zip Code (95110 OR 95110-1120)</small>}
                                                 <input className="form-control" ref="zip_code"
                                                        value={this.state.userdata.zipcode}
-                                                       placeholder="Please Enter Zip Code" type="number"
+                                                       placeholder="Please Enter Zip Code" type="text"
                                                        onChange={(event) => {
                                                            this.setState({
                                                                userdata: {
@@ -570,7 +570,7 @@ class EditProfile extends Component {
                         <br/>
                         <button className="btn btn-secondary form-control customCollapse btn-danger" onClick={() => {
 
-                            if (window.confirm('Are you sure you want to save this thing into the database?')) {
+                            if (window.confirm('Are you sure you want to delete your account?')) {
                                 let req ={
                                     'user_id': localStorage.getItem("userId")
                                 }

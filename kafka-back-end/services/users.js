@@ -90,7 +90,7 @@ function handle_request(msg, callback){
                 "    address = '"+ msg.user.address+ "', " +
                 "    city = '"+msg.user.city +"', " +
                 "    state = '"+ msg.user.state + "', " +
-                "    zipcode =  "+ msg.user.zipcode + ", " +
+                "    zipcode =  '"+ msg.user.zipcode + "', " +
                 "    phone =  "+ msg.user.phone + " " +
             " WHERE " +
             "    user_id = ?"
@@ -104,7 +104,7 @@ function handle_request(msg, callback){
                 "    email = '"+ msg.user.email+ "', " +
                 "    city = '" + msg.user.city + "', " +
                 "    state = '" + msg.user.state + "', " +
-                "    zipcode =  " + msg.user.zipcode + ", " +
+                "    zipcode =  '" + msg.user.zipcode + "', " +
                 "    phone =  " + msg.user.phone + ", " +
                 "    profile_image =  '" + msg.user.profile_path + "'" +
             " WHERE " +
