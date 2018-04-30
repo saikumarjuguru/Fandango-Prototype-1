@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 class Footer extends Component {
 
 	render() {
+    let isAuthenticated = localStorage.getItem('userId') ? true : false;
 
 		return(
 			
@@ -75,17 +76,21 @@ class Footer extends Component {
             </div>
           </div>
         </div>
-        <hr />
-        <div className="text-center py-3">
-          <ul className="list-unstyled list-inline mb-0">
-            <li className="list-inline-item">
-              <h5 className="mb-1">Register for free</h5>
-            </li>
-            <li className="list-inline-item">
-              <Link className="btn btn-danger" to="/signup">SIGN UP!</Link>
-            </li>
-          </ul>
-        </div>
+        { !isAuthenticated && 
+          <div>
+            <hr />
+            <div className="text-center py-3">
+              <ul className="list-unstyled list-inline mb-0">
+                <li className="list-inline-item">
+                  <h5 className="mb-1">Register for free</h5>
+                </li>
+                <li className="list-inline-item">
+                  <Link className="btn btn-danger" to="/signup">SIGN UP!</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        }
         <hr />
         <div className="text-center">
           <ul className="list-unstyled list-inline">
