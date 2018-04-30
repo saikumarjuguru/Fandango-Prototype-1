@@ -70,7 +70,7 @@ class MovieReview extends Component{
 
     return(
       <div className="comment-tabs col-md-7" onClick={this.handleClickData}>
-        <ul className="nav nav nav-pills nav-fill" id="movietabs" role="tablist">
+        <ul className="nav nav nav-pills nav-fill dark-orange" id="movietabs" role="tablist">
           <li className="nav-item">
             <a className="nav-link active" href="#reviews" role="tab" data-toggle="tab">
               <h4 class="reviews text-capitalize">Reviews</h4>
@@ -98,17 +98,17 @@ class MovieReview extends Component{
             : null}
             <div  className="form-horizontal" id="commentForm" >
               <div className="form-group">
-                <strong for="email" className ="pull-left comment col-sm-2" >Review Comments</strong>
-                <strong  className="pull-right comment col-sm-3">
-                  Star
-                  <div className = "rating-review">
-                    <Rating movieid = {this.props.movieid}/>
+                <div className="row">
+                  <div className="offset-md-2 col-md-8">
+                    <strong className ="comment" >My Review</strong>
+                    <strong className="pull-right comment">
+                      <div className = "rating-review">
+                        <Rating movieid = {this.props.movieid}/>
+                      </div>
+                    </strong>
+                      <textarea  ref = "comment"  className="form-control" name="addComment" id="addComment" rows="5">{this.state.comment}</textarea>
+                      <button className="mt-4 form-control btn btn-success btn-circle text-uppercase"  id="submitComment" onClick = {this.handleSubmitComment}><span class="glyphicon glyphicon-send"></span> submit review</button>
                   </div>
-                </strong>
-                <br/>
-                <div className="col-sm-7">
-                  <textarea  ref = "comment"  className="form-control" name="addComment" id="addComment" rows="5">{this.state.comment}</textarea>
-                  <button className="mt-4 form-control btn btn-success btn-circle text-uppercase"  id="submitComment" onClick = {this.handleSubmitComment}><span class="glyphicon glyphicon-send"></span> Summit comment</button>
                 </div>
               </div>
             </div>
