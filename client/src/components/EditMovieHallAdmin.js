@@ -70,6 +70,10 @@ class EditMovieHallAdmin extends Component {
                 return ;
                  }
                  else{
+                    if(userInput.max_seats.value<1 ||  userInput.ticket_price.value <1){ 
+                        alert("Enter valid value");
+                     }
+                     else{
                     let req ={
                         "movie_hall_id": data.movie_hall_id,
                         "screen_number": data.screen_number,
@@ -88,7 +92,7 @@ class EditMovieHallAdmin extends Component {
                 this.props.history.push('/moviehalladminhome')
               }).catch((err)=>{console.log("error"+err)})
                  }
-           }
+           }}
            
            
          
