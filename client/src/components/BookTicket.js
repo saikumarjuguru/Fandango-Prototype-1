@@ -8,6 +8,7 @@ import axios from 'axios';
 import { stat } from 'fs';
 import Navbar from './Navbar';
 import {Redirect} from 'react-router-dom';
+import Footer from './Footer';
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -352,6 +353,7 @@ render(){
         </div>
     </div>
     </div>
+        <Footer/>
     </div>
 
   )

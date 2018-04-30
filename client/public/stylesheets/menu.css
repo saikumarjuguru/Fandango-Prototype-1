@@ -184,3 +184,16 @@ collapsibleFont{
 .cusAlert{
   margin-bottom: 0 !important;
 }
+.pageerror{
+  font-family: 'Courier New', Courier, monospace;
+  position: absolute;
+  left: 87px;
+  top: 550px;
+}
+.errorimage{
+  position: absolute; 
+  left: 50%; 
+  top: 50%; 
+  margin-left: -285px; 
+  margin-top: -190px;
+}
