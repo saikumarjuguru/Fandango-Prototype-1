@@ -46,7 +46,7 @@ class Rating extends Component{
       let data = {
         movieid :this.props.movieid,
         rating : this.state.rating,
-        userid : localStorage.getItem("userid")
+        userid : localStorage.getItem("userId")
       }
       this.props.dispatch(this.props.starMovie(data))
       .then(()=>this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid)))
