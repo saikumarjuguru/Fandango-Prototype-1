@@ -180,3 +180,7 @@ collapsibleFont{
 .cusFontCancel{
     background-color: red;
 }
+
+.cusAlert{
+  margin-bottom: 0 !important;
+}
