@@ -66,7 +66,6 @@ function handle_request(msg, callback){
         console.log("Inside user trace");
         var body = msg.body;
         console.log("body",body);
-
         if(body.path == "login") {
             console.log(body.user);
             var result = new UserTrace(body);

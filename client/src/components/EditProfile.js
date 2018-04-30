@@ -257,7 +257,7 @@ class EditProfile extends Component {
                         <div className="font-weight-bold h6">City: {ticket.city}</div>
                     </div>
                     <div className="col-sm">
-                        <div className="font-weight-bold h6">Place: {ticket.amount}</div>
+                        <div className="font-weight-bold h6">Price: {ticket.amount}</div>
                     </div>
                 </div>
             </div>

@@ -28,18 +28,23 @@ class AdminHallAdd extends Component {
             if(userInput.movie_hall_name.value === null || userInput.movie_hall_name.value ===''||
             userInput.ticket_price.value === null || userInput.ticket_price.value ===''||
             userInput.max_seats.value === null || userInput.max_seats.value ===''||
-            userInput.city.value === null || userInput.city.value ==='')
+            userInput.city.value === null || userInput.city.value ===''
+        )
            {
                 alert("All fields are mandatory!!");
                 return false;
            } 
            else{
+             if(userInput.max_seats.value<1 ||  userInput.ticket_price.value <1){ 
+                 alert("Enter valid value");
+              }
+            else{ 
             let req ={
                 "movie_hall_name": userInput.movie_hall_name.value,
                 "ticket_price": userInput.ticket_price.value,
                 "max_seats": userInput.max_seats.value,
-                "city": userInput.city.value
-            }
+                "city": userInput.city.value}
+            
             console.log(req);
             axios.post(config.API_URL+'/admin/addmoviehall',req,
                 {withCredential: true}
@@ -47,7 +52,7 @@ class AdminHallAdd extends Component {
                 .then(function (response) {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
-                })}
+                })}}
 
     }
 

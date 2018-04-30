@@ -78,7 +78,7 @@ setTimeout(done, 300);
           });
      });
 
-     //Test case- 6 - get
+     //Test case- 6 - get review of movie
      it('Test case 6 - should respond with success flag on', function(done) {
             request(app)
            .post('/movie/review')
@@ -93,3 +93,29 @@ setTimeout(done, 300);
                done();
            });
       });
+
+      //Test case- 7 - get user details
+      it('Test case 7 - should respond with success flag on', function(done) {
+             request(app)
+            .get('/users/1')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                if (err) done(err);
+                assert.equal(res.body.success, true);
+                done();
+            });
+       });
+
+       //Test case- 8 - get
+       it('Test case 8 - should respond with success flag on', function(done) {
+              request(app)
+             .get('/users/get_history/1')
+             .expect(200)
+             .expect('Content-Type', /json/)
+             .end(function(err, res) {
+                 if (err) done(err);
+                 assert.equal(res.body.success, true);
+                 done();
+             });
+        });

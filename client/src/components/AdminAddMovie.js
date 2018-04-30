@@ -31,8 +31,11 @@ class AdminAddMovie extends Component {
                 alert("All fields are mandatory!!");
                 return false;
            } 
-        else{   
-        let req ={
+        else{
+            if(userInput.max_seats.value<1 ||  userInput.ticket_price.value <1){ 
+                alert("Enter valid value");
+             }       
+        else{let req ={
                 "title": userInput.movie_name.value,
                 "trailer_link": userInput.trailer_link.value,
                 "movie_characters": userInput.movie_characters.value,
@@ -50,7 +53,7 @@ class AdminAddMovie extends Component {
                 .then(function (response) {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
-                })}
+                })}}
 
     }
 

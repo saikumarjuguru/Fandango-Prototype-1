@@ -61,13 +61,11 @@ class AdminMovieEdit extends Component {
              slot4 = userInput.max_seats.value;
            }else{slot4 = null }
         
-        if(userInput.max_seats.value === '' || userInput.max_seats.value === null || userInput.ticket_price.value === 0){
-                alert("Please enter no of seats");
-        }
-        if(userInput.ticket_price.value === '' || userInput.ticket_price.value === null || userInput.ticket_price.value === 0){
-            alert("Please enter ticket price");
-        }
-           
+        if(userInput.max_seats.value === '' || userInput.max_seats.value === null || userInput.max_seats.value <1 
+        ||userInput.ticket_price.value === '' || userInput.ticket_price.value === null || userInput.ticket_price.value <1){
+               alert("Please enter valid value");}
+       
+        else{  
         let req ={
                     "movie_hall_id": data.movie_hall_id,
                     "screen_number": data.screen_number,
@@ -86,7 +84,7 @@ class AdminMovieEdit extends Component {
         .then(function (response) {
             console.log(response.data.message);
             window.location.replace('http://localhost:3000/moviehalladminhome');
-          })
+          })}
          
 
     }

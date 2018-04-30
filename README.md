@@ -3,6 +3,7 @@
 
 ![Client side](screenshots/Home.PNG "Landing page")
 ![alt text](screenshots/Home2.PNG "Landing page")
+![alt text](screenshots/admin.PNG "Landing page")
 
 ### Prerequisites
 
