@@ -9,3 +9,7 @@
 .col-md-12 .star-rating {
 	float: right;
 }
+
+.btn {
+	border-radius: 0;
+}
