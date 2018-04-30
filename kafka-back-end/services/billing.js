@@ -15,39 +15,74 @@ function handle_request(msg, callback){
     if(msg.type=='add_bill'){
     var bill = msg.bill;
     console.log("bill",bill);
-
-    con.query('INSERT INTO billing (movie_id,movie_hall_id,screen_number,user_id,amount,tax) VALUES(?,?,?,?,?,?)',
-    [bill.movie_id,bill.movie_hall_id,bill.screen_number,bill.user_id,bill.amount,bill.tax],function(err,result){
-        if(err) throw err;
-        con.query('SELECT * FROM screen WHERE screen_id=?',[bill.screen_id],function(err,screen){
-            console.log(screen[0]);
+        con.getConnection((err,con)=>{
             if(err) throw err;
-            let temp="";
-            if(bill.slot=="slot1"){
-                temp = screen[0].slot1-bill.number_of_seats;
-            } else if (bill.slot == "slot2"){
-                temp = screen[0].slot2-bill.number_of_seats;
-            } else if(bill.slot=="slot3"){
-                temp = screen[0].slot3-bill.number_of_seats;
-            } else {
-                temp = screen[0].slot4 - bill.number_of_seats;
+            //begin transaction
+        con.beginTransaction(function(err) {
+            if(err) {
+                throw err;
             }
-            con.query('UPDATE screen SET '+bill.slot+' =? WHERE screen_id=?',[temp,bill.screen_id],function(err,result){
-                if(err) throw err;
+            con.query('INSERT INTO billing (movie_id,movie_hall_id,screen_number,user_id,amount,tax) VALUES(?,?,?,?,?,?)',
+            [bill.movie_id,bill.movie_hall_id,bill.screen_number,bill.user_id,bill.amount,bill.tax],function(err,result){
+                if(err) {
+                    con.rollback(function() {
+                    throw err;
+                });
+                }
+                con.query('SELECT * FROM screen WHERE screen_id=?',[bill.screen_id],function(err,screen){
+                    
+                    if (err) { 
+                        con.rollback(function() {
+                        throw err;
+                        });
+                    }  
+                    let temp="";
+                    if(bill.slot=="slot1"){
+                        temp = screen[0].slot1-bill.number_of_seats;
+                    } else if (bill.slot == "slot2"){
+                        temp = screen[0].slot2-bill.number_of_seats;
+                    } else if(bill.slot=="slot3"){
+                        temp = screen[0].slot3-bill.number_of_seats;
+                    } else {
+                        temp = screen[0].slot4 - bill.number_of_seats;
+                    }
+                    con.query('UPDATE screen SET '+bill.slot+' =? WHERE screen_id=?',[temp,bill.screen_id],function(err,result){
+                        if (err) { 
+                            con.rollback(function() {
+                            throw err;
+                            });
+                        }  
+
+                    });
+                    if(bill.save==1){
+                        console.log("I am saving data..");
+                        con.query('UPDATE users SET credit_card_number=?,expiration_date=? WHERE user_id=?',[bill.credit_card_number,bill.expiration_date,bill.user_id],function(err,result){
+                            if (err) { 
+                                con.rollback(function() {
+                                throw err;
+                                });
+                            }  
+                        });
+                    }
+                });
+                con.commit(function(err) {
+                    if (err) { 
+                      con.rollback(function() {
+                        throw err;
+                      });
+                    }
+                    console.log("Transaction Complete!");
+                    con.end();
+                });
+                res.success = true;
+                res.message = result;
+                callback(null, res);
 
             });
-            if(bill.save==1){
-                console.log("I am saving data..");
-                con.query('UPDATE users SET credit_card_number=?,expiration_date=? WHERE user_id=?',[bill.credit_card_number,bill.expiration_date,bill.user_id],function(err,result){
-                    if(err) throw err;
-                });
-            }
         });
-        res.success = true;
-        res.message = result;
-        callback(null, res);
-
-    });
+        //end of transaction block
+        });
+        
 
     }
     if(msg.type=='get_bill'){

@@ -255,6 +255,11 @@ function handle_request(msg, callback){
         }
         conn.query('SELECT * FROM screen WHERE movie_id=? AND movie_hall_id=? AND date_of_movie=?',[msg.movie_id,msg.movie_hall_id,msg.date_of_movie],function(err,screens){
             if(err) throw err;
+            if(screens.length==0){
+                response.message = "No seats available";
+                response.success = false;
+                callback(null,response);
+            }
             for(var i=0; i<screens.length;i++){
 
                 
@@ -263,8 +268,6 @@ function handle_request(msg, callback){
                     callback(null,response);
                 
             }
-
-               
 
         });
 

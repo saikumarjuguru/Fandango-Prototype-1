@@ -83,6 +83,7 @@ componentWillMount() {
         this.setState({
             availability:response.data.message
         });
+        console.log("available",this.state.availability);
         
     }).catch((err)=>{
         console.log(err);
