@@ -1,7 +1,7 @@
 # Fandango Prototype
 
 
-![alt text](screenshots/Home.PNG "Landing page")
+![Client side](screenshots/Home.PNG "Landing page")
 ![alt text](screenshots/Home2.PNG "Landing page")
 
 ### Prerequisites
