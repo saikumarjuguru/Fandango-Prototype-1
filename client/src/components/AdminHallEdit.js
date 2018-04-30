@@ -31,6 +31,10 @@ class AdminHallEdit extends Component {
                 return false;
         } 
         else{
+            if(userInput.max_seats.value<1 ||  userInput.ticket_price.value <1){ 
+                alert("Enter valid value");
+             } 
+             else{   
         let req ={
             "movie_hall_id": data.movie_hall_id,
             "movie_hall_name": userInput.movie_hall_name.value,
@@ -44,7 +48,7 @@ class AdminHallEdit extends Component {
             .then(function (response) {
                 console.log(response.data.message);
                 this.props.history.push('/adminhome');
-            })}
+            })}}
             
     }
 
