@@ -53,13 +53,14 @@ function handle_request(msg, callback){
         });
     }
     if (msg.type === "get_revenue_by_movie"){
-        let query = "select movie_id, movie_name, ifnull(revenue, 0) as revenue from\n" +
-            "(select distinct movie_id, title as movie_name from screen inner join movies using (movie_id)\n" +
-            "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) a\n" +
+        let query = "select movie_id, title as movie_name, ifnull(revenue, 0) as revenue from movies inner join\n" +
+            "(select * from \n" +
+            "(select distinct movie_id from screen where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) s\n" +
+            "union (select distinct movie_id from billing where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ?)) ) a using (movie_id)\n" +
             "left outer join\n" +
             "(select movie_id, sum(amount) as revenue from billing\n" +
             "where movie_hall_id in (select distinct movie_hall_id from movie_hall where user_id = ? and is_cancelled <> 1) group by movie_id) b using (movie_id) order by revenue desc";
-        conn.query(query, [msg.user_id, msg.user_id], function (err, result) {
+        conn.query(query, [msg.user_id, msg.user_id, msg.user_id], function (err, result) {
             if (err){
                 res.statusCode = 401;
                 res.message = err;
