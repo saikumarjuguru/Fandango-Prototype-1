@@ -5,3 +5,7 @@
 .nav-pills .nav-link.active {
 	background-color: darkorange;
 }
+
+.col-md-12 .star-rating {
+	float: right;
+}

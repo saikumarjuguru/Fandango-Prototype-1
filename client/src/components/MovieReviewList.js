@@ -47,35 +47,44 @@ class MovieReviewList extends Component{
 
 
   render(){
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
     return(
       <div className="tab-pane active" id="comments-logout">
-      {this.props.movieReviewers !== undefined && this.props.movieReviewers.length >0 ?
+        {this.props.movieReviewers !== undefined && this.props.movieReviewers.length >0 ?
         <ul className="media-list">
           {this.props.movieReviewers.map(reviewers =>
-
           <li className="media">
             <div className="media-body">
-
               <div className="card text-white bg-dark mb-3">
                 <div className="card-header reviews">
-                  {reviewers.comment} <div className = "offset-9">{reviewers.star!== null ? <Rating rating = {reviewers.star} disable = "true"/> : null }</div>
-
-                    <ul className="media-date  reviews list-inline pull-right">
-                      written by {reviewers.username} on &nbsp;
-                      {new Date(reviewers.review_date).getDate()}-
-                      {months[new Date(reviewers.review_date).getMonth()]}-
-                     {new Date(reviewers.review_date).getFullYear()}
-                    </ul>
+                  <div className="row">
+                    <div className="col-md-12">
+                      {reviewers.comment} 
+                    </div>
+                    <div className="col-md-12">
+                      {reviewers.star!== null ? 
+                        <Rating rating = {reviewers.star} disable = "true"/>
+                      : null }
+                    </div>
+                    <div className="col-md-12">
+                      <p className="pull-right">
+                        written by {reviewers.username} on &nbsp;
+                        {new Date(reviewers.review_date).getDate()}-
+                        {months[new Date(reviewers.review_date).getMonth()]}-
+                        {new Date(reviewers.review_date).getFullYear()}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
           </li>
-        )}
-
-
-      </ul> : <div>  <strong className="text-warning">{this.props.movieReviewersErrorMessage}</strong></div>}
+          )}
+        </ul>
+        : 
+        <div>  <strong className="text-warning">{this.props.movieReviewersErrorMessage}</strong></div>
+        }
       </div>
     );
   }

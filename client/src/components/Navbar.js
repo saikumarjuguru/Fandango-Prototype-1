@@ -71,7 +71,7 @@ class Navbar extends Component {
                 { options && options.map((movie, index) => {
                   let url = `/movieDetails/${movie.movie_id}`;
                   return (
-                    <Link key={index} className="dropdown-item text-white" to="">{movie.movie_name}</Link>
+                    <Link key={index} className="dropdown-item text-white" to={url}>{movie.movie_name}</Link>
                   )
                 })}
               </div>
@@ -97,7 +97,7 @@ class Navbar extends Component {
               </div>
             </div>
           </form>
-          { !isAuthenticated &&  <Link className="btn btn-outline-primary" to="/login">SIGN IN</Link>}
+          { !isAuthenticated &&  <Link className="btn btn-outline-primary" to="/login">SIGN IN / SIGN UP</Link>}
           { isAuthenticated && <Link className="btn btn-outline-info" style={marginR50} to="/editprofile"><i class="fa fa-user-circle"></i></Link>}
           { isAuthenticated && <button className="btn btn-outline-danger" onClick={()=>this.logOut()} >LOGOUT</button>}
 
