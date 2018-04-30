@@ -3,6 +3,9 @@ import { getReviewsOfMovie,submitMovieComment} from '../actions';
 import { connect } from 'react-redux';
 import Rating from './Rating';
 import MovieReviewList from './MovieReviewList';
+import $ from 'jquery';
+import axios from "axios/index";
+import config from "../config";
 
 const mapDispatchToProps = (dispatch) => {
 
@@ -29,8 +32,15 @@ class MovieReview extends Component{
     }
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
     this.handleSubmitCommentState = this.handleSubmitCommentState.bind(this);
+    this.handleClickData = this.handleClickData.bind(this);
   }
 
+  handleClickData(){
+    let componentData = {
+                          component: "editprofile"
+                        }
+    axios.post(config.API_URL+'/logs/component_click',componentData);
+  }
 
   handleSubmitComment(){
     let comment = this.refs.comment.value;
@@ -48,7 +58,8 @@ class MovieReview extends Component{
     }
   }
 
-  handleSubmitCommentState(){
+  handleSubmitCommentState(e){
+    e.preventDefault();
     this.setState({
       submitCommentState: false,
       comment :''
@@ -58,22 +69,26 @@ class MovieReview extends Component{
   render(){
 
     return(
-      <div className="comment-tabs col-md-7">
-        <ul className="nav nav-tabs nav-fills">
-          <li className="nav-item active">
-            <a className="nav-link" href="#comments-logout" onclick="return false;" role="tab" data-toggle="tab">
+      <div className="comment-tabs col-md-7" onClick={this.handleClickData}>
+        <ul className="nav nav nav-pills nav-fill" id="movietabs" role="tablist">
+          <li className="nav-item">
+            <a className="nav-link active" href="#reviews" role="tab" data-toggle="tab">
               <h4 class="reviews text-capitalize">Reviews</h4>
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#add-comment"  onclick="return false;" role="tab" data-toggle="tab" onClick = {this.handleSubmitCommentState}>
+            <a className="nav-link" href="#add-comment" role="tab" data-toggle="tab" onClick={this.handleSubmitCommentState.bind(this)}>
               <h4 class="reviews text-capitalize">Add Review</h4>
             </a>
           </li>
         </ul>
+        <hr/>
         <div className="tab-content">
-          <MovieReviewList movieid = {this.props.movieid} />
-          <div className="tab-pane" id="add-comment">
+          <div role="tabpanel" class="tab-pane fade-in active" id="reviews">
+            <MovieReviewList movieid = {this.props.movieid} />
+          </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="add-comment">
             {this.state.submitCommentState ?
             <div id="proposal-panel">
               <div className="BidProposal-alert alert alert-success">

@@ -66,7 +66,6 @@ router.post('/movie_clicks', function(req, res, next) {
         else {
             console.log(results);
             res.send(results);
-            callback(null, res);
         }
     });
 });

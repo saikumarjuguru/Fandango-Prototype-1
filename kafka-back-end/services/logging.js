@@ -73,9 +73,9 @@ function handle_request(msg, callback){
             result.save(function(err) {
                if(err)  throw error;
                 console.log(body);
-                                res.success = true;
-                                res.message = body.user;
-                                callback(null, res);
+                res.success = true;
+                res.message = body.user;
+                callback(null, res);
 
             });
         }
