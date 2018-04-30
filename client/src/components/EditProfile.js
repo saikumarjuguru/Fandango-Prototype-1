@@ -170,6 +170,11 @@ class EditProfile extends Component {
 
     componentWillMount() {
 
+        if(!localStorage.getItem('userId')){
+            this.props.history.push("/");
+        }
+
+
         if(localStorage.getItem('userId')) {
             let userTrace = {
                 user_id: localStorage.getItem("userId"),
@@ -323,7 +328,7 @@ class EditProfile extends Component {
                                      triggerOpenedClassName="btn btn-warning form-control collapsibleFont customCollapse"
                                      triggerClassName="btn btn-warning form-control collapsibleFont customCollapse"
                                      open={this.state.collapsible1Open}>
-                            {this.state.ProfileUpdateMsg ? <div className="alert alert-info">
+                            {this.state.ProfileUpdateMsg ? <div className="alert alert-info cusAlert">
                                 Profile has been updated successfully.
                             </div> : null}
                             <div className="row bg-dark text-white">
@@ -386,7 +391,7 @@ class EditProfile extends Component {
                                             <label className="col-lg-3 control-label">Phone No:</label>
                                             <div className="col-lg-8">
                                                 {this.state.phoneValid ? null :
-                                                    <small id="emailHelp" className="form-text text-muted">Please Enter
+                                                    <small id="emailHelp" className="form-text text-muted error">Please Enter
                                                         Valid Phone number</small>}
                                                 <input className="form-control" ref="phone"
                                                        value={this.state.userdata.phone}
@@ -409,7 +414,7 @@ class EditProfile extends Component {
                                             <label className="col-lg-3 control-label">Email:</label>
                                             <div className="col-lg-8">
                                                 {this.state.emailValid ? null :
-                                                    <small id="emailHelp" className="form-text text-muted">Please Enter
+                                                    <small id="emailHelp" className="form-text text-muted error">Please Enter
                                                         Valid Email</small>}
                                                 <input className="form-control" ref="email"
                                                        value={this.state.userdata.email}
@@ -471,7 +476,7 @@ class EditProfile extends Component {
                                             <label className="col-lg-3 control-label">State:</label>
                                             <div className="col-lg-8">
                                                 {this.state.stateValid ? null :
-                                                    <small id="emailHelp" className="form-text text-muted">Please Enter
+                                                    <small id="emailHelp" className="form-text text-muted error">Please Enter
                                                         Valid State</small>}
                                                 <input className="form-control" ref="state"
                                                        value={this.state.userdata.state}
@@ -494,7 +499,7 @@ class EditProfile extends Component {
                                             <label className="col-lg-3 control-label">Zip Code:</label>
                                             <div className="col-lg-8">
                                                 {this.state.zipCodeValid ? null :
-                                                    <small id="emailHelp" className="form-text text-muted">Please Enter
+                                                    <small id="emailHelp" className="form-text text-muted error">Please Enter
                                                         Valid Zip Code (95110 OR 95110-1120)</small>}
                                                 <input className="form-control" ref="zip_code"
                                                        value={this.state.userdata.zipcode}
@@ -563,6 +568,20 @@ class EditProfile extends Component {
                             </div>}
                         </Collapsible>
                         </div>
+                        <br/>
+                        <button className="btn btn-secondary form-control customCollapse btn-danger" onClick={() => {
+                            let req ={
+                                'user_id': localStorage.getItem("userId")
+                            }
+                            axios.post(config.API_URL+'/admin/deleteuser',req)
+                                .then(function (response) {
+                                    console.log(response.data.message);
+                                    localStorage.clear();
+                                    window.location.reload(true);
+                                });
+
+                        }}>Delete My Account</button>
+
                     </div>
                 </div>
 </div>
