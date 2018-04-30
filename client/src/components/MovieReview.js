@@ -28,11 +28,19 @@ class MovieReview extends Component{
     this.state={
       commentError : false,
       submitCommentState : false,
-      comment :''
+      comment :'',
+      star :null
     }
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
     this.handleSubmitCommentState = this.handleSubmitCommentState.bind(this);
     this.handleClickData = this.handleClickData.bind(this);
+    this.getStar = this.getStar.bind(this);
+  }
+
+  getStar(star){
+      this.setState({
+        star : star
+      })
   }
 
   handleClickData(){
@@ -44,16 +52,18 @@ class MovieReview extends Component{
 
   handleSubmitComment(){
     let comment = this.refs.comment.value;
+    let star = this.state.star;
     let userid = localStorage.getItem("userId");
-    if(comment === ''){
+    if(comment === '' && star ===null ){
       this.setState({
         commentError :true
       })
     }else{
-      this.props.dispatch(this.props.submitMovieComment(this.props.movieid, userid,comment))
+      this.props.dispatch(this.props.submitMovieComment(this.props.movieid, userid,comment,star))
       .then(()=>this.props.dispatch(this.props.getReviewsOfMovie(this.props.movieid)))
       .then(() => this.setState({
-        submitCommentState : this.props.submitCommentState
+        submitCommentState : this.props.submitCommentState,
+        commentError : false
       }))
     }
   }
@@ -96,6 +106,16 @@ class MovieReview extends Component{
               </div>
             </div>
             : null}
+
+            {this.state.commentError ?
+            <div id="proposal-panel">
+              <div className="BidProposal-alert alert alert-success">
+                <strong>Enter either a comment or a star !</strong>
+              </div>
+            </div>
+            : null}
+
+
             <div  className="form-horizontal" id="commentForm" >
               <div className="form-group">
                 <div className="row">
@@ -103,7 +123,7 @@ class MovieReview extends Component{
                     <strong className ="comment" >My Review</strong>
                     <strong className="pull-right comment">
                       <div className = "rating-review">
-                        <Rating movieid = {this.props.movieid}/>
+                        <Rating movieid = {this.props.movieid} addStar = {this.getStar}/>
                       </div>
                     </strong>
                       <textarea  ref = "comment"  className="form-control" name="addComment" id="addComment" rows="5">{this.state.comment}</textarea>

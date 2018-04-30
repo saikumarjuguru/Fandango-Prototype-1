@@ -113,11 +113,12 @@ export function getReviewsOfMovie(movieid){
 }
 
 
-export function submitMovieComment(movieid,userid,comment){
+export function submitMovieComment(movieid,userid,comment,star){
   let data ={
     movieid : movieid,
     comment : comment,
-    userid :userid
+    userid :userid,
+    star :star
   }
   return function (dispatch) {
     return axios.post("http://localhost:5000/movie/review", data).then((response) => {

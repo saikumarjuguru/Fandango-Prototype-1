@@ -108,13 +108,15 @@ function handle_request(msg, callback){
 
   if( msg.type == 'submitCommentToMovie'){
     pool.getConnection(function(err, connection){
-      connection.query("insert into movie_review (`movie_id`,`user_id`,`comment`,`review_date`)  values ("
+      connection.query("insert into movie_review (`movie_id`,`user_id`,`comment`,`star`,`review_date`)  values ("
       + msg.data.movieid+
       ","+ msg.data.userid+
       ",'"+ msg.data.comment+
-      "', CURDATE());" ,function(err,results, fields){
+      "',"+ msg.data.star+
+      ", CURDATE());" ,function(err,results, fields){
           connection.release();//release the connection
           if(err) {
+            throw err;
             res.code = "500";
             data = {success: false,message: "Cannot add Movie comment. Some internal error occured!"};
             res.value = data;
@@ -125,7 +127,7 @@ function handle_request(msg, callback){
             res.value = data;
             callback(null, res);
           }
-    });
+        });
     })
   }
 
