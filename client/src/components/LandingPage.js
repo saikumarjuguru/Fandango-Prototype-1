@@ -31,7 +31,7 @@ class LandingPage extends Component {
       movies: [],
       filteredMovies: [],
       activeFilters: {
-        type: "",
+        type: "now-showing",
         genre: []
       }
     }
@@ -244,15 +244,27 @@ class LandingPage extends Component {
                     return (
                       <div className="col-lg-4 col-md-6 mb-4" key={index}>
                         <div className="card h-100">
-                          <Link to={movieDetailURL}><img className="card-img-top" src={movie.photos} /></Link>
+                          { Date.parse(movie.release_date) < Date.parse(new Date()) &&
+                            <Link to={movieDetailURL}><img className="card-img-top" src={movie.photos} /></Link>
+                          }
+                          { Date.parse(movie.release_date) > Date.parse(new Date()) &&
+                            <a><img className="card-img-top" src={movie.photos} /></a>
+                          }
                           <div className="card-body">
                             <h5 className="card-title">
-                              <Link to={movieDetailURL}>{movie.movie_name}</Link>                            
+                              { Date.parse(movie.release_date) < Date.parse(new Date()) &&
+                                <Link to={movieDetailURL}>{movie.movie_name}</Link>
+                              }
+                              { Date.parse(movie.release_date) > Date.parse(new Date()) &&
+                                <a>{movie.movie_name}</a>
+                              }
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted">Duration - {movie.movie_length} min</h6>
                             <p className="text-muted"> Rating - <span class="badge badge-info">{movie.rating}</span></p>
                           </div>
-                          <Link className="btn btn-secondary btn-block btn-lg" style={buttonStyle} to={movieDetailURL}>BOOK NOW</Link>
+                          { Date.parse(movie.release_date) < Date.parse(new Date()) &&
+                            <Link className="btn btn-secondary btn-block btn-lg" style={buttonStyle} to={movieDetailURL}>BOOK NOW</Link>
+                          }
                         </div>
                       </div>
                     )
