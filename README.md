@@ -1,7 +1,7 @@
 # Fndango Prototype
 
 
-![alt text](screenshots/Capture.PNG "Landing page")
+![alt text](screenshots/Home.PNG "Landing page")
 
 ### Prerequisites
 
