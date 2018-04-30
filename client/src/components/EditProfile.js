@@ -170,6 +170,11 @@ class EditProfile extends Component {
 
     componentWillMount() {
 
+        if(!localStorage.getItem('userId')){
+            this.props.history.push("/");
+        }
+
+
         if(localStorage.getItem('userId')) {
             let userTrace = {
                 user_id: localStorage.getItem("userId"),
@@ -563,6 +568,20 @@ class EditProfile extends Component {
                             </div>}
                         </Collapsible>
                         </div>
+                        <br/>
+                        <button className="btn btn-secondary form-control customCollapse btn-danger" onClick={() => {
+                            let req ={
+                                'user_id': localStorage.getItem("userId")
+                            }
+                            axios.post(config.API_URL+'/admin/deleteuser',req)
+                                .then(function (response) {
+                                    console.log(response.data.message);
+                                    localStorage.clear();
+                                    window.location.reload(true);
+                                });
+
+                        }}>Delete My Account</button>
+
                     </div>
                 </div>
 </div>
