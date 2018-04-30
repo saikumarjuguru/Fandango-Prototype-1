@@ -18,6 +18,7 @@ class Navbar extends Component {
   logOut(){
     localStorage.clear();
     this.props.history.push('/');
+    window.location.reload();
   }
 
   getMovies() {
@@ -99,7 +100,7 @@ class Navbar extends Component {
           </form>
           { !isAuthenticated &&  <Link className="btn btn-outline-primary" to="/login">SIGN IN / SIGN UP</Link>}
           { isAuthenticated && <Link className="btn btn-outline-info" style={marginR50} to="/editprofile"><i class="fa fa-user-circle"></i></Link>}
-          { isAuthenticated && <button className="btn btn-outline-danger" onClick={()=>this.logOut()} >LOGOUT</button>}
+          { isAuthenticated && <button className="btn btn-outline-danger" onClick={() => this.logOut()} >LOGOUT</button>}
 
         </div>
       </nav>
