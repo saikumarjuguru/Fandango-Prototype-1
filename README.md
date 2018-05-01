@@ -1,5 +1,6 @@
 # Fandango Prototype
 
+http://ec2-18-188-72-133.us-east-2.compute.amazonaws.com:3000/
 
 ![Client side](screenshots/Home.PNG "Landing page")
 ![alt text](screenshots/Home2.PNG "Landing page")
