@@ -83,10 +83,10 @@ class AdminMovieEdit extends Component {
         )
         .then(function (response) {
             console.log(response.data.message);
-            window.location.replace('http://localhost:3000/moviehalladminhome');
+            window.location.replace('http://localhost:3000/adminhome');
           })}
           alert("Movie Detail Updated!!!");
-          window.location.replace('http://localhost:3000/moviehalladminhome');
+          window.location.replace('http://localhost:3000/adminhome');
          
 
     }
