@@ -54,7 +54,8 @@ class AdminMovieSearchEdit extends Component {
                     console.log(response.data.message);
                     window.location.replace('http://localhost:3000/adminhome');
                 })}
-
+                alert("Movie Details Updated");
+                window.location.replace('http://localhost:3000/adminhome');
     }
 
     render(){
