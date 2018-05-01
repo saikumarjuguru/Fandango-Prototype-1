@@ -29,9 +29,12 @@ class Navbar extends Component {
 
   componentDidMount() {
     this.getMovies().then((response) => {
+      let moviesOptions = response.data.message.filter((movie) => {
+        return Date.parse(movie.release_date) < Date.parse(new Date());
+      });
       this.setState({
-        options: response.data.message,
-        genreOptions: response.data.message.map(movie => movie.genre)
+        options: moviesOptions,
+        genreOptions: moviesOptions.map(movie => movie.genre)
       })
     })
   }
