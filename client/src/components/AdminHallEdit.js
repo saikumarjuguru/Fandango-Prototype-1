@@ -47,10 +47,10 @@ class AdminHallEdit extends Component {
             )
             .then(function (response) {
                 console.log(response.data.message);
-                window.location.replace('http://localhost:3000/moviehalladminhome');
+                window.location.replace('http://localhost:3000/adminhome');
             })}}
             alert("Hall Info Updated!!");
-            window.location.replace('http://localhost:3000/moviehalladminhome');
+            window.location.replace('http://localhost:3000/adminhome');
     }
 
     render(){
