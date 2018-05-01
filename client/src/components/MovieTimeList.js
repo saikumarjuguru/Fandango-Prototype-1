@@ -230,25 +230,25 @@ class MovieTimeList extends Component{
                   <li className="theater__btn-list-item">
                     {hall.slot1Available!== undefined ? <span className={hall.slot1Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                     onClick={()=> {hall.slot1Available ? this.handleSlot1(hall) : null}}>
-                    09:00 AM</span> : null}
+                    12:00 PM</span> : null}
                   </li>
                   <li className="theater__btn-list-item">
                     {hall.slot2Available!== undefined ?
                     <span className={hall.slot2Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                     onClick={()=> {hall.slot2Available ? this.handleSlot2(hall) : null}}>
-                    12:00 PM</span> : null}
+                    03:00 PM</span> : null}
                   </li>
                   <li className="theater__btn-list-item">
                     {hall.slot3Available!== undefined ?
                     <span className={hall.slot3Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                     onClick={()=> {hall.slot3Available ? this.handleSlot3(hall) : null}}>
-                    3:00 PM</span> : null}
+                    06:00 PM</span> : null}
                   </li>
                   <li className="theater__btn-list-item">
                     {hall.slot4Available!== undefined ?
                     <span className={hall.slot4Available ? 'btn showtime-btn showtime-btn--available' :'btn showtime-btn showtime-btn--expired js-amenity'}
                     onClick={()=> {hall.slot4Available ? this.handleSlot4(hall) : null}}>
-                    6:00 PM</span> : null}
+                    09:00 PM</span> : null}
                   </li>
                 </ol>
               </li>
