@@ -134,13 +134,13 @@ incrementStep(){
         console.log("date",this.date);
         console.log("slot",this.props.movie.slot);
         switch(this.props.movie.slot){
-            case 'slot1': this.time = '9:00 AM';
+            case 'slot1': this.time = '12:00 PM';
             break;
-            case 'slot2':this.time='12:00 PM';
+            case 'slot2':this.time='03:00 PM';
             break;
-            case 'slot3': this.time='03:00 PM';
+            case 'slot3': this.time='06:00 PM';
             break;
-            case 'slot4': this.time = '06:00 PM';
+            case 'slot4': this.time = '09:00 PM';
             break;
 
         }
