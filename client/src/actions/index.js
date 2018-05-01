@@ -78,7 +78,7 @@ export function book(payload){
 
 export function getMovieDetail(movieID){
     return function (dispatch) {
-        return axios.get("http://localhost:5000/movie/"+ movieID).then((response) => {
+        return axios.get(config.API_URL+"/movie/"+ movieID).then((response) => {
           if(response.data){
             dispatch({type:actionType.GET_MOVIE_DETAIL_SUCCESS, payload: response.data})
           }
@@ -90,7 +90,7 @@ export function getMovieDetail(movieID){
 
 export function starMovie(data){
     return function (dispatch) {
-      return axios.post("http://localhost:5000/movie/star", data).then((response) => {
+      return axios.post(config.API_URL+"/movie/star", data).then((response) => {
         if(response.data){
           dispatch({type:actionType.MOVIE_STAR_SUCCESS, payload: response.data})
         }
@@ -102,7 +102,7 @@ export function starMovie(data){
 
 export function getReviewsOfMovie(movieid){
   return function (dispatch) {
-    return axios.get("http://localhost:5000/movie/review/"+ movieid).then((response) => {
+    return axios.get(config.API_URL+"/movie/review/"+ movieid).then((response) => {
       if(response.data){
         dispatch({type:actionType.GET_MOVIE_REVIEWERS_SUCCESS, payload: response.data})
       }
@@ -121,7 +121,7 @@ export function submitMovieComment(movieid,userid,comment,star){
     star :star
   }
   return function (dispatch) {
-    return axios.post("http://localhost:5000/movie/review", data).then((response) => {
+    return axios.post(config.API_URL+"/movie/review", data).then((response) => {
       if(response.data){
         dispatch({type:actionType.SUBMIT_MOVIE_COMMENT_SUCCESS, payload: response.data})
       }
@@ -137,7 +137,7 @@ export function getMovieHallsAndTimes(movieid,date){
     date : date
   }
   return function (dispatch) {
-    return axios.post("http://localhost:5000/movie_hall/times" , temp ).then((response) => {
+    return axios.post(config.API_URL+"/movie_hall/times" , temp ).then((response) => {
       if(response.data){
         dispatch({type:actionType.GET_MOVIE_HALL_TIMES_SUCCESS, payload: response.data})
       }
