@@ -368,7 +368,7 @@ render(){
                                                         Valid Zip Code (95110 OR 95110-1120)</small>}
                                                 <input className="form-control" ref="zip_code"
                                                        value={this.state.userdata.zipcode}
-                                                       placeholder="Please Enter Zip Code" type="number"
+                                                       placeholder="Please Enter Zip Code" type="text"
                                                        onChange={(event) => {
                                                            this.setState({
                                                                userdata: {
