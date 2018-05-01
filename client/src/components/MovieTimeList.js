@@ -133,7 +133,7 @@ class MovieTimeList extends Component{
     var res = elem.slice(0, -1);
     var max = this.state.max;
     this.state.hallsWithSlot.map( hall =>  {
-          if(hall.movie_hall.ticket_price > res && hall.movie_hall.ticket_price< max) {
+          if((hall.movie_hall.ticket_price >= res) && (hall.movie_hall.ticket_price <= max)) {
               hall.display= "";
               selectedHalls.push(hall);
           }else{
@@ -154,7 +154,7 @@ class MovieTimeList extends Component{
     var res = elem.slice(0, -1)
     var min = this.state.min;
     this.state.hallsWithSlot.map( hall =>  {
-          if (hall.movie_hall.ticket_price < res  && hall.movie_hall.ticket_price> min) {
+          if (hall.movie_hall.ticket_price <= res  && hall.movie_hall.ticket_price >= min) {
               hall.display= "";
               selectedHalls.push(hall);
           }else{
